@@ -1,4 +1,0 @@
-pandas
-sqlalchemy
-ruamel.yaml
-psycopg2-binary

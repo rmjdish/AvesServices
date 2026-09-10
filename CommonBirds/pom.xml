@@ -45,6 +45,28 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Maven plugin to copy resources to war output -->
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jar-plugin</artifactId>
+	<version>3.3.0</version>
+	<executions>
+          <execution>
+            <id>zip-classes-only</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>zip</classifier>
+              <includes>
+		<include>ucl/service/zip/**</include>
+              </includes>
+            </configuration>
+          </execution>
+	</executions>
+      </plugin>
+ 
     </plugins>
 
     <resources>

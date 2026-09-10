@@ -42,9 +42,9 @@ public class GenerateTemplate
     private static final Logger log = Logger.getLogger("mrc.user");
     
     // The webapp-relative path where templates live.
-    // If you placed them in src/main/webapp/local/templates/, use "/local/templates/"
-    // If you placed them in src/main/webapp/WEB-INF/local/templates/, use "/WEB-INF/local/templates/"
-    private static String defaultDir = "/local/templates/";
+    // Note check the Condor/Jay pom.xml for the plugins responsible for copying resources
+    // If they're in src/main/resources/templates use "/templates/" 
+    private static String defaultDir = "/templates/";
     private static String defaultExt = ".html";
     
     // Fallback static context if not passed in constructor

@@ -35,7 +35,49 @@
     
   </dependencies>
 
+  <!-- Below plugin pulls in web resources stuff from CommonBirds jar --> 
+
   <build>
     <finalName>Condor</finalName>
-  </build>
+    <plugins>
+      <plugin>
+	<artifactId>maven-war-plugin</artifactId>
+	<version>3.4.0</version>
+	<configuration>
+          <webResources>
+	    <!-- Copy any top level Web files -->
+            <resource>
+              <directory>../CommonBirds/src/main/resources/web/html</directory>
+              <targetPath>/</targetPath>
+            </resource>
+	    
+            <!-- Copy templates from CommonBirds -->
+            <resource>
+              <directory>../CommonBirds/src/main/resources/templates</directory>
+              <targetPath>/templates</targetPath>
+            </resource>
+            
+            <!-- Copy CSS files -->
+            <resource>
+              <directory>../CommonBirds/src/main/resources/web/css</directory>
+              <targetPath>/</targetPath>
+              <includes>
+		<include>**/*.css</include>
+              </includes>
+            </resource>
+            
+            <!-- Copy JavaScript files -->
+            <resource>
+              <directory>../CommonBirds/src/main/resources/web/js</directory>
+              <targetPath>/</targetPath>
+              <includes>
+		<include>**/*.js</include>
+              </includes>
+            </resource>
+          </webResources>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>  
+
 </project>
