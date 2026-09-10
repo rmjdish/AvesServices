@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html template="true">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Skylark - {{ sessionID }}</title>
+  <meta http-equiv="Content-Type" content="text/html;" charset="iso-8859-1">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta name="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+<!-- Hopefully this is treated as a comment by HTML Processors
+There is a good deal of uncertainty around which of these style sheets are important 
+-->
+  <link rel="stylesheet" href="SWIFT15.css" type="text/css">
+  <script src="FormValidation.js"></script>
+  <script src="Help.js"></script>
+</head>
+<body>
+<table>
+  <tbody>
+    <tr>
+      <td>
+	<div class="banner">
+	  <a href="http://www.nshd.mrc.ac.uk/">
+	    <img src="Swift.jpg" alt="a swift in flight">
+	  </a>
+	  <h1>MRC Unit for Lifelong Health and Ageing at UCL<br>
+	    MRC National Survey for Health and Development
+	  </h1>
+	</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<div class="swiftmenu">
+	  <ul>
+            <li><a href="#">Search<br><br><br></a></li>
+            <li><a href="#">View<br>Basket<br><br></a></li>
+            <li><a href="#">Save<br>Basket<br><br></a></li>
+            <li><a href="#">Load/<br>Share<br>Basket<br></a></li>
+            <li><a href="#">Overwrite<br>Saved<br>Basket</a></li>
+            <li><a href="#">Shared<br>Baskets<br><br></a></li>
+            <li><a href="#">Build<br>Data<br>File<br></a></li>
+            <li><a href="#">Download<br>Data<br><br></a></li>
+            <li><a href="#">Update<br>Details<br><br></a></li>
+            <li><a href="#">Change<br>Password<br><br></a></li>
+            <li><a href="#">Logout<br><br><br></a></li>
+	    <!--
+		{% if accessLevel | lower == "admin" %} {%include adminLinks.peb %}
+		{% elseif accessLevel | lower == "dsg" %}
+		{%include dsgLinks.peb %}
+		{% elseif accessLevel | lower == "internal" %}
+		{%include internalLinks.peb %}
+		{% else %}
+		{%include externalLinks.peb %} {% endif %}
+	      -->
+	  </ul>
+	</div>
+      </td>
+    </tr>
+
+    <tr class="results">
+      <td>
+	{% if username is not empty %}
+	<font color="red"><br>User {{ username }} logged in</font>
+	{% endif %}
+	<h2>{{ title }}</h2>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+</body>
+</html>

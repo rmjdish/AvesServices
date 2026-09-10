@@ -1,0 +1,37 @@
+* Colour Palattes
+
+Brown Hex Color Codes | Brown #66422D | Light Brown #966045 | Ocre #B26E4B | Beige #C7976F | Light Beige #EBD2BC
+Aesthetic Grey Color Palette | Slate Gray #605E5F | Dark Gray #7E7D7F | Gray #8E8E8E | Light Gray #A9A8AA | Lightest Gray #B8B8BC
+Plant Color Palette | Very Dark Green #2D4030 | Dark Green #49684C | Green #5D7F61 | Light Green #6B8E6E | Very Light Green #97B299
+Ocean Color Palette | Dark Blue Green #18363E | Aqua Marine #5F97AA | Dark Teal #2D5F6E | Blue Teal #3E88A5 | Light Aqua Marine #93C4D1
+Cottagecore Color Palette | Dark Green #596854 | Yellow Green #7F803E | Ocre #CC9A52 | Light Brown #AD794B | Light Bamboo #FCE4B4
+90s Color Palette | Purple #842D78 | Deep Blue #174DB1 | Teal #297EA1 | Orange #E5A836 | Deep Pink #B2336C
+Underwater Colour Palette| Dark Blue #0c2766 | Blue #3d5285 | Medium Blue #6d7da3 | Gray Blue #9ea9c2 | Gray #ced4e0
+Professional | White #FFFFF| black #222222| orange #e95d2a| grey #f4f4f6
+Refined elegance | ethereal ivory #E4E4DE| sophisticated sage #C4C5BA| timeless noir #1B1B1B| muted moss #595f39
+Enchanted nature | cerulean blue #0F2143| grass green #43572E| pacific blue #354E56| yarrow gold #8B6212
+Serene coastline | soft mint green #D1E8E2| deep teal #19747E| light sky blue #A9D6E5| light gray #E2E2E2
+Sunset glow | bright orange #FF9F1C| light orange #FFBF69| muted pink #CB997E| pale peach #FFE8D6
+Monochromatic blues | dark blue #023E8A| medium blue #0077B6| light blue #90E0EF| pale blue #CAF0F8
+Classic neutrals | dark green-gray #283618| light gray-green #B7B7A4| soft gray #D4D4D4| off-white #F0EFEB
+Vintage charm | antique white #F4F1DE| terra cotta #E07A5F| deep slate blue #3D405B| muted sage green #81B29A
+Urban chic | dark indigo #2C2C54 | deep purple-gray #474787| cool gray #AAABB8| light gray #ECECEC
+
+** UKRI Palatte
+
+
+|Name|C|M|Y|K|Red|Green|Blue|
+|Dark Blue|100|95|5|39|46|45|98|
+|Blue|100|75|2|18|0|48|136|
+|Light blue|100|12|27|6|0|138|173|
+|Orange|0|70|100|0|255|105|0|
+|light green|82|17|53|2|22|151|138|
+|Green|100|14|60|49|0|94|84|
+|Purple|66|92|0|0|146|61|157|
+|Pink|15|93|38|4|203|53|100|
+|Yellow|0|26|100|0|251|187|16|
+|Gray|||||128|128|128|
+
+* Specifying Colour in CSS
+
+Use rgb(x,y,z)

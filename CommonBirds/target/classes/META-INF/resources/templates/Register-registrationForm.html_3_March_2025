@@ -1,0 +1,79 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+
+
+{% block swiftmenu %}
+<tr>
+  <td>
+    <ul id="menu-bar">
+      <li><a href="index.html" title="Home"><span>&nbsp;</span>Home</a></li>
+    </ul>
+  </td>
+</tr>
+{% endblock swiftmenu %}
+
+{% block results %}
+
+<div class="results">
+{% if title equals "User Registration" %}
+<h2>{{ title }}</h2>
+{% else %}
+<h2>Registration Problem</h2>
+<p>{{ title }}</p>
+{% endif %}
+<form name="input" onsubmit="return validateRegistrationForm(this)" action="register" method="post">
+
+{% if title equals "User Registration" %}
+<p style="font-size:1.5em">
+Thank you for your interest in using Condor.  Please be aware that the LHA will retain the information you provide in this form for the purposes
+of contacting you regarding current or forthcoming data application requests. </p>
+<p>You can view the full details of why we collect and process data you
+supply to us <a href="https://www.ucl.ac.uk/cardiovascular/research/department-population-science-experimental-medicine/mrc-unit-for-lifelong-health-and-ageing/governance/data-sharing-privacy-notice/index">here.</a>
+</p>
+<table>
+<tr><td>First Name:</td><td><input type="text" name="firstName" size="45" maxlength="45"> *</td></tr>
+<tr><td>Last Name:</td><td>  <input type="text" name="lastName" size="45" maxlength="45"> *</td></tr>
+<tr><td>Desired Username:</td><td>  <input type="text" name="userName" size="45" maxlength="45"> *</td></tr>
+<tr><td>Desired Password:</td><td>  <input type="password" name="desiredPassword1" size="20" maxlength="20"> *</td></tr>
+<tr><td>Confirm Password:</td><td>  <input type="password" name="desiredPassword2" size="20" maxlength="20"> *</td></tr>
+<tr><td>Academic Affiliation:</td><td>  <input type="text" name="academicAffiliation" size="45" maxlength="45"> *</td></tr>
+<tr><td>Address 1:</td><td>  <input type="text" name="address1" size="45" maxlength="45"> *</td></tr>
+<tr><td>Address 2:</td><td>  <input type="text" name="address2" size="45" maxlength="45"></td></tr>
+<tr><td>City:</td><td>  <input type="text" name="city" size="45" maxlength="45"> *</td></tr>
+<tr><td>County:</td><td>  <input type="text" name="county" size="45" maxlength="45"></td></tr>
+<tr><td>Postcode:</td><td>  <input type="text" name="postcode" size="10" maxlength="10"> *</td></tr>
+<tr><td>Phone:</td><td>  <input type="text" name="phone" size="20" maxlength="20"> *</td></tr>
+<tr><td>Email:</td><td>  <input type="text" name="email" size="45" maxlength="45"> *</td></tr>
+</table>
+{% else %}
+<table>
+<tr><td>First Name:</td><td><input type="text" name="firstName" size="45" maxlength="45" value="{{ firstName }}"> *</td></tr>
+<tr><td>Last Name:</td><td>  <input type="text" name="lastName" size="45" maxlength="45" value="{{ lastName }}"> *</td></tr>
+<tr><td>Desired Username:</td><td>  <input type="text" name="userName" size="45" maxlength="45" value="{{ userName }}"> *</td></tr>
+<tr><td>Desired Password:</td><td>  <input type="password" name="desiredPassword1" size="20" maxlength="20"> *</td></tr>
+<tr><td>Confirm Password:</td><td>  <input type="password" name="desiredPassword2" size="20" maxlength="20"> *</td></tr>
+<tr><td>Academic Affiliation:</td><td>  <input type="text" name="academicAffiliation" size="45" maxlength="45" value="{{ academicAffiliation }}"> *</td></tr>
+<tr><td>Address 1:</td><td>  <input type="text" name="address1" size="45" maxlength="45" value="{{ address1 }}"> *</td></tr>
+<tr><td>Address 2:</td><td>  <input type="text" name="address2" size="45" maxlength="45" value="{{ address2 }}"></td></tr>
+<tr><td>City:</td><td>  <input type="text" name="city" size="45" maxlength="45" value="{{ city }}"> *</td></tr>
+<tr><td>County:</td><td>  <input type="text" name="county" size="45" maxlength="45" value="{{ county }}"></td></tr>
+<tr><td>Postcode:</td><td>  <input type="text" name="postcode" size="10" maxlength="10" value="{{ postcode }}"> *</td></tr>
+<tr><td>Phone:</td><td>  <input type="text" name="phone" size="20" maxlength="20" value="{{ phone }}"> *</td></tr>
+<tr><td>Email:</td><td>  <input type="text" name="email" size="45" maxlength="45" value="{{ email }}"> *</td></tr>
+</table>
+{% endif %}
+<p>* indicates a mandatory field</p>
+<p><b>Note:</b> Please select a password that you can remember, with a maximum of 20 characters, using a combination of uppercase and lowercase letters and numbers.</p>
+<p>By submitting this form, you are agreeing to adhere to all MRC and LHA data security policies and procedures. In accordance with the <i>Data Protection Act (1998)</i> and
+General Data Protection Regulation (GDPR), 
+we are collecting this information to provide you with access to the Condor service.</p>
+<p><b>We will contact you by email address to confirm your registration.  Please make sure you provide a current email address.</b>  Please add
+ MRCLHA.Swiftinfo@ucl.ac.uk to your safe senders list.</p>
+<p>When you have completed this registration please send an email to MRCLHA.Swiftinfo@ucl.ac.uk so that we can process your registration</p>
+
+<p id="catchtoken"></p>
+<p><button class="testbutton" type="submit" >Register</button></p>
+</form>
+</div>
+{% endblock %}
+

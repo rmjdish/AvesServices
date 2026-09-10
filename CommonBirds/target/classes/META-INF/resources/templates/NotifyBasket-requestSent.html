@@ -1,0 +1,14 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+	<h2>{{ title }}</h2>
+	<p>The LHA have been notified about basket {{ basketId }}</p>
+	<p>Please note that it can take several working days to build a 
+		dataset from your basket and to change the original identifiers 
+		to the ones used on your project.  We will endeavor to do this 
+		as quickly as we can. </p>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	{% if results is not empty %}
+	<p>Their are {{ numResults }} baskets available to manage.</p>
+	<table>
+		<tr>
+			<th class="skip-filter" style="width: 10%;">Basket ID</th>   {# col 1 #}
+			<th style="width: 5%;">Status</b></th>   {# col 2 #}
+			<th class="skip-filter" style="width: 35%;">Description</th> {# col 3 #}
+			<th style="width: 10%;">User Name</th>   {# col 4 #} 
+			<th class="skip-filter" style="width: 20%;">Date Created</th>{# col 5 #}
+			<th class="skip-filter" style="width: 10%;">Modify?</th>     {# col 6 #}
+			<th class="skip-filter" style="width: 10%;">Build?</th>      {# col 7 #}
+		</tr>
+
+		{# There are 5 columns of data supplied but 7 columns on the page #}
+		{% for val in results %} 
+			{% if (loop.index + 1) % numCols equals 0 %}
+				{# The last column of data but 3 to go on the page #}
+				<td>{{ val }}</td>
+				<td><a style="font-size:1.5em"  href="manageBaskets?command=modify&basketID={{ bsk }}">&#9997;</a></td>
+				<td><a style="font-size:1.5em"  href="manageBaskets?command=build&basketID={{ bsk }}">&#9874;</a></td>
+				</tr>
+			{% elseif (loop.index + 1) % numCols equals 1 %} 
+				{# First column on the page is the Basket ID #}
+				{% set bsk = val %} {# remember the basket name #}				
+				<tr>
+				<td style="width: 10%">
+				<a href="previousBasket?basketID={{ val }}">{{ val }}</a></td> 
+			{% elseif (loop.index + 1) % numCols equals 4 %} 
+				{# Column 4 is the user name #} 
+				<td>{{val}}</td> 
+			{% else %} 
+				{# this is used for the rest of the	columns #}
+				<td>{{ val }}</td> 
+			{% endif %}
+			{# end of if (loop.index...) #} 
+		{% endfor %} 
+		{# end of for val in results #}
+	</table>
+	{% else %} 
+		{# results is empty #}
+		<p>There are no external baskets.</p>
+	{% endif %} {# end of if results is not empty #}
+</div>
+{% endblock results %}
+
+
+
+

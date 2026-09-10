@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>ucl.service</groupId>
+    <artifactId>aves-parent</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>PyJobService</artifactId>
+  <packaging>war</packaging>
+  <name>PyJobService</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- Dependency on the shared CommonBirds module -->
+    <dependency>
+      <groupId>ucl.service</groupId>
+      <artifactId>CommonBirds</artifactId>
+      <version>${project.version}</version>
+      <classifier>zip</classifier> <!-- restricts to ucl.service.zip package -->
+    </dependency>
+
+    <!-- Add other dependencies specific to PyJobService here -->
+    <!-- Versions can be omitted if managed in the parent POM's <dependencyManagement> -->
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>PyJobService</finalName>
+
+  </build>
+</project>

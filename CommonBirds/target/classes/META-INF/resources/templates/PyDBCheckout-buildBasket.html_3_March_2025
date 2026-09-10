@@ -1,0 +1,14 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+
+{% block results %} 
+{# This is an example of a template which produces a table with 3 columns #} 
+{# but only 2 of them come from the results vector supplied for the template #} 
+{% include "oneverypage" %}
+
+<div class="results">
+	<h2>{{ title }}</h2>
+	<p>Building a dataset for the basket {{basketId}}.</p>
+	<p>The dataset should be available for download in a few minutes.</p>
+</div>
+{% endblock %}

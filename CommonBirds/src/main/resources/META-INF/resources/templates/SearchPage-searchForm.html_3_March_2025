@@ -1,0 +1,11 @@
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+
+{% block results %}
+<h2>NSHD Search</h2>
+<p>The NSHD metadata can be searched by keyword, year of collection
+	or category, or a combination of all three search types.</p>
+<p>Please select your search type from the menu above.</p>
+
+
+{% endblock %}
+

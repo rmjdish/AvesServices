@@ -1,0 +1,44 @@
+{# This is a Pebble Template for use in SWIFT #}
+{% block swiftmenu %}
+<tr>
+  <td>
+    <!-- <div class="swiftmenu"> First Try -->
+    <ul id="menu-bar">
+      <li class="active"><a href="index.html">Home</a></li>
+      {% if accessLevel | lower == "internal" %}
+      <li><a href="#">Search</a>
+	<ul>
+	  <li><a href="search?type=n">By Variable Name</a></li>
+	  <li><a href="search?type=k">By Keyword</a></li>
+	  <li><a href="search?type=y">By Year</a></li>
+	  <li><a href="search?type=c">By Category</a></li>
+	  <li><a href="search?type=l">By Library</a></li>
+	</ul>
+      </li>
+      <li><a href="#">Basket</a>
+	<ul>
+	  <li><a href="basket?command=saveNew">Save Basket</a></li>
+	  <li><a href="basket">View Current Basket</a></li>
+	  <li><a href="previousBasket">Share My Basket</a></li>
+	  <li><a href="previousBasket">Load My Basket</a></li>
+	  <li><a href="sharedBasket">Load Shared Basket</a></li>
+	  <li><a href="basket?command=saveExisting">Overwrite Basket</a></li>
+	</ul>
+      </li>
+      <li><a href="swtInternalCheckout">Build</a></li>
+      <li><a href="download">Download</a></li>
+      <li><a href="#">Profile</a>
+	<ul>
+	  <li><a href="changeRegistration">Update Contact Details</a></li>
+	  <li><a href="changePassword">Change Password</a></li>
+	</ul>
+      </li>
+      {% endif %}
+      <li><a href="#">Logout</a></li>
+    </ul>
+    <!-- </div> Paired with div above -->
+  </td>
+</tr>
+</tbody>
+</table>
+{% endblock %}

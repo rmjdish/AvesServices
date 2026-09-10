@@ -1,0 +1,55 @@
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block swiftmenu %}
+<tr>
+  <td>
+    <ul id="menu-bar">
+      <li class="active"><a href="index.html">Home</a></li>
+    </ul>
+  </td>
+</tr>
+{% endblock %}
+
+{% block results %}
+<div class="results">
+<form target="_self"
+      enctype="application/x-www-form-urlencoded"
+      method="post"
+      action="login"
+      name="input"
+      id="loginForm"
+      onsubmit="return validateLoginForm(this)"
+      >
+      <p>If you have arrived here by selecting <em>Register</em> from the menu bar, your session may have timed out.  
+      If you select <em>Register</em> again you will be taken to the registration form.</p>
+  <table>
+    <tr>
+      <td colspan="2"><h2 style="font-size: 150%">{{ title }}</h2></td>
+    </tr>
+    <tr>
+      <td style="font-size: 125%">Username:</td>
+      <td style="width:80em">
+	<input name="username" type="text" size="20" maxlength="20"></td>
+    </tr>
+    <tr>
+      <td style="font-size: 125%">Password:</td>
+      <td style="font-size: 125%">
+	<input type="password" name="password" size="20" maxlength="20"> * </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>* Note: All passwords are case-sensitive.</td>
+    </tr>
+  </table>
+{% if hostname | lower equals "finch" %}
+	<p><button class="testbutton" type="submit">Login</button></p>  	
+{% elseif hostname | lower equals "kiwidev" %}
+	<p><button class="testbutton" type="submit">Kiwidev Login</button></p>  	
+{% elseif hostname | lower equals "kiwi" %}
+	  <p><button class="testbutton" type="submit">Kiwi Login</button></p>  
+{% else %}
+	<p><button class="testbutton" type="submit">Login</button></p>  
+{% endif %}
+</form>
+</div>
+{% endblock %}
+

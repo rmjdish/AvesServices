@@ -1,0 +1,51 @@
+<xs:schema xmlns:tns="http://zip.service.ucl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://zip.service.ucl/" version="1.0">
+
+  <xs:element name="catchjob" type="tns:catchjob"/>
+
+  <xs:element name="catchjobResponse" type="tns:catchjobResponse"/>
+
+  <xs:element name="lobjob" type="tns:lobjob"/>
+
+  <xs:element name="lobjobResponse" type="tns:lobjobResponse"/>
+
+  <xs:element name="throwjob" type="tns:throwjob"/>
+
+  <xs:element name="throwjobResponse" type="tns:throwjobResponse"/>
+
+  <xs:complexType name="lobjob">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="basket" type="xs:string"/>
+      <xs:element minOccurs="0" name="jobname" type="xs:string"/>
+      <xs:element minOccurs="0" name="parmlist" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lobjobResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="throwjob">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="basket" type="xs:string"/>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="throwjobResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="catchjob">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="basket" type="xs:string"/>
+      <xs:element minOccurs="0" name="type" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="catchjobResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

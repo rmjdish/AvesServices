@@ -1,0 +1,59 @@
+# YAML Config File
+---
+MakeVarPlots:
+     # Who Am I?
+     WhoAmI: metaplot.py
+     # Where to output plots and CSV files
+     OUTPUT_PATH: /home/Public/workspace/CommonBirds/local/python/varplots/outputs/
+     # Jinja2 Template Directory
+     SEARCH_PATH: /home/Public/workspace/CommonBirds/local/python/varplots/html/
+     # CSV File to hold HTMLised Plots
+     CSV_OUTPUT: plots_in_html.csv
+     # SQL File for loading CSV into MySQL
+     SQL_OUTPUT: load_csv_plots.sql
+     # Plot Template
+     PLOT_TEMPLATE: descriptives.html
+     # sumStats Template
+     TEMPLATE: sumstats.html
+     # sumCatStats Template
+     CAT_TEMPLATE: sumcatstats.html
+     # Log file path
+     LogPath: Descriptives.log
+     # Database Parameters for PostgreSQL Data
+     PgDBase: nshd
+     PgUID: postgres
+     PgServer: localhost # will be mrc-swandv01.ad.ucl.ac.uk
+     PgPwd: m1a9r1c5h # will be m1a9r4c6h
+     # Database Parameters for MySQL Metadata
+     MyUID: root
+     MyServer: mule.local # will be mrc-kiwi01.ad.ucl.ac.uk
+     MyPwd: m1a9r1c5h # will be m1a9r4c6h
+     MyDBase: robin
+     # THRESHOLD is ratio of unique values to number of observations
+     THRESHOLD: 0.015
+     # Don't plot anything with less than MINCOUNT observations
+     MINCOUNT: 150
+     # Minimum cell count for plots
+     MINCELLCNT: 10
+     # List of PG/Pandas numeric types
+     NUMERIC:
+          - int64
+          - float64
+          - double precision
+          - smallint
+          - bigint
+          - integer
+     # List of PG/Pandas string types
+     STRING:
+          - object
+          - character
+          - character varying
+          - text
+          - time without time zone
+          - timestamp with time zone
+          - date
+     # Lower and upper limits of % cut-off for histograms
+     LOWLIM: 5
+     UPRLIM: 95
+     # Bar chart upper gap percentage
+     GAPPCT: 20

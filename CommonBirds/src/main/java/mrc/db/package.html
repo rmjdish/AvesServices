@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head></head>
+<body>
+	KLG - Includes class
+	<code>conn</code>
+	, a utility class which executes queries. The code contains repetitive
+	references to set up a database connection. I tend to have a class
+	called ConnectionManager which takes care of creating connections as
+	well as pooling them.
+	<code>package-info</code>
+	appears to be auto-generated but serves no purpose.
+
+	<p>Some things to do:
+	<ul>
+		<li>Everything up until the line <code>"String url=..."</code>
+			should be moved into a constructor so that it is done once. (saves 25
+			lines of repetitive code)
+		</li>
+		<li>Wherever possible you should use <code>PreparedStatement</code>
+			instead of <code>Statement</code>. Prepared statements help prevent
+			SQL injection errors and they are efficient because the query code is
+			only compiled once.
+		</li>
+		<li>a <code>finally {...}</code> code block should follow each <code>catch(..)
+				{...}</code>. There you should attempt to close statements and result sets
+			so that database resources can be properly flushed or reclaimed.
+		</li>
+		<li>Use connection pooling. See <code>macaw.persistence.production.SQLConnectionManager</code>
+			for an example of how this can be done.
+		</li>
+	</ul>
+	</p>
+
+
+</body>
+</html>

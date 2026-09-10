@@ -1,0 +1,33 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	<form target="_self" enctype="application/x-www-form-urlencoded"
+		method="post" action="basket" name="savebasket" id="saveBasketForm"
+		onsubmit="return validateCheckoutForm(this)">
+		{% if numResults <= 250 %}
+		  <p style="color:darkgreen">You have {{ numResults }} variables in this basket.</p>
+		{% elseif numResults > 250 and numResults <= 500 %}
+		  <p style="color:darkorange">You have {{ numResults }} variables in this basket. <br> This number is within our recommended range, but please be aware that larger baskets entail more laborious risk assessment procedures.</p>
+		{% else %}
+		  <p style="color:red">You have {{ numResults }} variables in your basket. <br> This basket of variables will entail a more laborious, and therfore slower, risk assessment procedure before data can be released.<br>
+		  You may wish to assess whether all of these variables are absolutely necessary for your project.</p>
+		{% endif %}
+		
+		<p>Your new basket will be called {{ basketId }}. You must enter a
+			description for this basket.</p>
+		<input class="testbutton" type="submit" form="saveBasketForm" value="Submit">
+		<input type="hidden" name="basketID" value="{{ basketId }}">
+		<input type="hidden" name="id" value="{{ sessionID }}">
+	<br>
+		<table>
+			<tr>
+				<td>Enter a description for this new basket:</td>
+				<td><input name="description" type="text" size="80"	maxlength="120">*</td>
+			</tr>
+		</table>
+	</form>
+</div>
+{% endblock results %} 

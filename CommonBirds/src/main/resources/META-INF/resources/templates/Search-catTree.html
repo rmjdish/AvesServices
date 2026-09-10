@@ -1,0 +1,33 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+<h2>NSHD Search by Category</h2>
+<form name="input"
+      onsubmit="return validateSearchForm(this)"
+      action="search"
+      method="post"
+      target="_self"
+      >
+  <div class="form-header" id="Search-catTree-Form">
+    <input type="hidden" name="type" value="c">
+    &nbsp;&nbsp;&nbsp;
+    <input class="testbutton" type="submit" value="Search">  
+    <br>
+    <p style="color: red;">Parent categories may show zero items. Expand these to see subcategory item totals.</p>
+    <p style="color: MidnightBlue;">Currently selected categories are marked by a black bar to the left of the label.
+    <br>Numbers shown in square brackets are Showcase category labels.</p>
+  </div>
+  {% if results is empty %}
+      <p>There are no category tree elements to display!</p>
+  {% endif %}
+  
+  {% for line in results %}
+      {{ line|raw }}
+  {% endfor %}
+
+</select>
+</form>
+</div>
+{% endblock %}

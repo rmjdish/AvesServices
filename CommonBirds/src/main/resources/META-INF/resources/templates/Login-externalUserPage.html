@@ -1,0 +1,21 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+<h2 >{{ title }}</h2>
+<p >From this page, you can:</p>
+<ul>
+  <li >Search for variables of interest.</li>
+  <li >Add variables of interest to your shopping basket.</li>
+  <li >Save your basket.</li>
+  <li >Review your previous shopping baskets.</li>
+  <li >Share a saved basket with other users.</li> 
+  <li >View and load shared baskets provided by other users.</li>
+  <li >Update your registration details.</li>
+  <li >Change your password.</li>
+</ul>
+<p>Please note that your Condor session will be timed out after 15 minutes of inactivity.  If this happens you need 
+to login again <b>and you will lose any selected variables that have not been saved in a basket</b>.</p>
+</div>
+ {% endblock %}

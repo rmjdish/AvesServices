@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ucl.service</groupId>
+  <artifactId>aves-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>CommonBirds</module>
+    <module>Condor</module>
+    <module>Jay</module>
+    <module>PyJobService</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>17</maven.compiler.release>
+    
+    <!-- Apache Commons -->
+    <commons-lang3.version>3.20.0</commons-lang3.version>
+    <commons-io.version>2.22.0</commons-io.version>
+    <commons-logging.version>1.4.0</commons-logging.version>
+    
+    <!-- Jakarta EE -->
+    <servlet-api.version>6.0.0</servlet-api.version>
+    <jaxws-api.version>4.0.3</jaxws-api.version>
+    <jaxb-api.version>4.1.0-M1</jaxb-api.version>
+    
+    <!-- Apache CXF -->
+    <cxf.version>4.2.3</cxf.version>
+    
+    <!-- Spring -->
+    <spring.version>7.0.8</spring.version>
+    <spring.security.version>7.1.0</spring.security.version>
+
+    <!-- Database -->
+    <mysql.version>26.7.0</mysql.version>
+    
+    <!-- Other libraries -->
+    <httpclient.version>4.5.14</httpclient.version>
+    <pebble.version>4.1.2</pebble.version>
+  </properties>
+  
+  <dependencyManagement>
+    <!-- Use this section for central version control -->
+    <dependencies>
+
+    </dependencies>
+  </dependencyManagement>
+  <!--=================  IMPORTANT ENTRIES BELOW ================= -->
+  <!-- Following dependencies will be inherited by all sub-modules -->
+  <!--=================  IMPORTANT ENTRIES BELOW ================= -->
+  <dependencies>
+
+<!-- Source: https://mvnrepository.com/artifact/com.solidfire.code.gson/gson -->
+    <dependency>
+      <groupId>com.solidfire.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.6.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.14</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>1.15.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.simpleframework</groupId>
+      <artifactId>simple-xml</artifactId>
+      <version>2.7.1</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-client</artifactId>
+      <version>5.19.7</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-all</artifactId>
+      <version>6.2.7</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-expression</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>${spring.security.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.cryptacular</groupId>
+      <artifactId>cryptacular</artifactId>
+      <version>1.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-bindings-xml</artifactId>
+      <version>${cxf.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <version>${cxf.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http</artifactId>
+      <version>${cxf.version}</version>
+    </dependency>
+
+
+
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+      <version>2.2.0-M2</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>3.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.json</groupId>
+      <artifactId>jakarta.json-api</artifactId>
+      <version>2.1.3</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Old duplicate style module
+    <dependency>
+      <groupId>jakarta.jws</groupId>
+      <artifactId>jakarta.jws-api</artifactId>
+      <version>3.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    -->   
+
+    <dependency>
+      <groupId>org.eclipse.angus</groupId>
+      <artifactId>angus-mail</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+
+    <!--
+    <dependency>
+      <groupId>jakarta.mail</groupId>
+      <artifactId>jakarta.mail-api</artifactId>
+      <version>2.2.0-M1</version>
+      <scope>compile</scope>
+    </dependency>
+    -->
+
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <version>4.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>4.1.0-M1</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.xml.soap</groupId>
+      <artifactId>jakarta.xml.soap-api</artifactId>
+      <version>3.0.2</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>4.0.3</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.4.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.glassfish.external</groupId>
+      <artifactId>management-api</artifactId>
+      <version>3.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.dropwizard.metrics</groupId>
+      <artifactId>metrics-core</artifactId>
+      <version>4.2.39</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <!-- Looking for Maven entry for  JarFile microprofile-rest-client-api-2.0.jar -->
+
+    <!-- Source: https://mvnrepository.com/artifact/org.eclipse.microprofile.rest.client/microprofile-rest-client-api -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.rest.client</groupId>
+      <artifactId>microprofile-rest-client-api</artifactId>
+      <version>4.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <!-- Looking for Maven entry for  JarFile mimepull.jar -->
+
+    <!-- Source: https://mvnrepository.com/artifact/org.jvnet.mimepull/mimepull -->
+    <dependency>
+      <groupId>org.jvnet.mimepull</groupId>
+      <artifactId>mimepull</artifactId>
+      <version>1.11.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <!-- Looking for Maven entry for  JarFile mina-core-2.1.5.jar -->
+
+    <!-- Source: https://mvnrepository.com/artifact/org.apache.mina/mina-core -->
+    <dependency>
+      <groupId>org.apache.mina</groupId>
+      <artifactId>mina-core</artifactId>
+      <version>3.0.0-M2</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Looking for Maven entry for  JarFile mysql-connector-j-9.7.0.jar -->
+
+    <!-- Source: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>26.7.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>net.oauth.core</groupId>
+      <artifactId>oauth</artifactId>
+      <version>20100527</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.pebbletemplates</groupId>
+      <artifactId>pebble</artifactId>
+      <version>4.1.2</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-openide-util</artifactId>
+      <version>RELEASE300</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sun.xml.stream.buffer</groupId>
+      <artifactId>streambuffer</artifactId>
+      <version>2.1.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Remove???
+    <dependency>
+      <groupId>io.undertow</groupId>
+      <artifactId>undertow-servlet</artifactId>
+      <version>2.3.26.Final</version>
+      <scope>compile</scope>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>org.wildfly.core</groupId>
+      <artifactId>wildfly-controller-client</artifactId>
+      <version>33.0.0.Final</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.wildfly.common</groupId>
+      <artifactId>wildfly-common</artifactId>
+      <version>2.0.1</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.22.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.20.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-apache-xml-resolver</artifactId>
+      <version>RELEASE300</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.ws.xmlschema</groupId>
+      <artifactId>xmlschema-core</artifactId>
+      <version>2.3.2</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.santuario</groupId>
+      <artifactId>xmlsec</artifactId>
+      <version>4.0.4</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.xnio</groupId>
+      <artifactId>xnio-nio</artifactId>
+      <version>3.8.17.Final</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>4.0.9</version>
+      <scope>compile</scope>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <pluginManagement>
+      <plugins>
+	<!-- clean lifecycle -->
+	<plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.4.0</version>
+	</plugin>
+	<!-- default lifecycle, jar packaging -->
+	<plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
+	</plugin>
+
+	<plugin>
+	  <groupId>org.apache.maven.plugins</groupId>
+	  <artifactId>maven-compiler-plugin</artifactId>
+	  <version>3.13.0</version>
+	  <configuration>
+	    <source>17</source>
+	    <target>17</target>
+	    <release>17</release>
+	  </configuration>
+	</plugin>
+
+	<plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.3.0</version>
+	</plugin>
+	<plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.4.2</version>
+	</plugin>
+	<plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.2</version>
+	</plugin>
+	<plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.2</version>
+	</plugin>
+	<!-- ADD THIS: WAR plugin for web modules -->
+	<plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.4.0</version>
+	</plugin>
+	<!-- site lifecycle -->
+	<plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.12.1</version>
+	</plugin>
+	<plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.6.1</version>
+	</plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>

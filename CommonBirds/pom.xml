@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+    <parent>
+        <groupId>ucl.service</groupId>
+        <artifactId>aves-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>CommonBirds</artifactId>
+    <packaging>jar</packaging>
+    <name>CommonBirds</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+  <!-- Add dependencies specifically required by CommonBirds here -->
+  <!-- Note: You can omit the <version> tag if it is defined in the parent's <depenpendencyManagement> -->
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <!-- This execution produces CommonBirds-1.0.0-zip.jar -->
+          <execution>
+            <id>zip-classes-only</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>zip</classifier>
+              <includes>
+                <include>ucl/service/zip/**</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+    <resources>
+        <!-- 1. Include .properties files sitting next to .java files -->
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include> <!-- Add if you have XML configs here too -->
+            </includes>
+        </resource>
+        
+        <!-- 2. Keep the standard Maven resources folder active as well -->
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+    </resources>
+
+  </build>
+
+</project>

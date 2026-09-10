@@ -1,0 +1,42 @@
+Db, Name, Comment
+audit, audit_log, Add audit entry to history table in audit db
+nshd_showcase, CTE_tree, Example CTE using label and label_tree tables
+robin, addCategoryMembers, Add every variable in thisCardNumber to the category thisCode in categorymembers table.
+robin, add_bb_catmems_2_robin, Reads membership info from mapping_table joined with categorylabels and inserts to categorymembers
+robin, audit_log, Add audit entry to history table in audit db
+robin, cardnumbers_in_basket, Returns a 1 field table of all CardNumbers in a basket
+robin, categorySearch, Find matches for searchString in category field
+robin, catTreeOrder, Sort categorylabels into order suitable for tree presentation
+robin, change_all_var_names_2_lowercase, Changes variable names to lowercase in tables where they occur
+robin, expandExecute, Takes a query string and expands the result to include longitudinal variables if necessary
+robin, expandLongVars, Look up a candidate variable and expand the list to include all longitudinal variables associated with the same measure
+robin, getLabel, Returns variable label metadata for one variable
+robin, getMeta, Returns all variable level metadata for specified CardNumber
+robin, getMetaForVar, Returns metadata for a specified variable
+robin, getMissingValues, Returns all values marked Missing from metadata view
+robin, getVarCat, Given a basket name return the list of categories for all variables as a character string
+robin, getVLabels, Returns all variable labels metadata for one variable
+robin, get_metadata_4_table, Returns all entries from metadata view corresponding to tab
+robin, indexSearch, Find matches for searchString in variable labels
+robin, indexSearchUnion, Find matches for searchString in variable labels
+robin, librarySearch, Find matches for searchString in library file field
+robin, list_bad_names, Find bad name field values in valuelabels and variablelabels
+robin, move_bb_cats_2_robin, OVERWRITES! category codes/labels etc. and sets parent id from nshd_showcase
+robin, names2lowercase, This procedure changes ALL variable names to lower case in variablelabes/valuelabes/shoppingbaskets
+robin, nameSearch, Find matches for searchString in variable names
+robin, pop_groups, SQL Routine to populate longitudinal vars table from mapping_table 
+robin, sanitise_names, Remove non-alphanum chars from namevalue fields in varialblelabels and valuelabels
+robin, Spit, Executes a select for all variables matching a keyword term
+robin, topicSearch, Find matches for searchString in topic element of keywords table
+robin, update_valuelabels, Updates valuelabels table with data from mapping_table
+robin, update_variablelabels, Updates variablelabels table with data from mapping_table
+rook, expandExecute, Takes a query string and expands the result to include longitudinal variables if necessary
+rook, expandLongVars, Look up a candidate variable check for replacement and expand the list to include all longitudinal variables associated with the same measure
+rook, getVarCat, Return the character string variable category
+rook, indexSearch, Find matches for searchString in variable labels
+rook, indexSearchUnion, Find matches for searchString in variable labels
+rook, librarySearch, Find matches for searchString in library file field
+rook, list_bad_names, Find bad name field values in valuelabels and variablelabels
+rook, sanitise_names, Remove non-alphanum chars from name field in varialblelabels and valuelabels
+,,
+,,

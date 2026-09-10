@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<!-- This is SKYLARK.html a Pebble Template which is extensively used by other subtemplates -->
+{% set wikihome = "https://skylark.ucl.ac.uk/NSHD/" %}
+<html template="true" lang="en">
+  {% block header %}
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <title>Condor</title>
+    <meta http-equiv="Content-Type" content="text/html;"
+	  charset="iso-8859-1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- This is the top level Pebble template that will be 'inherited' by other templates -->
+    <link rel="stylesheet" href="SWIFT15.css" type="text/css">
+
+    <script type="text/javascript" src="treeview-navigation.js"></script>
+    <script type="text/javascript" src="treeitem.js"></script>
+    <script type="text/javascript" src="treeitemClick.js"></script>
+
+    <script src="FormValidation.js"></script>
+    <script src="Help.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="ddtf.js"></script>
+    <!-- 
+	 This is Google's version 3 tags.  Never made it work properly
+	 <script src='https://www.google.com/recaptcha/api.js?render=6LeLAnkUAAAAAOL6qoCApkjOxKdbw4cy-xrg1lRV'></script>
+	 -->
+	 <!--  Make sure to use the right Site key here
+
+	       kiwidev = 6LeLAnkUAAAAAOL6qoCApkjOxKdbw4cy-xrg1lRV
+	       skylark = 6LdF3XgUAAAAAACAPmW7swE2bLNfxQlPvcu4JM2H
+
+	       reCAPTCHA version 2 keys
+
+	       kiwidev = 6LeBf3kUAAAAADU7T5AROQx9hj8LLJYke6i58Fqd
+	       kiwi	= 6LcohasUAAAAAPVpqmaGF6Mkag3vmJKhHutoPKEa
+	       version 2 script reference is below this
+	   -->
+	 <script src='https://www.google.com/recaptcha/api.js'></script>
+	 <!--  this is version 3 which doesn't work
+	       <script src='https://www.google.com/recaptcha/api.js?render=6LeLAnkUAAAAAOL6qoCApkjOxKdbw4cy-xrg1lRV'></script>
+	       -->
+  </head>
+  {% endblock header %}
+  <body>
+    <header>
+      <table>
+	<tbody>
+	  {% block banner %}
+	  <tr>
+	    <td>
+	      <div class="banner">
+		<img src="NSHDLogo.png" alt="National Survey of Health & Development" />
+		<h1>&nbsp;&nbsp;MRC National Survey of Health and Development&nbsp;&nbsp;</h1>
+		<img src="ukrimrc.png" alt="UKRI" />
+	      </div>
+	    </td>
+	  </tr>
+	  {% endblock banner %} 
+	  {% block swiftmenu %}
+	  <tr>
+	    <form action="search" onsubmit="return validateSearchForm(this)"
+		  method="post">
+	      <td>
+		<!-- Trying CSS3 - <nav> out but wait for the moment. -->
+		  <ul id="menu-bar">
+		    {% if menu | upper equals "EXTERNAL" %}
+		    <li><a href="logout?go=home">Home</a></li>
+		    <li><a href="#">Search</a>
+		      <ul>
+			<li><a href="search?type=c">By Category</a></li>
+			<li><a href="search?type=n">By Variable Name</a></li>
+			<li><a href="search?type=k">By Keyword</a></li>
+			<!-- <li><a href="search?type=y">By Year</a></li> -->
+			<li><a href="search?type=l">By Library</a></li>
+			<!-- <li><a href="search?type=t">By Topic</a></li> -->
+		    </ul></li>
+		    <li><a href="#">Baskets</a>
+		      <ul>
+			<li><a href="basket?command=saveNew&id={{sessionID}}">Save
+			    Basket</a></li>
+			<li><a href="basket?id={{sessionID}}">View Current
+			    Basket</a></li>
+			<li><a href="previousBasket?id={{sessionID}}">Load/Share
+			    My Basket</a></li>
+			<li><a href="sharedBasket?id={{sessionID}}">Load
+			    Shared Basket</a></li>
+			<!-- <li><a href="basket?command=saveExisting&id={{sessionID}}">Overwrite Basket</a></li> -->
+			<li><a href="retrieve?id={{sessionID}}">Download
+			    Basket</a></li>
+		    </ul></li>
+		    <li><a href="#">More...</a>
+		      <ul>
+			<li><a href="logout?id={{sessionID}}">Logout</a></li>
+			<!--  Help is now on the Wiki <li><a href="javascript:help();">Help</a></li>  -->
+			<li><a href=" {{wikihome}}access/help-guides/">Help</a></li>
+			<li><a href="changeRegistration">Update Contact
+			    Details</a></li>
+			<li><a href="changePassword">Change Password</a></li>
+		    </ul></li>
+		    <li><input name="term" type="text" placeholder="Search..." />
+		      <input name="type" type="hidden" value="k" /></li>
+		    <li>
+		      <div>
+			<!-- <input name="search_submit" type="submit" value=""/>  -->
+		      </div>
+		    </li> {% elseif menu | upper equals "INTERNAL" %}
+		    <li><a href="logout?go=home">Home</a></li>
+		    <li><a href="#">Search</a>
+		      <ul>
+			<li><a href="search?type=c&id={{sessionID}}">By Category</a></li>
+			<li><a href="search?type=n&id={{sessionID}}">By Variable Name</a></li>
+			<li><a href="search?type=k&id={{sessionID}}">By Keyword</a></li>
+			<!-- <li><a href="search?type=y&id={{sessionID}}">By Year</a></li> -->
+			<li><a href="search?type=l&id={{sessionID}}">By Library</a></li>
+			<!--<li><a href="search?type=t&id={{sessionID}}">By Topic</a></li>-->
+		    </ul></li>
+		    <li><a href="#">Baskets</a>
+		      <ul>
+			<li><a href="basket?command=saveNew&id={{sessionID}}">Save
+			    Basket</a></li>
+			<li><a href="basket?id={{sessionID}}">View Current
+			    Basket</a></li>
+			<li><a href="previousBasket?id={{sessionID}}">Load/Share
+			    My Basket</a></li>
+			<li><a href="sharedBasket?id={{sessionID}}">Load
+			    Shared Basket</a></li>
+			<!-- <li><a href="basket?command=saveExisting&id={{sessionID}}">Overwrite Basket</a></li> -->
+			<li><a href="retrieve?id={{sessionID}}">Download
+			    Basket</a></li>
+		    </ul></li>
+		    <li><a href="#">More...</a>
+		      <ul>
+			<li><a href="logout?id={{sessionID}}">Logout</a></li>
+			<!--  Help is now on the Wiki <li><a href="javascript:help();">Help</a></li>  -->
+			<li><a href=" {{wikihome}}access/help-guides/">Help</a></li>
+			<li><a href="changeRegistration">Update Contact
+			    Details</a></li>
+			<li><a href="changePassword">Change Password</a></li>
+		    </ul></li>
+		    <li><input name="term" type="text" placeholder="Search..." />
+		      <input name="type" type="hidden" value="k" /></li>
+		    <li>
+		      <div>
+			<!-- <input name="search_submit" type="submit" value=""/>  -->
+		      </div>
+		    </li> {% elseif menu | upper equals "ADMIN" %}
+		    <li><a href="#">Manage Users</a>
+		      <ul>
+			<li><a href="approveUser?id={{ sessionID }}">Approve
+			    User</a></li>
+			<li><a href="resetPassword?id={{ sessionID }}">Reset
+			    User Password</a></li>
+		    </ul></li>
+		    <li><a href="#">More...</a>
+		      <ul>
+			<li><a href="logout?id={{sessionID}}">Logout</a></li>
+			<!--  Help is now on the Wiki <li><a href="javascript:help();">Help</a></li>  -->
+			<li><a href=" {{wikihome}}access/help-guides/">Help</a></li>
+			<li><a href="changeRegistration">Update Contact
+			    Details</a></li>
+			<li><a href="changePassword">Change Password</a></li>
+		    </ul></li> {% elseif menu | upper equals "DSG" %}
+		    <li><a href="#">Baskets</a>
+		      <ul>
+			<li><a href="basket?command=saveNew&id={{sessionID}}">Save
+			    Basket</a></li>
+			<li><a href="basket?id={{sessionID}}">View Current
+			    Basket</a></li>
+			<li><a href="previousBasket?id={{sessionID}}">Load/Share
+			    My Basket</a></li>
+			<li><a href="sharedBasket?id={{sessionID}}">Load
+			    Shared Basket</a></li>
+			<!-- <li><a href="basket?command=saveExisting&id={{sessionID}}">Overwrite Basket</a></li>  -->
+			<li><a href="manageBaskets?id={{sessionID}}">Build
+			    Any Dataset</a></li>
+			<li><a
+			      href="manageBaskets?id={{sessionID}}&command=download">Download
+			    Dataset</a></li>
+		    </ul></li>
+		    <li><a href="#">More...</a>
+		      <ul>
+			<li><a href="logout?id={{sessionID}}">Logout</a></li>
+			<!--  Help is now on the Wiki <li><a href="javascript:help();">Help</a></li>  -->
+			<li><a href=" {{wikihome}}access/help-guides/">Help</a></li>
+			<li><a href="changeRegistration">Update Contact
+			    Details</a></li>
+			<li><a href="changePassword">Change Password</a></li>
+		    </ul></li> {% else %}
+		    <li class="active"><a href="index.html">Home</a></li> {% endif
+		    %}
+		  </ul> <!-- </nav> Paired with nav above -->
+	      </td>
+	    </form>
+	  </tr>
+	  {% endblock swiftmenu %}
+	</tbody>
+      </table>
+    </header>
+    <div class="results">
+      {% block results %}
+      <p style="margin: 5%; font-size: 150%;">Welcome to Condor, the
+	public metadata browser for the NSHD Data Repository.</p>
+      <p style="margin: 5%; font-size: 110%;">Please report any problems
+	by email to MRCLHA.SwiftInfo@ucl.ac.uk.</p>
+      {% endblock results %}
+    </div>
+        <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <h3>Condor uses cookies</h3>
+                <p>We use strictly necessary cookies to solely to
+                support core functionality and customise content for
+                you.  We do not use cookies for marketing, analytics,
+                or traffic analysis.  By clicking "Accept", you
+                consent to our use of cookies. If you reject cookies
+                you cannot use the Condor website.  See the NSHD
+                website <a href="https://skylark.ucl.ac.uk/NSHD/cookies/"
+                class="link">Cookie Policy</a></p>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn reject"
+                id="rejectCookies">Reject</button>
+                <button class="cookie-btn accept"
+                id="acceptCookies">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <footer> 
+      {% block footer %}
+      <table>
+	<tr>
+	  <td>
+	    <center>
+	      <a href="https://skylark.ucl.ac.uk/NSHD/access/help-guides/" >Help</a>
+	    </center> 
+	    <center>
+	      <b>Problems?</b>
+	      <a href="mailto:MRCLHA.Swiftinfo@ucl.ac.uk">Contact LHA</a>
+	      <br>Version: {{ swiftVersion }}
+	    </center>
+	  </td>
+	</tr>
+      </table>			 
+      {% endblock footer %} 
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieBanner = document.getElementById('cookieBanner');
+            const acceptCookiesBtn = document.getElementById('acceptCookies');
+            const rejectCookiesBtn = document.getElementById('rejectCookies');
+            
+            // Check if user has already made a choice
+            if (!getCookie('CondorCookieConsent')) {
+                // Show the banner automatically after a short delay
+                setTimeout(() => {
+                    cookieBanner.classList.add('active');
+                }, 1500);
+            }
+            
+            // Accept cookies button
+            acceptCookiesBtn.addEventListener('click', () => {
+                setCookie('CondorCookieConsent', 'accepted', 1);
+                cookieBanner.classList.remove('active');
+            });
+            
+            // Reject cookies button
+            rejectCookiesBtn.addEventListener('click', () => {
+                // Go to Cookie Policy
+                cookieBanner.classList.remove('active');
+		window.location.href = 'https://www.ucl.ac.uk/home/cookies-settings';
+            });
+            
+            // Cookie functions
+            function setCookie(name, value, days) {
+                const d = new Date();
+                d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+                const expires = "expires=" + d.toUTCString();
+                document.cookie = name + "=" + value + ";" + expires + ";path=/";
+            }
+            
+            function getCookie(name) {
+                const cookieName = name + "=";
+                const decodedCookie = decodeURIComponent(document.cookie);
+                const cookieArray = decodedCookie.split(';');
+                
+                for (let i = 0; i < cookieArray.length; i++) {
+                    let cookie = cookieArray[i];
+                    while (cookie.charAt(0) === ' ') {
+                        cookie = cookie.substring(1);
+                    }
+                    if (cookie.indexOf(cookieName) === 0) {
+                        return cookie.substring(cookieName.length, cookie.length);
+                    }
+                }
+                return "";
+            }
+        });
+    </script>
+  </body>
+</html>
+

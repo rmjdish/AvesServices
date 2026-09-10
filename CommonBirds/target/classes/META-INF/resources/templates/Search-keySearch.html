@@ -1,0 +1,30 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+<h2>NSHD Key Word Search</h2>
+<form name="input"
+      onsubmit="return validateSearchForm(this)" 
+      action="search"
+      method="post" 
+      target="_self">
+   <p>You can search by keyword or Showcase category labels<p>
+   <br>Keyword:
+   <input type="text"
+      	  name="term"
+      	  size="40"
+      	  maxlength="60">*
+   <input type=checkbox
+      	  name="soundex">Soundex?
+   <input type="hidden"
+   	  name="type"
+	  value="k">
+   &nbsp;&nbsp;&nbsp;
+   <br>
+   <input class="testbutton" type="submit"
+   	  value="Search">
+</form>
+</div>
+{% endblock results %}
+

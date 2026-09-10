@@ -1,0 +1,24 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+<div class="results">
+<h2>{{ title }}</h2>
+{% include "oneverypage" %}
+	<p>
+	    <strong>Please note that it is no longer necessary to send XML basket lists
+	    to the LHA.  Now, all you need to send us is the name of the required basket. </strong>
+	</p>
+
+<p>If you would like to keep a machine readable copy of your basket, please cut and paste the text below in red font, or use your browser's <em>Save As</em> feature to save this basket in XML form.  The LHA can use these XML documents to build datasets for you.</p>
+
+<style>
+  xml {
+  font-family: monospace;
+  color: red;
+  }
+</style>
+<xml>
+  {{ xml }}
+</xml>
+</div>
+{% endblock  results %}

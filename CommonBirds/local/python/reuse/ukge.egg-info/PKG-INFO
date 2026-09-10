@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: ukge
+Version: 1.0
+Summary: Basic package for accessing PG UK GE and EU referendum data
+Home-page: http://mule.local/wiki
+Author: Phil Curran
+Author-email: philipcurran@duck.com
+Keywords: python,UK GE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Politicos
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: Linux :: Debian
+Requires-Dist: pandas
+Requires-Dist: sqlalchemy
+Requires-Dist: ruamel.yaml
+Requires-Dist: psycopg2-binary
+
+Utils to hide details of SQLAlchemy and Pandas for use with UK GE data

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Boomerang" targetNamespace="http://zip.service.ucl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://zip.service.ucl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://zip.service.ucl/" schemaLocation="boomerang_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="catchjobResponse">
+    <wsdl:part name="parameters" element="tns:catchjobResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="catchjob">
+    <wsdl:part name="parameters" element="tns:catchjob">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="throwjobResponse">
+    <wsdl:part name="parameters" element="tns:throwjobResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lobjob">
+    <wsdl:part name="parameters" element="tns:lobjob">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="throwjob">
+    <wsdl:part name="parameters" element="tns:throwjob">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lobjobResponse">
+    <wsdl:part name="parameters" element="tns:lobjobResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ZIPService">
+    <wsdl:operation name="lobjob">
+      <wsdl:input name="lobjob" message="tns:lobjob">
+    </wsdl:input>
+      <wsdl:output name="lobjobResponse" message="tns:lobjobResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwjob">
+      <wsdl:input name="throwjob" message="tns:throwjob">
+    </wsdl:input>
+      <wsdl:output name="throwjobResponse" message="tns:throwjobResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="catchjob">
+      <wsdl:input name="catchjob" message="tns:catchjob">
+    </wsdl:input>
+      <wsdl:output name="catchjobResponse" message="tns:catchjobResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BoomerangSoapBinding" type="tns:ZIPService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="lobjob">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="lobjob">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="lobjobResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="throwjob">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="throwjob">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="throwjobResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="catchjob">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="catchjob">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="catchjobResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Boomerang">
+    <wsdl:port name="BoomerangPort" binding="tns:BoomerangSoapBinding">
+      <soap:address location="http://localhost:9090/BoomerangPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

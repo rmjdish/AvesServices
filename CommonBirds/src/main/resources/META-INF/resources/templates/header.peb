@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+{# This is a Pebble template which is aimed at simplifying SWIFT HTML generation and thus the inclusion of new facilities #}
+<html>
+<head>
+  <title>SWIFT - {{ sessionID }}</title>
+
+
+  <meta http-equiv="Content-Type" content="text/html;" charset="iso-8859-1">
+
+  <meta http-equiv="Cache-Control" content="no-cache">
+
+  <meta name="Pragma" content="no-cache">
+
+  <meta http-equiv="Expires" content="0">
+
+  <link rel="stylesheet" href="LHA.css" type="text/css">
+
+  <link rel="stylesheet" href="systemNew.css" type="text/css">
+
+  <link rel="stylesheet" href="NSHD2.css" type="text/css">
+
+  <script src="FormValidation.js"></script>
+  <script src="Help.js"></script>
+</head>
+<body>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+    <tr bgcolor="#00fff0">
+      <td colspan="5">
+      <div id="logo"><a href="http://www.nshd.mrc.ac.uk/"><img src="swift.jpg" align="left" border="0"></a>
+      <h1>Lifelong Health and Ageing Unit at UCL<br>MRC National Survey for Health and Development</h1>
+      </div>
+      </td>
+    </tr>
+    <tr>
+
+      <td height="370" valign="top" width="100">
+      <div id="menuarea">
+      <div id="smsidemenu">
+      <div id="sidemenu">
+      <div class="head"></div>
+      <ul>
+
+{% if accessLevel | lower == "admin" %}
+{%include adminLinks.peb %}
+{% elseif accessLevel | lower == "dsg" %}
+{%include dsgLinks.peb %}
+{% elseif accessLevel | lower == "internal" %}
+{%include internalLinks.peb %}
+{% else %}
+{%include externalLinks.peb %}
+{% endif %}
+       </ul>
+
+      </div>
+      </div>
+      </div>
+
+      </td>
+      <td width="5">&nbsp;</td>
+
+      <td valign="top" width="865">
+      <img src="mm_spacer.gif" alt="" border="0" height="1" width="304"><br>
+
+      <table border="0" height="41" width="498">
+
+{{ username }}
+        <tbody>
+
+          <tr>
+            <td>
+            <h2>{{ title }}</h2>
+            </td>
+
+{% if username is not empty %}
+            <font color="red"><br>
+User {{ username }} logged in</font>
+{% endif %}
+          </tr>
+
+        </tbody>
+      </table>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+</body>
+</html>

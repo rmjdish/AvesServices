@@ -1,0 +1,33 @@
+---
+# Connections to election data
+COMMONDEFS:
+  - PgServer: donkey.local
+    PgUID: postgres
+    PgPwd: m1a9r1c5h
+    PgDBase: genelects
+    Schm1997: ge1997
+    Schm2001: ge2001
+    Schm2005: ge2005
+    Schm2010: ge2010
+    Schm2015: ge2015
+    Schm2017: ge2017
+    Schm2019: ge2019
+    Schm2024: ge2024
+    SchmBrex: brexit
+    Tabl1997: ge1997
+    Tabl2001: ge2001
+    Tabl2005: ge2005
+    Tabl2010: ge2010
+    Tabl2015: ge2015
+    Tabl2017: ge2017
+    Tabl2019: er_2019
+    Tabl2024: ge2024constits
+    Tabl1997meta: ge1997meta
+    Tabl2001meta: ge2001meta
+    Tabl2005meta: ge2005meta
+    Tabl2010meta: ge2010meta
+    Tabl2015meta: ge2015meta
+    Tabl2017meta: ge2017meta
+    Tabl2019meta: ge2019meta
+    Tabl2024meta: ge2024meta
+    TableBrexit: euref_cons

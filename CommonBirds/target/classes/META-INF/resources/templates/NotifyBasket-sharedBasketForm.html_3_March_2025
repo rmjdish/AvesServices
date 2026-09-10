@@ -1,0 +1,16 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+	<h2>{{ title }}</h2>
+	<p>In order for LHA staff to build you basket it must first be added to the list of shared baskets.</p>
+	<form name="description"
+		onsubmit="return validateSharedBasketForm(this)" action="notifyBasket" method="post">
+		<br>Enter description for shared basket: 
+		<input type="desc" name="desc" size="60" maxlength="120"> * 
+		<input type="submit" value="Submit"> 
+		<input type="hidden" name="basketID" value="{{ basketId }}">
+	</form>
+	<p>(* indicates a mandatory field)</p>
+{% endblock %}

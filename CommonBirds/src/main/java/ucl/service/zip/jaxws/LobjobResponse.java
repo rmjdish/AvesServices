@@ -1,0 +1,34 @@
+/*
+    This file is part of Jay/Condor/Swift.
+
+    Jay/Condor/Swift is free software: you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    Jay/Condor/Swift is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied
+    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+    PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Jay/Condor/Swift. If not, see
+    <https://www.gnu.org/licenses/>.
+
+*/
+
+package ucl.service.zip.jaxws;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "lobjobResponse", namespace = "http://zip.service.ucl/")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "lobjobResponse", namespace = "http://zip.service.ucl/")
+
+public class LobjobResponse {
+
+
+}

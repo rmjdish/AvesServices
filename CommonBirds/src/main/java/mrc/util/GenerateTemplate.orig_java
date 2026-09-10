@@ -1,0 +1,208 @@
+/*
+    This file is part of Jay/Condor/Swift.
+
+    Jay/Condor/Swift is free software: you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    Jay/Condor/Swift is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied
+    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+    PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Jay/Condor/Swift. If not, see
+    <https://www.gnu.org/licenses/>.
+
+*/
+
+package mrc.util;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import jakarta.servlet.ServletContext;
+
+import io.pebbletemplates.pebble.PebbleEngine;
+import io.pebbletemplates.pebble.error.PebbleException;
+import io.pebbletemplates.pebble.loader.ServletLoader;
+import io.pebbletemplates.pebble.template.PebbleTemplate;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class GenerateTemplate 
+{
+
+	/*
+	 * Pebble relies on passing variables to templates 
+	 * via a Map object (of type <String,Object>)
+	 * The agreed variables for this implementation will 
+	 * be:
+	 * cPath : String - The context path to the template folder
+	 * topic : String - A heading for the page
+	 * results : ArrayList<String> - A list of all values to be printed
+	 * numCols : int - The number of columns in a row of results
+	 * 
+	 * Each of these will be supported by setters
+	 * setCPath(String)
+	 * setTopic(String)
+	 * setResults(ArrayList<String>
+	 * etc.
+	 */
+	
+	/*
+	 * Class Variables
+	 * 
+	 */
+	// private static final Logger log = Logger.getLogger(HostInfo.tell() + ":" + GenerateTemplate.class.getName());
+	private static final Logger log = Logger.getLogger("mrc.user");
+	private static String defaultDir = "/templates/";
+	private static String defaultExt = ".html";
+	/*
+	 * Instance Variables
+	 */
+	private String aTemplate  = "default";
+	private PebbleTemplate printReady;
+	private String cPath;
+	private String topic;
+	private ArrayList<String> results;
+	private int numCols;
+	
+	public GenerateTemplate() 
+	{
+		super();
+	}
+	
+	
+	public GenerateTemplate (ServletContext here)
+	{	
+		log.fine("GenerateTemplate.  Constructor with 1 arg called.");
+		try {
+			// Create a Pebble ServletLoader from the context of the current Servlet
+			ServletLoader sload = new ServletLoader(here);
+			// Set some general properties
+			if (!StringUtils.containsAny(this.aTemplate,".")) {
+				// The template name does not have an extension so set suffix to default
+				sload.setSuffix(GenerateTemplate.defaultExt);				
+			} else {
+		        log.severe("GenerateTemplate: template already has ext: "+this.aTemplate);
+		        log.severe("GenerateTemplate: Suffix not added to Pebble Loader");
+			}
+			sload.setPrefix(GenerateTemplate.defaultDir);
+			// Create the configuration of a Template machine
+			PebbleEngine.Builder config = new PebbleEngine.Builder().loader(sload);
+			// Create a specific Template machine
+			PebbleEngine engine = config.build();
+			// Load the engine with required template
+			this.printReady = engine.getTemplate(this.aTemplate);
+		} catch (PebbleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public GenerateTemplate (ServletContext here, String myTemplate) 
+	{
+		log.fine(" Constructor with 2 args called.  Template: "+myTemplate);
+		if (StringUtils.isNotBlank(myTemplate)) {
+			this.aTemplate = myTemplate;
+			log.fine("GenerateTemplate: Template set to "+this.aTemplate);
+		}
+		try {
+			ServletLoader sload = new ServletLoader(here);
+			if (!StringUtils.containsAny(this.aTemplate,".")) {
+				// The template name does not have an extension so set suffix to default
+				sload.setSuffix(GenerateTemplate.defaultExt);				
+			} else {
+				log.warning("GenerateTemplate: template already has ext: "+this.aTemplate);
+				log.warning("GenerateTemplate: Suffix not added to Pebble Loader");
+			}
+			sload.setPrefix(GenerateTemplate.defaultDir);
+			PebbleEngine.Builder config = new PebbleEngine.Builder().loader(sload);
+			PebbleEngine engine = config.build();
+			this.printReady = engine.getTemplate(this.aTemplate);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void rollPress (PrintWriter press, Map<String,Object> context)
+	{
+		if (press != null && context != null) {
+			try {
+				this.printReady.evaluate(press, context);
+			} catch (PebbleException | IOException e) {
+				log.severe(" rollPress failed to print template.");
+				e.printStackTrace();
+			}
+		} else {
+			log.warning(" rollPress called with a null argument");
+		}
+
+	}
+	
+	public String getTopic()
+	{
+		return this.topic;
+	}
+	
+	public void setTopic(String tpc) 
+	{
+		this.topic = tpc;
+	}
+	
+	
+	public ArrayList<String> getResults()
+	{
+		return this.results;
+	}
+	
+	public void setResults(ArrayList<String> res) 
+	{
+		this.results = res;
+	}
+	
+	public String getcPath() {
+		return this.cPath;
+	}
+
+
+	public void setcPath(String path) {
+		this.cPath = path;
+	}
+	
+	public int getnumCols() {
+		return this.numCols;
+	}
+
+
+	public void setnumCols(int num) {
+		this.numCols = num;
+	}
+
+	/*
+	 * Class Methods for updating Class Variables
+	 * 
+	 */
+	public static void setDefaultDir (String dir)
+	{
+		if (StringUtils.isNotBlank(dir)) {
+		GenerateTemplate.defaultDir = dir;
+		}
+	}
+	
+	public static void setDefaultExt (String ext)
+	{
+		if (StringUtils.isNotBlank(ext)) {
+			GenerateTemplate.defaultExt = ext;
+		}
+	}
+
+
+	
+}

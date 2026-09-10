@@ -1,0 +1,61 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{#
+  Script: PyDBCheckout-displayBaskets.html
+  	Three column template to display a list of baskets and offer the option of building a selected one.
+  	Calls <pyDBCheckout> or <previousBasket> depending on choice of user
+  	
+#}
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+{# This is an example of a template which produces a table with 3 columns #}
+{# but only 2 of them come from the results vector supplied for the template #}
+{% include "oneverypage" %}
+
+{#
+	Topic: Variables
+		results - a collection of string objects that can be iterated over
+				Set by method in <Page> class
+		val - an element of a collection object used in for loop constructs
+		loop.index - a zero based subscript indicating the current position in an
+					iteration over a collection object
+		thisbasket - a temporary variable used to record the name of the current basket
+		title - Heading title for page.  Set by method in <Page> class
+#}
+
+<div class="results">
+	<h2>{{ title }}</h2>
+	{% if results is not empty %}
+	<p>You have {{ numResults }} baskets available to build.</p>
+	<table>
+		<tr>
+			<th class="skip-filter" style="width: 20%">Basket ID</th> {# Column 1 #}
+			<th class="skip-filter" style="width: 65%">Description</th> {# Column 2#}
+			<th class="skip-filter" style="width: 15%">Build Dataset?</th> {# Column 3 #}
+		</tr>
+		<tr>
+			{% for val in results %} 
+			  {# Looping over all elements of results #}
+			  {% if (loop.index + 1) % numCols equals 0 %} 
+			    {# loop.index+1 is 0 or an exact multiple of numCols then this is the username field #}
+			    <td>{{ val }}</td> 
+			    {# Add the two final non results columns and finish the row #}
+			    <td><a href="pyDBCheckout?command=build&basketID={{ thisbasket }}&description={{ val }}">Yes</a></td>
+		</tr>
+		<tr>
+			{# Throw end of row at this point #} 
+			{% elseif (loop.index + 1) % numCols equals 1 %} 
+			  {# loop.index+1 is 1 so this should be the BasketId field #} 
+			  {% set thisbasket = val %} 
+			  {# this is necessary because the basket id preceeds the label #}
+			  <td><a href="previousBasket?basketID={{ val }}">{{ val }}</a></td> 
+			{% else %}
+			  <td>Ugh!!! Loop Index+1:{{ loop.index+1 }} {{ val }}</td> 
+			{% endif %}
+		  {% endfor %}
+		</tr>
+	</table>
+	{% else %}
+	<p>There are no baskets to list.</p>
+	{% endif %}
+</div>
+{% endblock %}

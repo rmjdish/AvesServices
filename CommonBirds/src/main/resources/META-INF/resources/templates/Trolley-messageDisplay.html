@@ -1,0 +1,35 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>Contents of trolley {{ title }}</h2>
+	{% if results is empty %}
+	<p>There are no results to see here.</p>
+	{% else %}
+	<p>You have added the following dataset to your trolley.</p>
+	<table>
+		<tr>
+			<th class="skip-filter" width="20%"><b>Dataset Name</b></th>
+			<th class="skip-filter" width="80%"><b>Status</b></th>
+		</tr>
+
+		{% for val in results %} 
+			{% if (loop.index + 1) % numCols equals 0 %}
+			<!-- If loop index is whole multiple of numCols -->
+			<td>{{ val }}</td>
+			</tr>
+			{% else %}
+				<tr>
+				<td>{{ val }}</td>
+				<!-- Not multiple of numCols -->
+			{% endif %} 
+		{% endfor %}
+	</table>
+	<br>
+	<button class="testbutton"><a href="trolley?command=build&trolleyID={{ title }}">Save Trolley</a></button>
+	{% endif %}
+</div>
+{% endblock results %}
+
+

@@ -1,0 +1,2 @@
+[console_scripts]
+transform-csv = transform.cli:main

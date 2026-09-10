@@ -1,0 +1,27 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+<h2>NSHD Search by Library File</h2>
+
+<form name="input"
+      onsubmit="return validateSearchForm(this)"
+      action="search"
+      method="post"
+      target="_self"
+      >
+  <br>Library File:
+<select name="library">
+  <option value="" selected>ALL</option>
+  {% for lib in libNames %}
+    <option value="{{ lib  }}">{{ lib }}</option>
+  {% endfor %}
+</select>
+<input type="hidden" name="type" value="l">
+&nbsp;&nbsp;&nbsp;
+<input class="testbutton" type="submit" value="Search">
+</form>
+</div>
+{% endblock results%}
+

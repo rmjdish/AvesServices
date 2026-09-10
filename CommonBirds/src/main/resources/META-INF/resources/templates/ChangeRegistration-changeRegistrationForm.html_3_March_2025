@@ -1,0 +1,70 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	<form target="_self" method="post" action="changeRegistration"
+		name="input" onsubmit="return validateChangeRegistrationForm(this)">
+		<input class="testbutton" type="submit" value="Submit">
+		<br>
+		
+		<table>
+			<tr>
+				<td>First Name:</td>
+				<td><input type="text" name="firstName" size="45"
+					maxlength="45" value="{{ firstName }}">*</td>
+			</tr>
+			<tr>
+				<td>Last Name:</td>
+				<td><input type="text" name="lastName" size="45" maxlength="45"
+					value="{{ lastName }}">*</td>
+			</tr>
+			<tr>
+				<td>Academic Affiliation:</td>
+				<td><input type="text" name="academicAffiliation" size="45"
+					maxlength="45" value="{{ affiliation }}">*</td>
+			</tr>
+			<tr>
+				<td>Address 1:</td>
+				<td><input type="text" name="address1" size="45" maxlength="45"
+					value="{{ address1 }}">*</td>
+			</tr>
+			<tr>
+				<td>Address 2:</td>
+				<td><input type="text" name="address2" size="45" maxlength="45"
+					value="{{ address2 }}">*</td>
+			</tr>
+			<tr>
+				<td>City:</td>
+				<td><input type="text" name="city" size="45" maxlength="45"
+					value="{{ city }}">*</td>
+			</tr>
+			<tr>
+				<td>County:</td>
+				<td><input type="text" name="county" size="45" maxlength="45"
+					value="{{ county }}"></td>
+			</tr>
+			<tr>
+				<td>Postcode:</td>
+				<td><input type="text" name="postcode" size="10" maxlength="10"
+					value="{{ postcode }}">*</td>
+			</tr>
+			<tr>
+				<td>Phone:</td>
+				<td><input type="text" name="phone" size="20" maxlength="20"
+					value="{{ phone }}">*</td>
+			</tr>
+			<tr>
+				<td>Email:</td>
+				<td><input type="text" name="email" size="45" maxlength="45"
+					value="{{ email }}">*</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>* indicates a mandatory field</td>
+			</tr>
+		</table>
+	</form>
+</div>
+{% endblock results %}

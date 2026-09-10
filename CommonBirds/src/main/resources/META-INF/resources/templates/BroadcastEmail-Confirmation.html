@@ -1,0 +1,9 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+<div class="results">
+	<h2>{{ title }}</h2>
+	<p>Your email message has been sent to all users.</p>
+</div>
+{% endblock results %}
+

@@ -1,0 +1,29 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block results %}
+<div class="results">
+<h2>{{ title }}</h2>
+  {% include "oneverypage" %}
+  	<p>
+	    <strong>Please note that it is no longer necessary to send XML basket lists
+	    to the LHA.  Now, all you need to send us is the name of the required basket. </strong>
+	</p>
+  
+<p>If you have already have an approved data access request, 
+you can email this file to the LHA to notify us of your requested dataset.  The email to use is  
+<a href="mailto: mrclha.swiftinfo@ucl.ac.uk">mrclha.swiftinfo@ucl.ac.uk</a> </p>
+<table>
+<tr>
+<th>XML File</th>
+<th>Download?</th>
+</tr>
+{% for xmlfile in results %}
+<tr>
+<td>{{ xmlfile }}</td>
+<td><a target="_blank" href="robin/download/{{ xmlfile }}">Yes</a></td>
+</tr>
+{% endfor %}
+</table>
+
+</div>
+{% endblock  results %}

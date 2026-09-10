@@ -1,0 +1,11 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "Login-loginForm" %}
+{% block results %}
+<div class="results">
+<h2 >{{ title }}</h2>
+
+<p >Unfortunately, your application for access to Condor
+  has not been yet been approved. Please contact the LHA for more details.</p>
+<p>From this page, you can:</p>
+</div>
+ {% endblock %}

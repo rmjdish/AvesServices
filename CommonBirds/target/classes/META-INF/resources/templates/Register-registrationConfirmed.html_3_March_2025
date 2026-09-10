@@ -1,0 +1,18 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block swiftmenu %}
+<ul id="menu-bar">
+<li><a href="index.html" title="Home"><span>&nbsp;</span>Home</a></li>
+</ul>
+{% endblock %}
+{% block results %}
+<div class="results">
+<h2>{{ title }}</h2>
+<p>Dear {{ firstName }} {{ lastName }},</p>
+<p>Thank you for registering to use Condor.  We monitor new applications for access to Condor on a regular basis, but if your request for access is urgent,
+ please use the following <a href="mailto:MRCLHA.SwiftInfo@ucl.ac.uk?subject=Condor%20Registration%20Application" title="Registration">link</a> to send us an email notifying us of your application.</p>
+ <p>Please remember to record your Condor user name (<b>{{ userName }}</b>) and password '<b>{{ password }}</b>' as you will need it to login to Condor.</p>
+ <p>To learn more about the best way to search for variables in <em>Condor</em> please see our
+ <a href="https://skylark.ucl.ac.uk/NSHD/doku.php?id=Condor:search" target="_blank">web site.</a>
+</div>
+{% endblock %}

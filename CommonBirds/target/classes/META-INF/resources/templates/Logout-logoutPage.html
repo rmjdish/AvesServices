@@ -1,0 +1,37 @@
+{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% block swiftmenu %}
+<tr>
+  <td>
+    <ul id="menu-bar">
+      <li><a href="index.html" title="Home"><span>&nbsp;</span>Home</a></li>
+    </ul>
+  </td>
+</tr>
+{% endblock %}
+
+{% block results %}
+<div style="padding-top: 5%;">
+<h2>{{ title }}</h2>
+</div>
+
+  <p style="margin:0%,5%,0%,5%;font-size:150%;">Thank you for using Condor, the public metadata browser for the NSHD Data Repository.</p>
+  <p style="margin:0%,5%,0%,5%;font-size:110%;">Please report any problems by email to MRCLHA.SwiftInfo@ucl.ac.uk.</p>
+{% endblock %}
+
+{% block footer %}
+<table>
+  <tr>
+	<td>
+	  <center>
+	    <a href="https://skylark.ucl.ac.uk/NSHD/access/help-guides/" >Help</a>
+	  </center> 
+	  <center>
+	    <b>Problems?</b>
+	    <a href="mailto:MRCLHA.Swiftinfo@ucl.ac.uk">Contact LHA</a>
+	    <br>Version: {{ swiftVersion }}
+	  </center>
+	</td>
+  </tr>
+</table>
+{% endblock %}
+

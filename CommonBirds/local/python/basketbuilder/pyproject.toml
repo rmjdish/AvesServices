@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nshd"
+description = "Package for building and scrambling NSHD datasets from data in PG and metadata in MySQL"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+requires-python = ">=3.8"
+authors = [
+  { name = "Phil Curran", email = "philipcurran@duck.com" }
+]
+dependencies = [
+  "pandas", "numpy", "sqlalchemy", "mysql.connector-python",
+  "ruamel.yaml", "psycopg2-binary", "tabulate", "savReaderWriter"
+]
+classifiers = [
+  "Development Status :: 4 - Beta",  # Fixed classifier
+  "Intended Audience :: Developers",  # Fixed classifier
+  "Programming Language :: Python :: 3",
+  "Operating System :: POSIX :: Linux"  # General Linux classifier
+]
+keywords = ["data management", "pseudonomise", "NSHD"]
+dynamic = ["version"]  # Correct placement under [project]
+
+[project.urls]
+Homepage = "https://skylark.ucl.ac.uk"
+
+
+[project.scripts]
+buildbasket = "nshd.module:main_function"
+scramblebasket = "nshd.module:scram_function"
+
+[tool.setuptools]
+packages = { find = {} }
+
+[tool.setuptools.dynamic]
+version = { attr = "nshd.__VERSION__" }  # Reads from `nshd/__init__.py`
+
+[tool.setuptools.data-files]
+"share/man/man1" = ["man/man1/buildbasket.1.gz", "man/man1/scramblebasket.1.gz"]
