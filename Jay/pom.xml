@@ -48,14 +48,33 @@
             <resource>
               <directory>../CommonBirds/src/main/resources/web/html</directory>
               <targetPath>/</targetPath>
+	      <!-- Things not to copy ... -->
+	      <excludes>
+		<!-- Files Jay overrides with its own versions -->
+		<exclude>index.html</exclude>
+		<exclude>DARForm.html</exclude>
+		<exclude>MockUpJay.html</exclude>
+              </excludes>
             </resource>
 	    
             <!-- Copy templates from CommonBirds -->
             <resource>
               <directory>../CommonBirds/src/main/resources/templates</directory>
-              <targetPath>WEB-INF/templates</targetPath>
+              <targetPath>/templates</targetPath>
             </resource>
             
+            <!-- Copy transactions from CommonBirds -->
+            <resource>
+              <directory>../CommonBirds/src/main/resources/web/transactions</directory>
+              <targetPath>/transactions</targetPath>
+            </resource>
+
+            <!-- Copy reports from CommonBirds -->
+            <resource>
+              <directory>../CommonBirds/src/main/resources/web/reports</directory>
+              <targetPath>/reports</targetPath>
+            </resource>
+
             <!-- Copy CSS files -->
             <resource>
               <directory>../CommonBirds/src/main/resources/web/css</directory>
@@ -73,7 +92,8 @@
 		<include>**/*.js</include>
               </includes>
             </resource>
-          </webResources>
+
+	  </webResources>
 	</configuration>
       </plugin>
     </plugins>

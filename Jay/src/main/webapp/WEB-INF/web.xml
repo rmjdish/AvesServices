@@ -18,15 +18,15 @@
   
   <servlet>
   	<servlet-name>previousBasket</servlet-name>
-  	<servlet-class>mrc.wdap.user.PreviousBasket</servlet-class>
+  	<servlet-class>mrc.user.PreviousBasket</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>filedownload</servlet-name>
-  	<servlet-class>mrc.wdap.user.FileDownload</servlet-class>
+  	<servlet-class>mrc.user.FileDownload</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>pyDBCheckout</servlet-name>
-    <servlet-class>mrc.wdap.user.PyDBCheckout</servlet-class>
+    <servlet-class>mrc.user.PyDBCheckout</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>scramble</servlet-name>
@@ -46,39 +46,39 @@
   </servlet>
   <servlet>
     <servlet-name>recoverPassword</servlet-name>
-    <servlet-class>mrc.wdap.user.RecoverPassword</servlet-class>
+    <servlet-class>mrc.user.RecoverPassword</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>login</servlet-name>
-    <servlet-class>mrc.wdap.user.Login</servlet-class>
+    <servlet-class>mrc.user.Login</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>logout</servlet-name>
-    <servlet-class>mrc.wdap.user.Logout</servlet-class>
+    <servlet-class>mrc.user.Logout</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>register</servlet-name>
-    <servlet-class>mrc.wdap.user.Register</servlet-class>
+    <servlet-class>mrc.user.Register</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>search</servlet-name>
-    <servlet-class>mrc.wdap.user.Search</servlet-class>
+    <servlet-class>mrc.user.Search</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>changeRegistration</servlet-name>
-    <servlet-class>mrc.wdap.user.ChangeRegistration</servlet-class>
+    <servlet-class>mrc.user.ChangeRegistration</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>changePassword</servlet-name>
-    <servlet-class>mrc.wdap.user.ChangePassword</servlet-class>
+    <servlet-class>mrc.user.ChangePassword</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>resetPassword</servlet-name>
-    <servlet-class>mrc.wdap.user.ResetPassword</servlet-class>
+    <servlet-class>mrc.user.ResetPassword</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>approveUser</servlet-name>
-    <servlet-class>mrc.wdap.user.ApproveUser</servlet-class>
+    <servlet-class>mrc.user.ApproveUser</servlet-class>
   </servlet>
   <!--  Servlet/URL Mappings Below Here -->
   <servlet-mapping>

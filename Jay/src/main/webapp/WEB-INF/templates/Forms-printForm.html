@@ -1,0 +1,123 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %} 
+{% block results %} 
+{% include "oneverypage" %}
+<div class="results">
+    {% set numTags = 42 %}
+	<h2>{{ title }}</h2>
+   <p>There are {{results | length / numTags }} form(s) to print.</p>
+	<table>
+		<tr>
+			<th class="skip-filter" style="width: 15%;">Field</th>
+			<th class="skip-filter" style="width: 75%;">Value</th>
+		</tr>
+		{# There is 1 column of data supplied for the page in chunks of 42 #}
+		{% for val in results %} 
+		  <tr>
+		      <td>{% if (loop.index )     % numTags equals 0 %}
+					Form ID 
+		      	  {% elseif (loop.index ) % numTags equals 1 %}					
+		      		Principal Applicant
+		      	  {% elseif (loop.index ) % numTags equals 2 %}
+		      	    Principal Applicant's Position
+		      	  {% elseif (loop.index ) % numTags equals 3 %}
+		      	    Principal Applicant's Institution
+		      	  {% elseif (loop.index ) % numTags equals 4 %}
+		      	    Principal Applicant's Email Address
+		      	  {% elseif (loop.index ) % numTags equals 5 %}
+		      	    Coapplicant
+		      	  {% elseif (loop.index ) % numTags equals 6 %}
+		      	    Coapplicant's Position
+		      	  {% elseif (loop.index ) % numTags equals 7 %}
+		      	    Coapplicant's Institution
+		      	  {% elseif (loop.index ) % numTags equals 8 %}
+		      	    Coapplicant's Email Address
+		      	  {% elseif (loop.index ) % numTags equals 9 %}
+		      	    Further Applicants
+		      	  {% elseif (loop.index ) % numTags equals 10 %}
+		      	    Title for project
+		      	  {% elseif (loop.index ) % numTags equals 11 %}
+		      	    Start Date
+		      	  {% elseif (loop.index ) % numTags equals 12 %}
+		      	    End Date
+		      	  {% elseif (loop.index ) % numTags equals 13 %}
+		      	    Peer reviewed and funded?
+		      	  {% elseif (loop.index ) % numTags equals 14 %}
+		      	    Funding Organisation
+		      	  {% elseif (loop.index ) % numTags equals 15 %}
+		      	    Project Description
+		      	  {% elseif (loop.index ) % numTags equals 16 %}
+		      	    Public Summary
+		      	  {% elseif (loop.index ) % numTags equals 17 %}
+		      	    Other Studies in Project?
+		      	  {% elseif (loop.index ) % numTags equals 18 %}
+		      	    List of Other Studies
+		      	  {% elseif (loop.index ) % numTags equals 19 %}
+		      	    Does the project involve genotyping?
+		      	  {% elseif (loop.index ) % numTags equals 20 %}
+		      	    If yes, please specify:
+		      	  {% elseif (loop.index ) % numTags equals 21 %}
+		      	    Does the project involve DNA?
+		      	  {% elseif (loop.index ) % numTags equals 22 %}
+		      	    If yes please specify:
+		      	  {% elseif (loop.index ) % numTags equals 23 %}
+		      	    DNA Samples?
+		      	  {% elseif (loop.index ) % numTags equals 24 %}
+		      	    If yes, please specify:
+		      	  {% elseif (loop.index ) % numTags equals 25 %}
+		      	    Does the project involve RNA?
+		      	  {% elseif (loop.index ) % numTags equals 26 %}
+		      	    If yes, please specify:
+		      	  {% elseif (loop.index ) % numTags equals 27 %}
+		      	    Experience of DNA or RNA investigations:
+		      	  {% elseif (loop.index ) % numTags equals 28 %}
+		      	    Project involves Insight46 data?
+		      	  {% elseif (loop.index ) % numTags equals 29 %}
+		      	    If yes, please specify:
+		      	  {% elseif (loop.index ) % numTags equals 30 %}
+		      	    Does your project involve imaging data?
+		      	  {% elseif (loop.index ) % numTags equals 31 %}
+		      	    If yes, please state which sequences and the rationale for request:
+		      	  {% elseif (loop.index ) % numTags equals 32 %}
+		      	    Experience of imaging data storage and analysis:
+		      	  {% elseif (loop.index ) % numTags equals 33 %}
+		      	    What variables from NSHD are required:
+		      	  {% elseif (loop.index ) % numTags equals 34 %}
+		      	    Information Security Manager:
+		      	  {% elseif (loop.index ) % numTags equals 35 %}
+		      	    Policies and/or certifications:
+		      	  {% elseif (loop.index ) % numTags equals 36 %}
+		      	    Location of Data Centre
+		      	  {% elseif (loop.index ) % numTags equals 37 %}
+		      	    How will data access be controlled: 
+		      	  {% elseif (loop.index ) % numTags equals 38 %}
+		      	    Who is responsible for day-to-day management:
+		      	  {% elseif (loop.index ) % numTags equals 39 %}
+		      	    How did you find out about the NSHD:
+		      	  {% elseif (loop.index ) % numTags equals 40 %}
+		      	    Signed By:
+		      	  {% elseif (loop.index ) % numTags equals 41 %}
+		      	    Date of Submission:
+		      	  {% endif %}
+		      	  </td>
+		      <td>
+		          {% if (loop.index+1 ) % numTags equals 0 %}
+		            {{ val }}</td></tr>
+		            <tr>
+		            	<td colspan="2"><hr style="color : blue;"></td>
+		            </tr>
+		            <tr>
+		          {% else %}
+		            {{ val }}
+		          {% endif %}
+		          </td>
+		  </tr>
+	{% else %} {# results is empty #}
+	<tr>
+	<td colspan="2">Your search returned no results.</td>
+	</tr>
+	{% endfor %} 
+</table>
+</div>
+{% endblock results%}
+

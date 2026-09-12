@@ -1,0 +1,28 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+<h2>{{ title }}</h2>
+
+<form name="linkbaskettoproject"
+      action="jaybaskets"
+      method="post"
+      target="_self"
+	  onsubmit="return validateProjectChosen(this)"
+      >
+  <p>There are {{ results | length }} projects to select from. You may select only one.</p>
+  <br>Project ID:
+<select name="project">
+  <option value="" selected>ALL</option>
+  {% for proj in results %}
+    <option value="{{ proj  }}">{{ proj }}</option>
+  {% endfor %}
+</select>
+<input type="hidden" name="command" value="completelink">
+&nbsp;&nbsp;&nbsp;
+<input class="testbutton" type="submit" value="Select Project">
+</form>
+</div>
+{% endblock results%}
+
