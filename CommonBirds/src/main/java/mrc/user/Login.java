@@ -456,7 +456,7 @@ public class Login extends HttpServlet {
 		Page p = new Page("Login-loginForm");
 		this.cando = Menu.Null;
 		s.setAttribute("menutype", this.cando.toString());
-		log.info(HostInfo.tell()+": loginForm");
+		log.info("Login: loginForm: "+HostInfo.tell());
 		p.UserPage(out, "Welcome to "+HostInfo.tell()+" - Please Login.", s);
 	}
 }

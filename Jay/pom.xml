@@ -34,7 +34,11 @@
       <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
+    
+    
   </dependencies>
+
+  <!-- Below plugin pulls in web resources stuff from CommonBirds jar --> 
 
   <build>
     <finalName>Jay</finalName>
@@ -75,7 +79,7 @@
               <targetPath>/reports</targetPath>
             </resource>
 
-            <!-- Copy CSS files -->
+            <!-- Copy CSS files from CommonBirds -->
             <resource>
               <directory>../CommonBirds/src/main/resources/web/css</directory>
               <targetPath>/</targetPath>
@@ -84,7 +88,7 @@
               </includes>
             </resource>
             
-            <!-- Copy JavaScript files -->
+            <!-- Copy JavaScript files from CommonBirds -->
             <resource>
               <directory>../CommonBirds/src/main/resources/web/js</directory>
               <targetPath>/</targetPath>
@@ -97,5 +101,6 @@
 	</configuration>
       </plugin>
     </plugins>
-  </build>
+  </build>  
+
 </project>

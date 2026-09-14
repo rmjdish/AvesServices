@@ -1,5 +1,5 @@
 <!-- This is a Pebble Template which inherits from ... -->
-{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block results %}
 {# This is an example of a template which produces a table with 4 columns #}
 {# but only 3 of them come from the results vector supplied for the template #}

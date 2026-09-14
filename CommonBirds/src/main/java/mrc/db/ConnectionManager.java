@@ -19,12 +19,13 @@
 
 package mrc.db;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import java.sql.Connection;
@@ -71,7 +72,7 @@ public class ConnectionManager {
 	*/
 	public ConnectionManager() {
 		this.initialisePools();
-		propfile[0] = "/db.properties";   // default value
+		propfile[0] = "/mrc/db/db.properties";   // default value
 		poolID = 0; // default value
 	}
 
@@ -171,40 +172,52 @@ public class ConnectionManager {
       
       @returns indicated Connection object
     */
-    
     private Connection makeFish() throws Exception {
-	String url = null;
-	Connection fish = null;
-	try {
-	    String thispropf = mrc.util.Util.dnget(this) + this.getPropFile();
-	    // Need to get property file that corresponds to this connection pool
-	    log.fine(HostInfo.tell()+" makeFish: looking for properties @ "+thispropf);
-	    ResourceBundle bdl = new PropertyResourceBundle(
-							    new FileInputStream(thispropf));
-	    String username = bdl.getString("username");
-	    String password = bdl.getString("password");
-	    String hostname = bdl.getString("hostname");
-	    String vendor = bdl.getString("vendor");
-	    String port = bdl.getString("port");
-	    String instance = bdl.getString("instance");
-	    // Now get connection with the parameters 
-	    log.fine(HostInfo.tell()+" makeFish: username: "+username+" pw hash: "+password.hashCode());
-	    url = "jdbc:" + vendor + "://" + hostname + ":" + port + "/" + instance + extjdbcparms;
-	    log.fine(HostInfo.tell()+" makeFish: url: "+url);
-	    fish = DriverManager.getConnection(url, username, password);
-	} catch (FileNotFoundException e) {
-	    log.severe(HostInfo.tell() + " ConnectionManager: File not found Exception"+propfile[poolID]);
-	    e.printStackTrace();
-	    return null;
-	} catch (SQLException ex) {
-	    log.severe(HostInfo.tell() + " ConnectionManager: SQL Exception for "+url);
-	    log.severe(HostInfo.tell() + ex.getMessage());
-	    return null;
-	}
-	log.fine(HostInfo.tell()+" makeFish: Successful Connection.");
-	return fish;
-    }
-    
+        String url = null;
+        Connection fish = null;
+        try {
+            // 1. Get the property file path (e.g., "/mrc/db/db.properties")
+            String thispropf = this.getPropFile();
+            
+            // 2. Ensure it has a leading slash for absolute classpath lookup
+            String resourcePath = thispropf.startsWith("/") ? thispropf : "/" + thispropf;
+            
+            log.fine(HostInfo.tell() + " makeFish: looking for properties in classpath @ " + resourcePath);
+            
+            // 3. Load as a stream from the classpath (works for both loose files and JARs)
+            try (InputStream is = ConnectionManager.class.getResourceAsStream(resourcePath)) {
+                if (is == null) {
+                    // This deliberately throws FileNotFoundException to trigger your existing catch block
+                    throw new FileNotFoundException("Classpath resource not found: " + resourcePath);
+                }
+                
+                ResourceBundle bdl = new PropertyResourceBundle(is);
+                String username = bdl.getString("username");
+                String password = bdl.getString("password");
+                String hostname = bdl.getString("hostname");
+                String vendor = bdl.getString("vendor");
+                String port = bdl.getString("port");
+                String instance = bdl.getString("instance");
+                
+                // Now get connection with the parameters 
+                log.fine(HostInfo.tell() + " makeFish: username: " + username + " pw hash: " + password.hashCode());
+                url = "jdbc:" + vendor + "://" + hostname + ":" + port + "/" + instance + extjdbcparms;
+                log.fine(HostInfo.tell() + " makeFish: url: " + url);
+                fish = DriverManager.getConnection(url, username, password);
+            } // InputStream is automatically closed here
+            
+        } catch (FileNotFoundException e) {
+            log.severe(HostInfo.tell() + " ConnectionManager: File not found Exception " + propfile[poolID]);
+            //e.printStackTrace();
+            return null;
+        } catch (SQLException ex) {
+            log.severe(HostInfo.tell() + " ConnectionManager: SQL Exception for " + url);
+            log.severe(HostInfo.tell() + ex.getMessage());
+            return null;
+        }
+        log.fine(HostInfo.tell() + " makeFish: Successful Connection.");
+        return fish;
+    }    
     /**
        @brief Returns conneciton to the pool
        throwBack returns a used Connection object to a pool of

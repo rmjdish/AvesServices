@@ -30,14 +30,9 @@ public final class HostInfo extends Announce {
      * 	Sets the name of this program to instance variable verString
      *
      */
-    public void sethost() {
-    	verString = "Jay 4.0";
-    }
 
     public static String tell() {
-    	HostInfo me = new HostInfo();
-    	me.sethost();
-    	return verString;
+    	return "Jay";
     }
 
 }

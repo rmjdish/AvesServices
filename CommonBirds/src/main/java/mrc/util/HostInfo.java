@@ -19,6 +19,9 @@
 
 package mrc.util;
 
+import java.util.logging.Logger;
+
+
 /* Class: HostInfo
  * 	Returns information about this version of Condor/Swift
  *
@@ -30,10 +33,20 @@ public final class HostInfo extends Announce {
      * 	Sets the name of this program to instance variable verString
      *
      */
+    private static final Logger log = Logger.getLogger("mrc.user");
 
 
     public HostInfo(String me) {
 	verString = me;
     }
 
+    public static String tell() {
+	String iam = HostInfo.chezmoi();
+	log.info("HostInfo.tell(): chezmoi returned: "+iam);
+	if (iam.contains("finch")) {
+	    return "Condor";
+	} else {
+	    return "Jay";
+	}
+    }
 }

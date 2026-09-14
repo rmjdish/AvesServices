@@ -1,9 +1,0 @@
-<!-- This is a Pebble Template which inherits from ... -->
-{% extends "Login-adminUserPage" %} 
-{% block results %}
-{% include "oneverypage" %}
-<div class="results">
-	<h2>{{ title }}</h2>
-	<p>{{ message }}</p>
-</div>
-{% endblock %}

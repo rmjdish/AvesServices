@@ -1,0 +1,79 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %} 
+{% block results %} 
+{% include "oneverypage" %}
+<div class="results">
+    {% set numTags = 11 %}
+	<h2>{{ title }}</h2>
+	
+<script type='text/javascript'>
+function masterCheck( btn, ca, ua )
+{
+var elems = btn.form.elements, state = (btn.value == ca);
+for( var i = 0, len = elems.length; i < len; i++ )
+  if( elems[ i ].type && elems[ i ].type=='checkbox' )
+    elems[ i ].checked = state; 
+  btn.value = state ? ua : ca;
+}
+</script>
+	
+<form name="updateprojects"
+      onsubmit="return validateUpdateProjectsForm(this)"
+      action="projects"
+      method="post" 
+      target="_self"
+      >
+      &nbsp;&nbsp;&nbsp;
+      <input class="testbutton" type="button" name="checkall" value="Check ALL"	onClick="masterCheck(this, 'Check ALL', 'Uncheck ALL')">
+		&nbsp;&nbsp;&nbsp;
+	  <input class="testbutton" type="submit" value="Update">
+      
+   <input name="command" type="hidden" value="multupdate">
+     <p>There are {{results | length / numCols }} projects(s) available to update.</p>
+     <hr>
+   	<table>
+		<tr>
+			<th style="width: 5%;" class="skip-filter">Form ID</th>
+			<th style="width: 5%;">Project ID</th>
+			<th style="width: 5%;" class="skip-filter">Applicant</th>
+			<th style="width: 5%;" class="skip-filter">Coapplicant</th>
+			<!-- <th style="width: 5%;">Further Applicants</th> too long -->
+			<th style="width: 15%;" class="skip-filter">Title</th>
+			<th style="width: 5%;" class="skip-filter">Start</th>
+			<th style="width: 5%;" class="skip-filter">End</th>
+			<!-- <th style="width: 20%;">Description</th> too long -->
+			<!-- <th style="width: 20%;">Summary</th> too long -->
+			<th style="width: 5%;" class="skip-filter">Submitted</th>
+			<th style="width: 5%;" class="skip-filter">Update?</th>
+		</tr>
+		{% for val in results %} 
+		  {% if (loop.index+1 ) % numCols equals  1 %}
+		    <tr><td>{{val}}</td>
+		  {% elseif (loop.index+1) % numCols equals 2 %}
+		    {% set thisproj = val %}
+		    <td>{{val}}</td>
+		  {% elseif (loop.index+1) %numCols equals 5 %} <!-- Further Applicants is too long so skip -->
+		  
+		  {% elseif (loop.index+1) % numCols equals 6 %}
+		    <input type="hidden" name="titles[]" value="{{val}}">
+		    <td>{{val}}</td>
+		  {% elseif (loop.index+1) %numCols equals 9 %} <!-- Description is too long so skip -->
+		  
+		  {% elseif (loop.index+1) %numCols equals 10 %} <!-- Summary is too long so skip -->
+		  
+      	  {% elseif (loop.index+1 ) % numCols equals 0 %}
+		    <td>{{ val }}</td>
+		    <td><input type="checkbox" name="projects[]" value="{{thisproj}}"></td>
+		    </tr>
+		  {% else %}
+		    {% if val|trim|length > 1000%} <td style="width: 50%">{{val | trim | slice(0,1000)}}{% else %}<td>{{val|trim}}{%endif%}</td>
+		  {% endif %}
+	        {% else %} {# results is empty #}
+	          <tr>
+	          <td>There are no projects to publish.</td>
+	          </tr>
+	        {% endfor %} 
+</table>
+</div>
+{% endblock results%}
+

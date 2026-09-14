@@ -16,8 +16,10 @@
     <https://www.gnu.org/licenses/>.
 
 */
-
 package mrc.util;
+
+import java.util.logging.Logger;
+
 
 /**
  * @author philc
@@ -26,6 +28,7 @@ package mrc.util;
 public abstract class Announce {
     protected static String verString = "Common Birds";
     protected static String iAm = "Unknown Host";
+    private static final Logger log = Logger.getLogger("mrc.user");
 
     
     /*
@@ -47,21 +50,34 @@ public abstract class Announce {
      * Returns:
      * 	urlString in lower case!
      */
-    public static String chezmoi() {
-        String os = System.getProperty("os.name").toLowerCase();
-		if (os.contains("win")) {
-			// System.getenv can return null so beware!
-			String name = System.getenv("COMPUTERNAME");
-			if (name != null) {
-				iAm = name;
-			}
-		} else if (os.contains("nix") || os.contains("nux") || os.contains("mac os x")) {
-			String name = System.getenv("HOSTNAME");
-			if (name != null) {
-				iAm = name;
-			}
-		}
-    	return iAm.toLowerCase();
-    }
 
+    public static String chezmoi() {
+	String os = System.getProperty("os.name").toLowerCase();
+	String name = null;
+
+	if (os.contains("win")) {
+	    name = System.getenv("COMPUTERNAME");
+	} else {
+	    // 1. Try environment variable first
+	    name = System.getenv("HOSTNAME");
+        
+	    // 2. Fallback to JVM MXBean if HOSTNAME is null
+	    if (name == null || name.isEmpty()) {
+		String jvmName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName();
+		if (jvmName != null && jvmName.contains("@")) {
+		    name = jvmName.split("@")[1];
+		}
+	    }
+	}
+
+	if (name != null) {
+	    iAm = name.toLowerCase();
+	    //log.info("Resolved Host Name: " + iAm);
+	} else {
+	    log.warning("Could not determine hostname, defaulting to 'Unknown Host'");
+	}
+    
+	return iAm;
+    }
+    
 }

@@ -1,4 +1,4 @@
-{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% extends "JAY" %}
 {% block results %}
 <div class="results">
 {% include "oneverypage" %}
@@ -23,15 +23,15 @@ for( var i = 0, len = elems.length; i < len; i++ )
 		&nbsp;&nbsp;&nbsp;<input class="testbutton" type="submit"
 			value="Multiple Add">
 		{% if results is not empty %}
-		<table style="table-layout: fixed; width: 100%;">
+		<table>
 			<tr>
-				<th class="results skip-filter" style="width: 30%; word-wrap: break-word;">Dataset Name</th>
-				<th class="results skip-filter" style="width: 30%; word-wrap: break-word;">Description</b></th>
-				<th class="results skip-filter" style="width: 15%; word-wrap: break-word;">Tags</th>
-				<th class="results skip-filter" style="width: 5%;">Last Updated</th>
-				<th class="results skip-filter" style="width: 5%;">Year</th>
-				<th class="results skip-filter" style="width: 5%;">N</th>
-				<th class="results skip-filter" style="width: 5%;">Select?</th>
+				<th style="width: 30%;">Dataset Name</th>
+				<th style="width: 30%;">Description</b></th>
+				<th style="width: 15%;">Tags</th>
+				<th style="width: 5%;">Last Updated</th>
+				<th style="width: 5%;">Year</th>
+				<th style="width: 5%;">N</th>
+				<th style="width: 5%;">Select?</th>
 			</tr>
 
 			{# There are 6 columns of data supplied but 7 columns on the page #}
@@ -48,7 +48,7 @@ for( var i = 0, len = elems.length; i < len; i++ )
 					<td style="width: 30%">{{ val }}</td> 
 				{% else	%} 
 				{# this is used for the rest of the columns #}
-					<td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap">{{ val }}</td> 
+					<td>{{ val }}</td> 
 				{% endif %} {# end of if (loop.index...) #} 
 			{% endfor %} 
 			{# end of for val in results #}

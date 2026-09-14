@@ -1,5 +1,0 @@
-{% if username is not empty %}
-
-<!-- <p style="color:maroon;font-size:110%;text-align:center;line-height: 70%;">User Name: {{ username }} Type: {{ menu }}</p> -->
-{% endif %}
-

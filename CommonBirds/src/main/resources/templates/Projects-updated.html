@@ -1,0 +1,39 @@
+{% extends "JAY" %}
+
+{% block results %}
+<div class="results">
+{% include "oneverypage" %}
+<h2>{{ title }}</h2>
+
+
+	<p>The following {{ numResults }} project attributes have been updated.</p>
+		{% if results is not empty %}
+
+		<table>
+			<tr>
+				<th>Project ID</th>
+				<th>Code</th>
+				<th>Status</th>
+			</tr>
+			{# There are 3 columns of data supplied on the page #}
+			{% for val in results %} 
+				{% if (loop.index + 1) % numCols equals 0 %}
+					<td>{{ val }}</td>
+					</tr>
+				{% elseif (loop.index + 1) % numCols equals 1 %} 
+					<tr>
+					<td>{{ val | trim}}</td>
+				{% else %}
+				    <td>{{ val | trim}}</td>
+				{% endif %} {# end of if (loop.index...) #} 
+			{% endfor %} 
+			{# end of for val in results #}
+		</table>
+		{% else %} {# results is empty #}
+		   <p>No projects have been updated.</p>
+		{% endif %} {# end of if results is not empty #}
+</div>
+{% endblock results %}
+
+
+

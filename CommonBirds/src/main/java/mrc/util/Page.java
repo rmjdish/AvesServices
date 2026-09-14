@@ -162,6 +162,8 @@ public class Page
         if (session != null) {  // Check session is still valid
             GenerateTemplate tplate = createGenerateTemplate(session.getServletContext());   
             Map<String, Object> context = new HashMap<>();
+	    //log.info("Page: extendPageContext: Host name: "+HostInfo.chezmoi());
+	    //log.info("Page: extendPageContext: swiftVersion: "+HostInfo.tell());
             context.put("hostname", HostInfo.chezmoi());
             if (session.getAttribute("menutype") != null) {
                 context.put("menu", session.getAttribute("menutype").toString());
@@ -393,6 +395,8 @@ public class Page
         if (session != null) {  // Check session is still valid
             GenerateTemplate tplate = createGenerateTemplate(session.getServletContext());   
             Map<String, Object> context = new HashMap<>();
+	    //log.info("Page: UserPage: Host name: "+HostInfo.chezmoi());
+	    //log.info("Page: UserPage: swiftVersion: "+HostInfo.tell());
             context.put("hostname", HostInfo.chezmoi());
             if (session.getAttribute("menutype") != null) {
                 context.put("menu", session.getAttribute("menutype").toString());

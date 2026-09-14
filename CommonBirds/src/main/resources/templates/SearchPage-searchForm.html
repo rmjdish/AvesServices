@@ -1,4 +1,4 @@
-{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 
 {% block results %}
 <h2>NSHD Search</h2>

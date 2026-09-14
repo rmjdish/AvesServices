@@ -1,5 +1,5 @@
 <!-- This is a Pebble Template which inherits from ... -->
-{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block swiftmenu %}
 <ul id="menu-bar">
 <li><a href="index.html" title="Home"><span>&nbsp;</span>Home</a></li>

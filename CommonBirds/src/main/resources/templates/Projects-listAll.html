@@ -1,0 +1,45 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %} 
+{% block results %} 
+{% include "oneverypage" %}
+<div class="results">
+    {% set numTags = 11 %}
+	<h2>{{ title }}</h2>
+	
+     <p>There are {{results | length / numCols }} approved projects(s).</p>
+     <hr>
+   	<table>
+		<tr>
+			<th style="width:10%">Project ID</th>
+			<th style="width:10%" class="skip-filter">Applicant</th>
+			<th style="width:10%" class="skip-filter">Coapplicant</th>
+			<th style="width:15%" class="skip-filter">Title</th>
+			<th style="width:7%" class="skip-filter">Start</th>
+			<th style="width:8%" class="skip-filter">End</th>
+			<th style="width:30%" class="skip-filter">Summary</th>
+			<th style="width:10%" class="skip-filter">Submitted</th>
+		</tr>
+		{% for val in results %} 
+		  {% if (loop.index+1 ) % numCols equals  1 %} <!-- Form ID ignore this but start new row -->
+		    <tr>
+		  {% elseif (loop.index+1) % numCols equals 2 %}<!-- Project ID so start printing -->
+		    <td><a href="projects?command=moreinfo&pid={{val}}">{{ val }}</a></td>
+		  {% elseif (loop.index+1) % numCols equals 5 %} <!-- Further Applicants skip -->
+		    
+		  {% elseif (loop.index+1) %numCols equals 9 %} <!-- Description is confidential so skip -->
+		  
+	      {% elseif (loop.index+1 ) % numCols equals 0 %} <!-- last (11th) field to print -->
+		    <td>{{ val }}</td>
+		    </tr>
+		  {% else %}
+		    {% if val|trim|length > 1000%} <td style="width: 50%">{{val | trim | slice(0,1000)}}{% else %}<td>{{val|trim}}{%endif%}</td>
+		  {% endif %}
+	        {% else %} {# results is empty #}
+	          <tr>
+	          <td>There are no projects to publish.</td>
+	          </tr>
+	        {% endfor %} 
+</table>
+</div>
+{% endblock results%}
+

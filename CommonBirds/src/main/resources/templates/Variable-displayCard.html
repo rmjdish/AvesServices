@@ -1,4 +1,4 @@
-{% extends swiftVersion|slice(0,6) == "Condor" ? "SKYLARK" : "SWIFT" %}
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 
 {# This one gets called from the variable.java class and has a bit more info to display than most templates #}
 {# There are extra context items thrown at this: documents, freqdesc, catlabs, and valuelabs #}
