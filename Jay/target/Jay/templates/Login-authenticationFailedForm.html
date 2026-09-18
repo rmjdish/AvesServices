@@ -1,0 +1,59 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "Login-loginForm" %}
+{% block swiftmenu %}
+<tr>
+	<td>
+		<ul id="menu-bar">
+			<li class="active"><a href="index.html">Home</a></li>
+		</ul>
+	</td>
+</tr>
+{% endblock %}
+{% block results %}
+<div class="results">
+<form target="_self"
+      enctype="application/x-www-form-urlencoded"
+      method="post"
+      action="login"
+      name="input"
+      id="loginForm"
+      onsubmit="return validateLoginForm(this)"
+      >
+      <h2>Login Failed</h2>
+	<table>
+		<tr>
+			<td style="width: 10em"><h2 style="font-size: 150%">{{ swiftVersion }} Login</h2></td>
+			<td style="width: 80em"><p style="font-size: 125%">{{ title }}.</p></td>
+		</tr>
+		<tr>
+			<td style="font-size: 125%">Username:</td>
+			<td style="width: 80em"><input name="username" type="text" size="20" maxlength="20"></td>
+		</tr>
+		<tr>
+			<td style="font-size: 125%">Password:</td>
+			<td style="font-size: 125%"><input type="password"	name="password" size="20" maxlength="20"> *</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>* Note: All passwords are case-sensitive.</td>
+		</tr>
+	</table>
+	<p><button class="testbutton" type="submit">Login</button></p>
+{% if hostname | lower equals "finch" %}
+	<div class="g-recaptcha" data-sitekey="6LcTunkUAAAAABdHlNMojJ6IUhtTHN-HWezlnh70"></div>
+{% elseif hostname | lower equals "kiwidev" %}
+	<div class="g-recaptcha" data-sitekey="6LeBf3kUAAAAADU7T5AROQx9hj8LLJYke6i58Fqd"></div>
+{% endif %}
+
+</form>
+<br>
+<hr>
+<p style="color: purple; font-size: 115%;">
+	If you have forgotten your username and password you can request help
+	by sending an email to MRCLHA.SwiftInfo@ucl.ac.uk including the email
+	address you gave when you registered, or by clicking <a
+		href="mailto:MRCLHA.SwiftInfo@ucl.ac.uk?subject=Swift Password Forgotten">here.</a>
+</p>
+</div>
+{% endblock %}
+

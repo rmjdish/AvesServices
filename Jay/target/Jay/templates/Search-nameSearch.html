@@ -1,0 +1,23 @@
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+
+{% block results %}
+<div class="results">
+{% include "oneverypage" %}
+<h2>NSHD Variable Name Search</h2>
+<form name="input"
+      onsubmit="return validateSearchForm(this)"
+      action="search"
+      method="post"
+      target="_self">
+  <br>Variable name(s):
+  <input type="text" name="term" size="40" maxlength="60">*
+  <input type="hidden" name="type" value="n">
+  &nbsp;&nbsp;&nbsp;
+  <input class="testbutton" type="submit" value="Search">
+</form>
+<p>* Multiple <font color=red>space or comma delimited</font> variables
+  can be added, eg, SEX CHIL A11R57</p>
+
+</div>
+{% endblock %}
+

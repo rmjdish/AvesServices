@@ -1,0 +1,25 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %} 
+{% include "oneverypage" %}
+<div class="results">
+	<h2>{{ title }}</h2>
+
+
+	<form name="input" onsubmit="return validateEnquiryForm(this)"
+		action="emailEnquiry" method="post" target="_self">
+		<br>Your Name: <input type="text" name="name" size="40" maxlength="255"> 
+		<br>Subject:   <input type="test" name="subject" size="40" maxlength="80">
+		<br>Enquiry Type: 
+		<select name="enquiryType">
+			<option value="" selected>ALL</option> 
+			{% for lib in enqTypes %}
+				<option value="{{ lib  }}">{{ lib }}</option> 
+			{% endfor %}
+		</select> 
+		<input type="hidden" name="type" value="l">&nbsp;&nbsp;&nbsp; 
+		<input class="testbutton" type="submit"	value="search">
+	</form>
+</div>
+{% endblock results%}
+

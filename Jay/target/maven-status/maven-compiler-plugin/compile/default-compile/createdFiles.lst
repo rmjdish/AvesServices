@@ -1,12 +1,1 @@
-jay/core/Applicants.class
-jay/core/package-info.class
-jay/core/Forms$Headers.class
-jay/core/Scramble.class
-jay/core/Projects.class
-jay/core/Reports.class
-jay/core/Status.class
-jay/core/Forms.class
-jay/core/Datasets.class
-mrc/util/HostInfo.class
-jay/core/JayBasket.class
-jay/core/Progress.class
+mrc\util\HostInfo.class

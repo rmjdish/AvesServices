@@ -1,0 +1,51 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{# This is an example of a template which produces a table with 4 columns #}
+{# but only 3 of them come from the results vector supplied for the template #}
+{% include "oneverypage" %}
+<script>
+$(document).ready(function(){
+$('table').ddTableFilter();
+});
+</script>
+
+<div class="results">
+	<h2>{{ title }}</h2>
+{% if results is not empty %}
+<p>There are {{ results | length }} shared baskets to view.</p>
+	<table>
+		<tr>
+			<th style="width: 10%;">User</th> {# Column 1 #}
+			<th class="skip-filter" style="width: 15%;">Basket ID</th> {# Column 2 #}
+			<th class="skip-filter" style="width: 20%;">Description</th> {# Column 3#}
+			<th class="skip-filter" style="width: 5%;">Load?</th> {# Column 4 #}
+		</tr>
+
+	{% for val in results %} 
+		{# Looping over all elements of results #} 
+		{% if loop.index % numCols equals 0 %} 
+		{# loop.index is 0 or an exact multiple of numCols then this is the username field #}
+			<tr>
+			<td>{{ val }}</td> 
+		{% elseif loop.index % numCols equals 1 %} 
+			{# loop.index is 1 so this should be the Basket Id field #} 
+			{% set thisbasket = val %} 
+			{# this is necessary because the basket id preceeds the label #}
+			<td>{{ val }}</a></td> 
+		{% elseif loop.index % numCols equals 2 %} 
+			{# loop.index is 2 so this is the Description field #}
+			<td>{{ val }}</td> {# Basket Description Field #} 
+			{# Put in final column offering chance to select for loading #}
+			<td><a href="loadBasket?basketID={{ thisbasket }}&id={{sessionID}}" style="font-size:1.5em">&#x2714;</a></td>
+			</tr>
+			{# Throw end of row at this point #} 
+		{% endif %} 
+	{% endfor %}
+	</tr>
+	</table>
+{% else %}
+	<p>There are no baskets to list.</p>
+{% endif %}
+</div>
+{% endblock results %}

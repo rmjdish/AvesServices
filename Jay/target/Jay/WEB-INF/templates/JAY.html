@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<!-- This is JAY.html a Pebble Template which is extensively used by other subtemplates -->
+{% set wikihome = "https://skylark.ucl.ac.uk/NSHD/" %}
+<html template="true" lang="en">
+{% block header %}
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>Jay</title>
+<meta http-equiv="Content-Type" content="text/html;"
+	charset="iso-8859-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- This is the top level Pebble template that will be 'inherited' by other templates -->
+<link rel="stylesheet" media="only screen" href="SWIFT15.css" type="text/css">
+<link rel="stylesheet" media="only print" href="JAYPRINT.css" type="text/css">
+<script src="FormValidation.js"></script>
+<script src="Help.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="ddtf.js"></script>
+<!-- Table Filter Script Next -->
+<script>
+$(document).ready(function(){
+$('table').ddTableFilter();
+});
+</script>
+ 
+</head>
+{% endblock header %}
+<body>
+  <header>
+    <table>
+      <tbody>
+	{% block banner %}
+	<tr>
+	  <td>
+	    <div class="banner">
+	      <img src="Jay.jpg" alt="a jay in flight" height="70" width="55" />&nbsp;&nbsp;&nbsp;
+	      <h1>&nbsp;&nbsp;&nbsp;MRC National Survey of Health and Development</h1>
+	    </div>
+	  </td>
+	</tr>
+	{% endblock banner %} 
+	{% block swiftmenu %}
+	<tr>
+	  <form action="forms" onsubmit="return validateSearchForm(this)"
+		method="post">
+	    <td>
+	      <ul id="menu-bar">
+		{% if menu | upper equals "EXTERNAL" %}
+		<li><a href="#">Projects</a>
+		  <ul>
+		    <li><a href="projects?id={{sessionID}}&command=list">List Approved</a></li>
+		  </ul>
+		</li>
+		<li><a href="#">More...</a>
+		  <ul>
+		    <li><a href="logout?id={{sessionID}}">Logout</a></li>
+		  </ul>
+		</li>
+		<li>									
+		</li>
+	      </ul> <!-- </nav> Paired with nav above -->
+
+{% elseif menu | upper equals "INTERNAL" %}
+<li><a href="#">Projects</a>
+  <ul>
+    <li><a href="projects?id={{sessionID}}&command=list">List Approved</a></li>
+  </ul>
+</li>
+<li><a href="#">Reports</a>
+  <ul>
+    <li><a href="projects?id={{sessionID}}&command=list">List Approved</a></li>
+  </ul>
+</li>
+
+<li><a href="#">More...</a>
+  <ul>
+    <li><a href="logout?id={{sessionID}}">Logout</a></li>
+  </ul>
+</li>
+<li><input name="term" type="text" placeholder="Search..." />
+  <input name="command" type="hidden" value="keyword" />
+</li>
+<li>
+  
+</li>
+</ul> <!-- </nav> Paired with nav above -->
+
+{% elseif menu | upper equals "DSG" %}
+<li><a href="#">Forms</a>
+  <ul>
+    <li><a href="forms?id={{sessionID}}&command=ingest">Ingest</a></li>
+    <li><a href="forms?id={{sessionID}}&command=approve">Approve</a></li>
+  </ul>
+</li>
+<li><a href="#">Projects</a>
+  <ul>
+    <li><a href="projects?id={{sessionID}}&command=details">Amend Details</a></li>
+    <li><a href="projects?id={{sessionID}}&command=publish">Publish to Wiki</a></li>
+    <li><a href="projects?id={{sessionID}}&command=status">Update Status</a></li>
+    <li><a href="projects?id={{sessionID}}&command=list">List Approved</a></li>
+  </ul>
+</li>
+<li><a href="#">Scrambling</a>
+  <ul>
+    <li><a href="scramble?id={{sessionID}}&command=newcode">Create Scramble Code</a></li>
+    <li><a href="scramble?id={{sessionID}}&command=existingcode">Assign Existing Code</a></li>
+    <li><a href="scramble?id={{sessionID}}&command=scramble">Scramble Dataset</a></li>
+    <li><a href="scramble?id={{sessionID}}&command=download">Download Scrambled Dataset</a></li>
+  </ul>
+</li>
+<li><a href="#">Baskets</a>
+  <ul>
+    <li><a href="jaybaskets?id={{sessionID}}&command=link">Link Basket</a></li>
+    <li><a href="jaybaskets?id={{sessionID}}&command=check">Check Basket</a></li>
+    <li><a href="jaybaskets?id={{sessionID}}&command=build">Build Basket</a></li>
+    <li><a href="filedownload?id={{sessionID}}&command={{ menu }}">Download Dataset</a></li>
+  </ul>
+</li>
+<li><a href="#">Reports</a>
+  <ul>
+    <li><a href="reports?id={{sessionID}}&select=specificproject">Specific Project</a></li>
+    <li><a href="reports?id={{sessionID}}&select=allactive">All Active Projects</a></li>
+    <li><a href="reports?id={{sessionID}}&select=cloggers">No Recent Activity</a></li>
+    <li><a href="reports?id={{sessionID}}&select=hyperactives">Very Recent Activity</a></li>
+    <li><a href="reports?id={{sessionID}}&select=scramblers">Ready To Release Datasets</a></li>
+    <li><a href="reports?id={{sessionID}}&select=expirers">Projects About To Expire</a></li>
+    <li><a href="reports?id={{sessionID}}&select=finished">Finished Projects</a></li>
+  </ul>
+</li>
+
+<li><a href="#">More...</a>
+  <ul>
+    <li><a href="logout?id={{sessionID}}">Logout</a></li>
+  </ul>
+</li>
+<li><input name="term" type="text" placeholder="Search..." />
+  <input name="command" type="hidden" value="keyword" />
+</li>
+<li>
+  
+</li>
+</ul> <!-- </nav> Paired with nav above -->
+
+{% else %}
+<li class="active"><a href="index.html">Home</a></li> 
+{% endif %}
+</ul> 
+</td>
+</form>
+</tr>
+{% endblock swiftmenu %}
+</tbody>
+</table>
+</header>
+<div class="results">
+  {% block results %}
+  <p style="margin: 5%; font-size: 150%;">Welcome to Jay the
+    data sharing information system for the NSHD Data Repository.</p>
+  <p style="margin: 5%; font-size: 110%;">Please report any problems
+    by email to MRCLHA.SwiftInfo@ucl.ac.uk.</p>
+  {% endblock results %}
+</div>
+<footer> 
+  {% block footer %}
+  <table>
+    <tr>
+      <td>
+	<center>
+	  <b>Problems?</b>
+	  <a href="mailto:MRCLHA.Swiftinfo@ucl.ac.uk">Contact LHA</a>
+	  <br>Version: {{ swiftVersion }}
+	</center>
+      </td>
+    </tr>
+  </table>			 
+  {% endblock footer %} 
+</footer>
+</body>
+</html>
+

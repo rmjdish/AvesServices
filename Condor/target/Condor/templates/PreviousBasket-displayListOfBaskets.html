@@ -1,0 +1,40 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{# This is an example of a template which produces a table with 4 columns #}
+{# but only 2 of them come from the results vector supplied for the template #}
+
+<div class="results">
+{% include "oneverypage" %}
+<h2>{{ title }}</h2>
+{% if results is not empty %}
+  <table>
+    <tr>
+      <th style="width:20%">Basket ID</th> {# Column 1 #}
+      <th style="width:60%">Description</th> {# Column 2#}
+      <th style="width:10%">Share?</th> {# Column 3 #}
+      <th style="width:10%">Load?</th>  {# Column 4 #}
+    </tr>
+
+    {% for val in results %} {# Looping over all elements of results #}
+      {% if loop.index % numCols equals 1 %}
+        {# loop.index is 1 then this is the Description field #}
+        <td>{{ val }}</td>
+        {# Add the two final non results columns and finish the row #}
+        <td><a href="sharedBasket?command=new&basketID={{ thisbasket }}&id={{sessionID}}">+</a></td>
+        <td><a href="loadBasket?basketID={{ thisbasket }}&id={{sessionID}}">+</a></td>
+	    </tr> {# Throw end of row at this point #}
+      {% elseif loop.index % numCols equals 0 %}
+	    {# loop.index+1 is 0 or an exact multiple of numCols so this should be the Basket Id field #}
+	    {% set thisbasket = val %} {# this is necessary because the basket id preceeds the label #}
+	    <tr>
+	    <td><a href="previousBasket?basketID={{ val }}&id={{sessionID}}">{{ val }}</a></td>
+      {% endif %}
+    {% endfor %}
+
+  </table>
+{% else %}
+  <p>There are no baskets to list.</p>
+{% endif %}
+</div>
+{% endblock %}

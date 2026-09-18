@@ -1,0 +1,48 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{# This is an example of a template which produces a table with 2 columns #}
+{# but only one of them comes from the results vector #}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	{% if results is not empty %}
+		{% set numinbasket = results | length/2 %}
+		{% if numinbasket <= 250 %}
+		  <p style="color:darkgreen">You have {{ numinbasket }} variables in your basket.</p>
+		{% elseif numinbasket > 250 and numinbasket <= 500 %}
+		  <p style="color:orange">You have {{ numinbasket }} variables in your basket. <br> This number is within our recommended range, but please be aware that larger baskets entail more laborious risk assessment procedures.</p>
+		{% else %}
+		  <p style="color:red">You have {{ numinbasket }} variables in your basket. <br> This basket of variables will entail a more laborious, and therfore slower, risk assessment procedure before data can be released.<br>
+		  You may wish to assess whether all of these variables are absolutely necessary for your project.</p>
+		{% endif %}
+		
+	<table class="results" style="width: 50%">
+		<tr>
+			<th class="skip-filter" style="width: 15%">Variable</th>
+			<th class="skip-filter" style="width: 80%">Label</th>
+			<th class="skip-filter" style="width: 5%">Remove?</th>
+		</tr>
+
+		{% for val in results %}
+			{% if (loop.index + 2) is even %}
+				{% set vname = val %} <!-- val is variable name -->
+				<tr>
+				<td><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a></td>
+			{% else %}
+				<td>{{ val }}</td> <!-- val is variable label -->
+				<td><a href="basket?command=remove&name={{ vname }}">&#9986</a></td>
+				</tr>
+			{% endif %}
+		{% endfor %}
+		</tr>
+	</table>
+	<p>
+		To remove all variables from this basket <a
+			href="basket?command=removeAll">click here.</a>
+	</p>
+	{% else %}
+	<p>Your basket is empty.</p>
+	{% endif %}
+</div>
+{% endblock results %}

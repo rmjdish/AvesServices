@@ -1,0 +1,36 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "Login-adminUserPage" %}
+
+
+{% block results %}
+<div class="results">
+	<h2>{{ title }}</h2>
+	{% include "oneverypage" %} 
+	{% if results is not empty %} 
+		{% set candidate = results | slice(1,2) | first %}
+		<table>
+		{% for col in results %} 
+			{% if loop.index is even %}
+				<tr>
+					<td>{{ col }}</td> 
+			{% else %}
+					<td>{{ col }}</td>
+				</tr>
+			{% endif %} 
+		{% endfor %}
+		<tr>
+			<td><strong>Approve</strong></td>
+			<td><a href="approveUser?id={{ sessionID }}&user={{ candidate }}&approve=external">As External User</a>&nbsp;&nbsp;&nbsp; 
+				<a href="approveUser?id={{ sessionID }}&user={{ candidate }}&approve=internal">As Internal User</a></td>
+		</tr>
+		<tr>
+			<td><strong>Reject</strong></td>
+			<td><a href="approveUser?id={{ sessionID }}&user={{ candidate }}&approve=no">Yes</a></td>
+		</tr>
+		</table>
+
+	{% else %}
+		<p>There are no users awaiting approval to list.</p>
+	{% endif %}
+</div>
+{% endblock %}

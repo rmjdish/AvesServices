@@ -1,0 +1,24 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+<h2>{{ title }}</h2>
+
+<form name="ingestfile"
+      onsubmit="return validateChooseXMLFileForm(this)"
+      action="forms"
+      method="post"
+      enctype="multipart/form-data"
+      target="_self"
+      >
+  <p>Please select an XML file produced from the NSHD/SABRE <em>Data Application Request</em> online form.  It will be parsed and stored in the data sharing database.</p>
+
+	<input type="file" name="file" size="80"/>
+	<input type="hidden" name="command" value="ingestfile">
+	&nbsp;&nbsp;&nbsp;
+	<input class="testbutton" type="submit" value="Upload XML">
+</form>
+</div>
+{% endblock results%}
+

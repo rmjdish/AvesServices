@@ -1,0 +1,17 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+<div class="results">
+<h2>{{ title }}</h2>
+<p><b>NEWS: </b> Note new download procedures for internal users.</p>
+<p>From this page, you can:</p>
+<ul>
+  <li>Process metadata change requests from users</li>
+  <li>Manage seed allocation for external user scrambling</li>
+  <li>Manage and approve shopping baskets for approved projects</li>
+  <li>Build data sets for external users</li>
+</ul>
+<p>Please note that your Condor session will be timed out after 15 minutes of inactivity.  If this happens you need 
+to login again <b>and you will lose any selected variables that have not been saved in a basket</b>.</p>
+</div>
+ {% endblock %}

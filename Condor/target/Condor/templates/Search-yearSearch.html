@@ -1,0 +1,26 @@
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+<div class="results">
+{% include "oneverypage" %}
+<h2>Search</h2>
+<h3>Choose a year from the drop down list below.</h3>
+<form name="input"
+      onsubmit="return validateSearchForm(this)"
+      action="search"
+      method="post"
+      target="_self"
+      >
+  <br>Year:
+<select name="year">
+  <option value="" selected>ALL</option>
+  {% for year in studyYears %}
+    <option value="{{ year }}">{{ year }}</option>
+  {% endfor %}
+</select>
+<input type="hidden" name="type" value="y">
+&nbsp;&nbsp;&nbsp;
+<input class="testbutton" type="submit" value="Search">
+</form>
+</div>
+{% endblock %}
+

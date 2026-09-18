@@ -1,0 +1,11 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+	<h2>{{ title }}</h2>
+	<p>Your {{ basketId }} has been successfully added to the list of shared baskets</p>
+	<p>Please note that this will make it available to other users to view and load, but they cannot change it.</p>
+</div>
+{% endblock %}

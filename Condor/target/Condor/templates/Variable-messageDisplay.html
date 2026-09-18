@@ -1,0 +1,32 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>Basket Management</h2>
+	{% if results is empty %}
+	<p>There are no results to see here.</p>
+	{% else %}
+	<table>
+		<tr>
+			<th width="20%"><b>Variable Name</b></th>
+			<th width="80%"><b>Result</b></th>
+		</tr>
+
+		{% for val in results %} 
+			{% if (loop.index + 1) % numCols equals 0 %}
+			<!-- If loop index is whole multiple of numCols -->
+			<td>{{ val }}</td>
+			</tr>
+			{% else %}
+				<tr>
+				<td>{{ val }}</td>
+				<!-- Not multiple of numCols -->
+			{% endif %} 
+		{% endfor %}
+	</table>
+	{% endif %}
+</div>
+{% endblock results %}
+
+

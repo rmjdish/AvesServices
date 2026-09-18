@@ -203,6 +203,7 @@ public class ConnectionManager {
                 log.fine(HostInfo.tell() + " makeFish: username: " + username + " pw hash: " + password.hashCode());
                 url = "jdbc:" + vendor + "://" + hostname + ":" + port + "/" + instance + extjdbcparms;
                 log.fine(HostInfo.tell() + " makeFish: url: " + url);
+				Class.forName("com.mysql.cj.jdbc.Driver");
                 fish = DriverManager.getConnection(url, username, password);
             } // InputStream is automatically closed here
             

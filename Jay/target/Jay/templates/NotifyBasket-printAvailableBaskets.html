@@ -1,0 +1,43 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+
+{% block results %} 
+{% include "oneverypage" %}
+
+{# This is an example of a template which produces a table with 3 columns #} 
+{# but only 2 of them come from the results vector supplied for the template #} 
+
+<div class="results">
+	<h2>{{ title }}</h2>
+	{% if results is not empty %}
+	<table>
+		<tr>
+			<th style="width: 15%">Basket ID</th>   {# Column 1 #}
+			<th style="width: 40%">Description</th> {# Column 2 #}
+			<th style="width: 30%">Notify?</th>     {# Column 3 #}
+		</tr>
+
+		{% for val in results %} 
+		  {# Looping over all elements of results #} 
+		  {% if loop.index % numCols equals 0 %} 
+			  {# loop.index is 0 or an exact multiple of numCols then this is the basketID field #}
+			  <tr>
+		     {% set thisbasket = val %} 
+		     {# this is necessary because the basket id preceeds the description #}
+			 <td>{{ val }}</td> 
+		  {% elseif loop.index % numCols equals 1 %} 
+		    {# loop.index is 1 so this should be the description field #} 
+			<td>{{ val }}</a></td> 
+		    {# Put in final	column offering chance to select for notifying LHA #}
+			<td><a href="notifyBasket?command=post&basketID={{ thisbasket }}">Select</a></td>
+		  	</tr>
+		  	{# Throw end of row at this point #} 
+		  {% endif %} 
+		{% endfor %}
+		</tr>
+	</table>
+	{% else %}
+		<p>There are no baskets to list.</p>
+	{% endif %}
+</div>
+{% endblock results %}
