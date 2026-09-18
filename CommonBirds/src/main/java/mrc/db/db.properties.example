@@ -1,7 +1,7 @@
 # Properties File for Swift/Skylark mrc.dbage
 # CTU IT Support have created a DBA account for use by LHA with limited privileges on the Pegasus instance.
-username=DBA
-password=!$75R<k19>
+username=CHANGE ME
+password=CHANGE ME
 hostname=localhost
 vendor=mysql
 port=3306
