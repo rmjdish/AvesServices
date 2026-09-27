@@ -52,7 +52,23 @@ public class ConnectDB {
 	private static final Logger log = Logger.getLogger("mrc.db");
 	// private static ConnectionManager simp = new ConnectionManager(0);
 	private static ConnectionManager cmgr = new ConnectionManager();
-	private static Connection curcon;
+	// curcon and every CallableStatement field below were previously
+	// declared static, meaning every ConnectDB instance across the
+	// entire application - every thread, every concurrent request -
+	// shared the exact same connection and the exact same prepared
+	// statements. Under Tomcat's multi-threaded request handling, one
+	// thread's release() (called at the end of a batch query, e.g.
+	// OwlAvailability.checkAvailable()) could null out curcon between
+	// another concurrent thread's capture() and its own query,
+	// producing exactly the NullPointerException seen in production
+	// ("Cannot invoke java.sql.Connection.setAutoCommit(boolean)
+	// because mrc.db.ConnectDB.curcon is null"). Now instance fields,
+	// so each ConnectDB object has its own independent connection and
+	// statements, eliminating the race entirely. No other code in this
+	// class needed to change: every method that uses these fields is
+	// itself an instance method, so the same unqualified field
+	// references now correctly resolve per-instance.
+	private Connection curcon;
 	private int poolnumber = 0;
 	private static final String spit =             "{ call Spit(?,?,?) }";
 	private static final String indexSearch =      "{ call indexSearch(?,?) }";
@@ -64,15 +80,15 @@ public class ConnectDB {
 	private static final String categorySearch =   "{ call categorySearch(?,?) }";
 	private static final String basketFormCheck =  "{ call jay.i46_basket_form_check(?) }";
 
-	private static CallableStatement spitcall;
-	private static CallableStatement indexSearchcall;
-	private static CallableStatement nameSearchcall;
-	private static CallableStatement indexSearchUnioncall;
-	private static CallableStatement librarySearchcall;
-	private static CallableStatement topicSearchcall;
-	private static CallableStatement yearSearchcall;	
-	private static CallableStatement categorySearchcall;	
-	private static CallableStatement basketFormCheckcall;
+	private CallableStatement spitcall;
+	private CallableStatement indexSearchcall;
+	private CallableStatement nameSearchcall;
+	private CallableStatement indexSearchUnioncall;
+	private CallableStatement librarySearchcall;
+	private CallableStatement topicSearchcall;
+	private CallableStatement yearSearchcall;	
+	private CallableStatement categorySearchcall;	
+	private CallableStatement basketFormCheckcall;
 	
 
 	/*

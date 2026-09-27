@@ -2,28 +2,28 @@
 {% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block results %}
 {% include "oneverypage" %}
-<div class="results">
-<h2>NSHD Key Word Search</h2>
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+<div class="help-header">
+  <h2>NSHD Key Word Search</h2>
+  <p>Search by keyword or Showcase category labels.</p>
+</div>
 <form name="input"
       onsubmit="return validateSearchForm(this)" 
       action="search"
       method="post" 
       target="_self">
-   <p>You can search by keyword or Showcase category labels<p>
-   <br>Keyword:
-   <input type="text"
-      	  name="term"
-      	  size="40"
-      	  maxlength="60">*
-   <input type=checkbox
-      	  name="soundex">Soundex?
-   <input type="hidden"
-   	  name="type"
-	  value="k">
-   &nbsp;&nbsp;&nbsp;
-   <br>
-   <input class="testbutton" type="submit"
-   	  value="Search">
+  <div class="owl-form-card">
+    <label for="owlKeyTerm">Keyword</label>
+    <input id="owlKeyTerm" type="text" name="term" maxlength="60">
+    <div style="margin-top:8px;font-size:13px;color:#3a0066;">
+      <label style="display:inline;font-weight:normal;"><input type="checkbox" name="soundex" style="width:auto;margin-right:6px;">Soundex?</label>
+    </div>
+    <input type="hidden" name="type" value="k">
+    <button class="owl-submit-button" type="submit" style="margin-top:10px;">Search</button>
+  </div>
 </form>
 </div>
 {% endblock results %}

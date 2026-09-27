@@ -14,7 +14,7 @@ public final class HostInfo extends Announce {
      *
      */
     public static void sethost() {
-    	verString = "Condor 3.1";
+    	verString = "Condor 4.0";
     }
     
     public static String tell() {

@@ -1,0 +1,136 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results">
+<div class="help-page">
+
+  <div class="help-main">
+    <div class="help-header">
+      <h2>Search help</h2>
+      <p>Four ways to find data, depending on what you already know.
+      Pick a section below to jump straight into that search.</p>
+    </div>
+
+    <div class="help-cards">
+
+      <div class="help-card" id="category">
+        <div class="help-card-label">By category</div>
+        <p>Browse the full category tree and expand or collapse
+        branches to find the section you need. Parent categories may
+        show zero items themselves &mdash; expand them to see the item
+        totals for their subcategories. Currently selected categories
+        are marked with a black bar to the left of the label. Numbers
+        in square brackets are Showcase category labels.</p>
+        <a href="search?type=c">Search by category &rarr;</a>
+      </div>
+
+      <div class="help-card" id="variable-name">
+        <div class="help-card-label">By variable name</div>
+        <p>Use this when you already know, or can guess, the exact or
+        partial name of a variable. This searches variable names
+        directly rather than their descriptions or categories. Add a
+        trailing <code>*</code> for a wildcard match (e.g.
+        <code>gluc*</code>), use <code>+word</code> to require a term
+        or <code>-word</code> to exclude one, and wrap a phrase in
+        <code>"quotes"</code> for an exact match. Searching just
+        <code>*</code> on its own returns everything you have
+        permission to see.</p>
+        <a href="search?type=n">Search by name &rarr;</a>
+      </div>
+
+      <div class="help-card" id="keyword">
+        <div class="help-card-label">By keyword</div>
+        <p>Search by a word or phrase that might appear in a
+        variable's label or description, rather than its formal name.
+        Useful when you know roughly what you're looking for but not
+        its exact variable name.</p>
+        <a href="search?type=k">Search by keyword &rarr;</a>
+      </div>
+
+      <div class="help-card" id="library">
+        <div class="help-card-label">By library</div>
+        <p>Search within a specific data library or collection, if you
+        already know which library the variable you need belongs
+        to.</p>
+        <a href="search?type=l">Search by library &rarr;</a>
+      </div>
+
+    </div>
+
+    <div class="help-tips" id="tips">
+      <div class="help-section-label">Tips</div>
+      <ul>
+        <li>You can combine a search with your current basket &mdash;
+        found items can be added directly without losing your existing
+        selections.</li>
+        <li>If a search returns no results, try broadening your term
+        (fewer words, or a shorter partial match) before assuming the
+        data doesn't exist.</li>
+      </ul>
+    </div>
+
+    <div class="help-faq" id="faq">
+      <div class="help-section-label">Common questions</div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          A category shows 0 items but still has an expand arrow &mdash; is that broken?
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">No. Parent categories often show a
+        total of zero themselves; expand them to see the item counts
+        for their subcategories.</div>
+      </div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          I expected to see a category or variable, but it's not there.
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">Results are filtered by your
+        account's access level automatically. If you believe you
+        should have access to something you can't see, contact LHA
+        using the details in the footer.</div>
+      </div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          My search seems to ignore part of what I typed.
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">Very short or very common words
+        may not match &mdash; try a more specific or slightly longer
+        term.</div>
+      </div>
+
+    </div>
+
+    <div class="help-afternote" id="after">
+      <div class="help-section-label">After you find what you need</div>
+      <p>Add results to your basket directly from the results page.
+      From the Baskets menu you can then view, save, share, or
+      download your current basket at any time.</p>
+    </div>
+
+  </div>
+
+  <div class="help-sidebar">
+    <div class="help-sidebar-title">On this page</div>
+    <nav>
+      <a href="#category">By category</a>
+      <a href="#variable-name">By variable name</a>
+      <a href="#keyword">By keyword</a>
+      <a href="#library">By library</a>
+      <a href="#tips">Tips</a>
+      <a href="#faq">Common questions</a>
+      <a href="#after">After your search</a>
+    </nav>
+  </div>
+
+</div>
+</div>
+{% endblock %}

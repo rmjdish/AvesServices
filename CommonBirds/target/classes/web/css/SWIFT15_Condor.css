@@ -210,13 +210,24 @@ header {
     left: 0px;
     top: 0px;
     height: 10%;
-    background-color: rgb(0,138,173); /* header default background colour */
-    width: 95%;
+    background-color: #ffffff; /* header default background colour - white, paired with the dusty-rose menu bar below it */
+    width: 100%; /* full width, matching the table below - was 95%, leaving a gap where a wide table's edge became visible past the header's own white background when scrolling. The #menu-bar pill inside stays at its own 95% width, unaffected by this. */
     box-sizing: border-box;    
 }
 
 footer {
-    background-color: rgb(0,138,173);
+    background-color: #8a3a4d; /* darker dusty rose, matching the menu bar family - a distinct shade from the menu itself */
+    color: #f0d6dc; /* light maroon-tinted text for readability against the dark background */
+    width: calc(100% - 26.52px); /* matching #menu-bar's own refined width/margin exactly */
+    margin: 0 13.26px;
+}
+
+footer a {
+    color: #ffffff;
+}
+
+footer a:hover {
+    color: #f5c2d0;
 }
 
 /*
@@ -226,7 +237,7 @@ footer {
 
 .banner {
     display: inline;
-    background-color: rgb(46,45,98); /* banner background colour */
+    background-color: #ffffff; /* banner background colour - white, matching the header (was a dark navy-purple) */
     padding-top:4px;
     padding-bottom:4px;
     max-width: 90%;
@@ -436,7 +447,7 @@ footer {
 }
 
 #menu-bar {
-    width: 95%;
+    width: 100%; /* was 95% - widened to match header/table, per follow-up request; footer updated to match */
     margin: 0; /* Use padding instead */
     padding-top: 0.6em;
     padding-right: 0.6em;
@@ -452,7 +463,7 @@ footer {
     box-shadow: 2px 2px 3px #666666;
     -webkit-box-shadow: 2px 2px 3px #666666;
     -moz-box-shadow: 2px 2px 3px #666666;
-    background: MidnightBlue; /* menu-bar background colour */
+    background: #A2455C; /* menu-bar background colour - dusty rose, matching this project's established accent */
     /* background: #0B736F;  dark green menu bar */
     /* background: #424242; very dark brown menu bar*/
     border: double 1px #32323f;
@@ -510,17 +521,15 @@ footer {
 
 }
 #menu-bar .active a, #menu-bar li:hover > a { /* A link item that is in focus */
-    /* background: ochre; */
-    color: #424242 !important; /* very dark grey */
-    background: linear-gradient(top,  #EBEBEB,  #A1A1A1); /* grey gradient */
-    background: -ms-linear-gradient(top,  #EBEBEB,  #A1A1A1);
-    background: -webkit-gradient(linear, left top, left bottom, from(#EBEBEB), to(#A1A1A1));
-    background: -moz-linear-gradient(top,  #EBEBEB,  #A1A1A1);
-    color: orange;
+    color: #fff !important;
+    background: linear-gradient(top,  #c66a7d,  #8a3a4d); /* dusty-rose gradient, matching the menu bar family */
+    background: -ms-linear-gradient(top,  #c66a7d,  #8a3a4d);
+    background: -webkit-gradient(linear, left top, left bottom, from(#c66a7d), to(#8a3a4d));
+    background: -moz-linear-gradient(top,  #c66a7d,  #8a3a4d);
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
     box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-    text-shadow: 2px 2px 3px #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
     /* curvy borders */
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -529,18 +538,18 @@ footer {
 }
 
 #menu-bar ul a:hover {
-    background: orange; /* set to orange but can't see it */
-    /* The next set of backgrounds set the sub-menu focus background  */
-    background: linear-gradient(top,  orange,  darkorange) !important;
-    background: -ms-linear-gradient(top,  orange,  darkorange) !important;
-    background: -webkit-gradient(linear, left top, left bottom, from(orange), to(darkorange)) !important;
-    background: -moz-linear-gradient(top,  orange,  darkorange) !important;
-    color: black !important;
+    /* Sub-menu item focus background - maroon-tinted, matching the menu bar family */
+    background: #fdf0f3;
+    background: linear-gradient(top,  #fdf0f3,  #f5d6de) !important;
+    background: -ms-linear-gradient(top,  #fdf0f3,  #f5d6de) !important;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fdf0f3), to(#f5d6de)) !important;
+    background: -moz-linear-gradient(top,  #fdf0f3,  #f5d6de) !important;
+    color: #8a3a4d !important;
     /* Curvy Borders */
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    text-shadow: 2px 2px 3px #FFFFFF;
+    text-shadow: none;
 
 }
 #menu-bar li:not([role="treeitem"]):hover > ul {
@@ -563,7 +572,7 @@ footer {
     position: relative; /* was absolute changing to relative */
     top:  0.2em;
     left: 0.2em;        /* This should be the same to move over submenus as above */
-    border: solid 1px #B4B4B4;
+    border: solid 1px #e0b8c2; /* light maroon-tinted border, matching the menu bar family */
     /* Curvy Border */
     border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -585,22 +594,21 @@ footer {
     padding-right: 0em;
     padding-bottom: 0.6em;
     padding-left: 0.5em;
-    /* Original Setting color:#424242 !important; */
-    color:#424242 !important; /* very dark grey */
+    color:#8a3a4d !important; /* dark dusty rose, matching the menu bar family */
     font-size:0.8vw;
     font-style: normal;
     font-family: Montserrat, sans-serif;
     font-weight: normal;
-    text-shadow: 2px 2px 3px #FFFFFF;
+    text-shadow: none;
 
 }
 
 #menu-bar ul li:hover a, #menu-bar li:hover li a {
-    background: none; /* was none - background to drop down menu items */
+    background: none;
     top:  0.2em;
-    left: 0.2em;        /* This should be the same to move over submenus as above */
+    left: 0.2em;
     border: none;
-    color: #ff9933; /* orange */
+    color: #8a3a4d; /* dark dusty rose, replacing orange */
     -box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -705,6 +713,28 @@ html[xmlns] #menu-bar {
 
 * html #menu-bar  {
     height: 1%;
+}
+
+/* Forcing width/display to take final precedence over the three
+   #menu-bar rules above (all pre-existing, none from this project) -
+   display: inline-block on an element inside the header's own
+   table/td layout likely made "100%" resolve against the containing
+   cell rather than the full page, which is what was actually causing
+   the width mismatch against the footer/table, not the percentage
+   value itself. */
+#menu-bar {
+    display: block !important;
+    width: calc(100% - 26.52px) !important; /* refined from 34.208px - direct getBoundingClientRect() measurement showed the menu bar was still ~3.8px narrower than the table on each side after the previous adjustment; reduced the margin by that amount */
+    margin: 0 13.26px !important;
+}
+
+/* The header's own table (wrapping both the logo row and the menu
+   row) had no explicit width, defaulting to content-based sizing -
+   meaning the <td> containing #menu-bar may not have had the full
+   header width to work with in the first place, regardless of
+   #menu-bar's own width setting. */
+header table {
+    width: 100%;
 }
 
 
@@ -911,7 +941,7 @@ nav ul:not([role]) {
   	-webkit-box-shadow: 2px 2px 3px #666666;
   	-moz-box-shadow: 2px 2px 3px #666666;
 
-	background: MidnightBlue;
+	background: #A2455C; /* dusty rose, matching the menu bar family */
 	list-style: none;
 	position: relative;
 	display: inline-table;

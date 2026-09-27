@@ -52,7 +52,7 @@ public class TreeSearch {
 		// template.add("</head>");
 		// template.add("<body>");		
 		// template.add("<h1 id=\"tree_label\">Expandable Category Search Menu</h1>");
-		template.add("<p>\n");
+		template.add("<p class=\"owl-category-selected\">\n");
 		template.add("<label>\n");
 		template.add("    Category Selected:");
 		template.add("    <input name=\"category\" id=\"last_action\" type=\"text\" size=\"50\" readonly=\"\">\n");
@@ -75,7 +75,7 @@ public class TreeSearch {
 	static void beginSection(String sid, int id, int items) {
 		template.add("<!-- New Section -->\n");
 		template.add("\t<li class=\"section\" role=\"treeitem\" aria-expanded=\"false\" aria-selected=\"false\">\n");
-		template.add("\t<span class=\"showcase\">" + sid + " [" + id + "] has " + items + " items</span>\n");
+		template.add("\t<span class=\"showcase\">" + sid + " <span class=\"owl-tree-count\">[" + id + "] has " + items + " items</span></span>\n");
 		template.add("\t<ul class=\"section\" role=\"group\">\n");
 		template.add("\t<!-- End of Section Header -->\n");
 		}
@@ -89,7 +89,7 @@ public class TreeSearch {
 	static void printPlain(String sid, int id, int items ) {
 		template.add("\t<!-- Plain Element -->\n");
 		template.add("\t<li role=\"treeitem\"  aria-selected=\"false\" class=\"doc\">" + 
-				sid + "[" + id + "] has " + items + " items</li>\n");
+				"<span class=\"doc-label\">" + sid + " <span class=\"owl-tree-count\">[" + id + "] has " + items + " items</span></span></li>\n");
 	}
 
 

@@ -1,9 +1,14 @@
 <!-- This is a Pebble Template which inherits from ... -->
-{% extends "JAY" %}
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block results %}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
 	{% include "oneverypage" %}
-	<h2>{{ title }}</h2>
-	<p>Thank you. Your registration details have been updated.</p>
+	<div class="help-header">
+	  <h2>{{ title }}</h2>
+	  <p>Thank you. Your registration details have been updated.</p>
+	</div>
 </div>
 {% endblock results %}

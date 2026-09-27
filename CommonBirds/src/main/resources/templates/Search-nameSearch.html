@@ -1,23 +1,28 @@
 {% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 
 {% block results %}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
 {% include "oneverypage" %}
-<h2>NSHD Variable Name Search</h2>
+<div class="help-header">
+  <h2>NSHD Variable Name Search</h2>
+  <p>Search for variables by their exact or partial name.</p>
+</div>
 <form name="input"
       onsubmit="return validateSearchForm(this)"
       action="search"
       method="post"
       target="_self">
-  <br>Variable name(s):
-  <input type="text" name="term" size="40" maxlength="60">*
-  <input type="hidden" name="type" value="n">
-  &nbsp;&nbsp;&nbsp;
-  <input class="testbutton" type="submit" value="Search">
+  <div class="owl-form-card">
+    <label for="owlNameTerm">Variable name(s)</label>
+    <input id="owlNameTerm" type="text" name="term" maxlength="60">
+    <div class="owl-required-note">Multiple space or comma delimited variables can be added, e.g. SEX CHIL A11R57</div>
+    <input type="hidden" name="type" value="n">
+    <button class="owl-submit-button" type="submit">Search</button>
+  </div>
 </form>
-<p>* Multiple <font color=red>space or comma delimited</font> variables
-  can be added, eg, SEX CHIL A11R57</p>
-
 </div>
 {% endblock %}
 

@@ -12,7 +12,10 @@ D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\ChangeRegistration
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Download.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\EmailEnquiry.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\FileDownload.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\HelpAccess.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\HelpBaskets.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Helper.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\HelpSearch.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\LoadBasket.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Login.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Logout.java
@@ -20,6 +23,9 @@ D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\ManageBaskets.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\ManageDatasets.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\MessageRelay.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\NotifyBasket.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\OwlHowItWorks.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\OwlOverview.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\OwlWalkthrough.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\PassStore.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\PreviousBasket.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\PyDBCheckout.java
@@ -38,6 +44,7 @@ D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Trolley.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\UploadOwl.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Variable.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\Announce.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\BasketMessageTriples.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\BasketXML.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\BotCheck.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\CatTree.java
@@ -45,11 +52,13 @@ D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\FormXML.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\GenerateTemplate.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\HostInfo.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\MessageRelay.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\OwlAvailability.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\package-info.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\Page.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\PassStore.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\Properties.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\RandomString.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\RestrictedVariables.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\SecModel.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\SessionFilter.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\SessMgr.java
@@ -58,6 +67,7 @@ D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\StoreXMLBasket.jav
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\TransX.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\TreeSearch.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\Util.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\VariableLabels.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\org\lha\App.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\ucl\service\zip\Boomerang.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\ucl\service\zip\jaxws\Catchjob.java

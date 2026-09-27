@@ -78,9 +78,57 @@
     <servlet-name>approveUser</servlet-name>
     <servlet-class>mrc.user.ApproveUser</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>helpSearch</servlet-name>
+    <servlet-class>mrc.user.HelpSearch</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>helpBaskets</servlet-name>
+    <servlet-class>mrc.user.HelpBaskets</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>helpAccess</servlet-name>
+    <servlet-class>mrc.user.HelpAccess</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>owlOverview</servlet-name>
+    <servlet-class>mrc.user.OwlOverview</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>owlHowItWorks</servlet-name>
+    <servlet-class>mrc.user.OwlHowItWorks</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>owlWalkthrough</servlet-name>
+    <servlet-class>mrc.user.OwlWalkthrough</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>approveUser</servlet-name>
     <url-pattern>/approveUser</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>helpSearch</servlet-name>
+    <url-pattern>/helpSearch</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>helpBaskets</servlet-name>
+    <url-pattern>/helpBaskets</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>helpAccess</servlet-name>
+    <url-pattern>/helpAccess</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>owlOverview</servlet-name>
+    <url-pattern>/owlOverview</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>owlHowItWorks</servlet-name>
+    <url-pattern>/owlHowItWorks</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>owlWalkthrough</servlet-name>
+    <url-pattern>/owlWalkthrough</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>basket</servlet-name>
@@ -153,7 +201,6 @@
   <filter-mapping>
     <filter-name>sessionFilter</filter-name>
     <servlet-name>basket</servlet-name>
-    <servlet-name>register</servlet-name>
     <servlet-name>recoverPassword</servlet-name>
     <servlet-name>search</servlet-name>
     <servlet-name>variable</servlet-name>

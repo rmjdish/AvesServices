@@ -1,0 +1,178 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results">
+<div class="help-page">
+
+  <div class="help-main">
+    <div class="help-header">
+      <h2>What is OWL?</h2>
+      <p>The NSHD OWL &mdash; Online Wellbeing and Lifecourse Resource
+      &mdash; is the public discovery site for the National Survey of
+      Health and Development, Britain's longest-running birth cohort
+      study. It's where most people should start looking for NSHD
+      data, before finishing the job in Condor.</p>
+    </div>
+
+    <div id="about" style="margin:0 0 16px 0;padding:0;">
+      <p style="font-size:14px;color:#333;line-height:1.6;">The study
+      has followed individuals born in a single week of March 1946,
+      now into their eighties, generating one of the richest
+      longitudinal datasets in the world &mdash; spanning physical
+      health, cognitive development, mental wellbeing, lifestyle, and
+      socioeconomic circumstance from birth through to older age. OWL
+      gives researchers structured access to that metadata: search
+      thousands of variables by keyword, browse by topic area, explore
+      the original questionnaires used at each survey wave, and see
+      which measures are most commonly used across research
+      projects.</p>
+    </div>
+
+    <div class="help-cards" id="platforms">
+
+      <div class="help-card">
+        <div class="help-card-label">OWL</div>
+        <p>Discover and explore variables. Public, no registration
+        required. Seven search tools, plus questionnaires, topics, and
+        searchable documentation.</p>
+        <a href="https://rmjdish.github.io/OWL/" target="_blank" rel="noopener">Open &rarr;</a>
+      </div>
+
+      <div class="help-card">
+        <div class="help-card-label">NSHD Showcase</div>
+        <p>Participant counts and sweep-by-sweep distributions for the
+        same cleaned variables. Also public. Built on the same
+        platform as the UK Biobank Data Showcase.</p>
+        <a href="https://datashare.ndph.ox.ac.uk/nshd46/index.cgi" target="_blank" rel="noopener">Open &rarr;</a>
+      </div>
+
+      <div class="help-card" style="border:2px solid #6a0dad;background:#f5f2ff;">
+        <div class="help-card-label">Condor (you are here)</div>
+        <p>Always holds the full set of NSHD variables, including any
+        not yet processed by OWL's cleaning project. Where baskets are
+        finalised, saved, and shared. Registration required.</p>
+      </div>
+
+      <div class="help-card">
+        <div class="help-card-label">Skylark</div>
+        <p>The data access information and forms portal. This is
+        where the formal Data Access Request Form is actually
+        submitted &mdash; baskets can't be submitted directly from
+        OWL or Condor.</p>
+        <a href="https://skylark.ucl.ac.uk/NSHD/" target="_blank" rel="noopener">Open &rarr;</a>
+      </div>
+
+    </div>
+
+    <div class="help-tips" id="coverage">
+      <div class="help-section-label">Data coverage</div>
+      <p style="font-size:14px;color:#7a4f00;margin:0 0 10px;line-height:1.6;">Condor
+      always has the complete list of NSHD variables available. OWL is
+      updated continuously as its metadata-cleaning project processes
+      more of the archive, so its own coverage changes over time
+      &mdash; for current, up-to-date figures, see OWL's own
+      <a href="https://rmjdish.github.io/OWL/docs/data-coverage/" target="_blank" rel="noopener">Data Coverage page</a>
+      rather than relying on a number quoted here.</p>
+      <p style="font-size:14px;color:#7a4f00;margin:0;line-height:1.6;">Coverage
+      isn't even across life stages: OWL's own data shows early-life
+      variables (birth to age 25) are smaller in scale than later
+      sweeps, since the study used simpler instruments in its first
+      two decades. If an early-life variable doesn't turn up on OWL,
+      check Condor directly before assuming it doesn't exist.</p>
+    </div>
+
+    <div id="search-methods" style="margin:0 0 16px 0;padding:0;">
+      <div class="help-section-label" style="margin-bottom:10px;">Searching on OWL</div>
+      <p style="font-size:14px;color:#333;margin:0 0 12px;line-height:1.6;">OWL
+      offers seven ways to find variables, each suited to a different
+      starting point:</p>
+      <div class="help-cards">
+        <div class="help-card">
+          <div class="help-card-label">Search Data Dictionary</div>
+          <p>Instant, filterable keyword search across every variable name, label, description, and metadata field. OWL's own recommended starting point.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/search_methods/data_dictionary/NSHD_Data_Dictionary.html" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">Browse by Category</div>
+          <p>Navigate conceptually through themed groups &mdash; demographics, lifestyle, clinical measures, and more &mdash; without needing a variable name to start from.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/search_methods/browse_by_category/Browse_by_Category.html" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">View Popular Variables</div>
+          <p>See which variables get added to baskets most often across recent projects &mdash; a useful sanity check against common research practice.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/search_methods/popular_vars/popular-variables/" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">Longitudinal Search</div>
+          <p>Finds variables collected with identical question text and coding across two or more sweeps, with a trajectory chart per variable.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/search_methods/longitudinal_variables/longitudinal_search_guide/" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">Search by Year</div>
+          <p>Start from a point in time rather than a variable or topic &mdash; click a sweep year to filter results collected then.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/search_methods/search_by_year/search_by_year/" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">UK LLC Catalogue</div>
+          <p>Searches the separate, smaller set of NSHD datasets deposited into UK LLC for linked analysis alongside other cohorts.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/search_methods/ukllc_catalogue" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">Global Site Search</div>
+          <p>The search bar at the top of every OWL page scans all page titles, headings, and body text sitewide &mdash; the fastest way to a known topic.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="documentation" style="margin:0 0 16px 0;padding:0;">
+      <div class="help-section-label" style="margin-bottom:10px;">Documentation available on OWL</div>
+      <p style="font-size:14px;color:#333;margin:0 0 12px;line-height:1.6;">Beyond
+      variable search, OWL has three ways to explore context &mdash;
+      what was measured, how, and why:</p>
+      <div class="help-cards">
+        <div class="help-card">
+          <div class="help-card-label">NSHD Questionnaires</div>
+          <p>Step through the study sweep by sweep and see the original questionnaire alongside the variable names it generated.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/questionnaires/NSHD_questionnaires_homepage.html" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">Topics</div>
+          <p>Browse subject areas grouped thematically, showing what was measured and at which sweeps across the study's history.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/topics/" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+        <div class="help-card">
+          <div class="help-card-label">Documentation</div>
+          <p>Data notes and write-ups explaining how a variable or dataset was actually built, with variables it mentions auto-linked and addable to your basket.</p>
+          <a href="https://rmjdish.github.io/OWL/docs/documentation/" target="_blank" rel="noopener">Open &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-afternote" id="next">
+      <div class="help-section-label">Where to go next</div>
+      <p>See <a href="owlHowItWorks">How It Works</a> for exactly how
+      a basket moves from OWL into Condor, or visit OWL directly at
+      <a href="https://rmjdish.github.io/OWL/" target="_blank" rel="noopener">rmjdish.github.io/OWL</a>.</p>
+    </div>
+
+  </div>
+
+  <div class="help-sidebar">
+    <div class="help-sidebar-title">On this page</div>
+    <nav>
+      <a href="#about">About the study</a>
+      <a href="#platforms">The four platforms</a>
+      <a href="#coverage">Data coverage</a>
+      <a href="#search-methods">Searching on OWL</a>
+      <a href="#documentation">Documentation on OWL</a>
+      <a href="#next">Where to go next</a>
+    </nav>
+  </div>
+
+</div>
+</div>
+{% endblock %}

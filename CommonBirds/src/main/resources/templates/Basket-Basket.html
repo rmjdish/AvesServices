@@ -3,39 +3,76 @@
 {% block results %}
 {# This is an example of a template which produces a table with 2 columns #}
 {# but only one of them comes from the results vector #}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
 	{% include "oneverypage" %}
-	<h2>{{ title }}</h2>
+	<div class="help-header">
+		<h2>{{ title }}</h2>
+		<p>Everything currently in your working basket. Remove anything you don't need, or save it once you're ready.</p>
+	</div>
 	{% if results is not empty %}
-		{% set numinbasket = results | length/2 %}
+		{% set numinbasket = results | length/4 %}
 		{% if numinbasket <= 250 %}
-		  <p style="color:darkgreen">You have {{ numinbasket }} variables in your basket.</p>
+		  <p class="owl-risk-note owl-risk-low">You have {{ numinbasket }} variables in your basket.</p>
 		{% elseif numinbasket > 250 and numinbasket <= 500 %}
-		  <p style="color:orange">You have {{ numinbasket }} variables in your basket. <br> This number is within our recommended range, but please be aware that larger baskets entail more laborious risk assessment procedures.</p>
+		  <p class="owl-risk-note owl-risk-medium">You have {{ numinbasket }} variables in your basket. This number is within our recommended range, but please be aware that larger baskets entail more laborious risk assessment procedures.</p>
 		{% else %}
-		  <p style="color:red">You have {{ numinbasket }} variables in your basket. <br> This basket of variables will entail a more laborious, and therfore slower, risk assessment procedure before data can be released.<br>
+		  <p class="owl-risk-note owl-risk-high">You have {{ numinbasket }} variables in your basket. This basket of variables will entail a more laborious, and therfore slower, risk assessment procedure before data can be released.
 		  You may wish to assess whether all of these variables are absolutely necessary for your project.</p>
 		{% endif %}
 		
-	<table class="results" style="width: 50%">
+	{% if owlAvailable is not empty or restrictedMessages is not empty %}
+	<div class="help-tips owl-tips-legend" style="font-size:12px;">
+	  {% if owlAvailable is not empty %}&#x1F989; = Available on OWL &mdash; click the icon to view this variable's metadata page on OWL.{% endif %}
+	  {% if owlAvailable is not empty and restrictedMessages is not empty %}<br>{% endif %}
+	  {% if restrictedMessages is not empty %}&#x1F512; = Restricted &mdash; hover the icon for details.{% endif %}
+	</div>
+	{% endif %}
+	<div class="help-tips owl-tips-standard" style="font-size:12px;">SERNO and NTAG1 are automatically included in every basket and are not shown in the list below.</div>
+	<table class="owl-table" style="width: 90%">
 		<tr>
+			<th class="skip-filter" style="width: 8%">Remove?</th>
 			<th class="skip-filter" style="width: 15%">Variable</th>
-			<th class="skip-filter" style="width: 80%">Label</th>
-			<th class="skip-filter" style="width: 5%">Remove?</th>
+			<th class="skip-filter" style="width: 47%">Label</th>
+			<th class="skip-filter" style="width: 15%">Form</th>
+			<th class="skip-filter" style="width: 15%">Year</th>
 		</tr>
 
 		{% for val in results %}
-			{% if (loop.index + 2) is even %}
-				{% set vname = val %} <!-- val is variable name -->
-				<tr>
-				<td><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a></td>
+			{% if loop.index % numCols equals 0 %}
+				<!-- Position 0 of each group of 4: the variable name -->
+				{% set vname = val %}
+				{% set vnameLower = val|lower %}
 			{% else %}
-				<td>{{ val }}</td> <!-- val is variable label -->
-				<td><a href="basket?command=remove&name={{ vname }}">&#9986</a></td>
-				</tr>
+				{% if loop.index % numCols equals 1 %}
+					<!-- Position 1: the label -->
+					{% set vlabel = val %}
+				{% else %}
+					{% if loop.index % numCols equals 2 %}
+						<!-- Position 2: the form -->
+						{% set vform = val %}
+					{% else %}
+						<!-- Position 3: the year - now we have all 4, output the row -->
+						{% set vyear = val %}
+						{% if vnameLower != "serno" and vnameLower != "ntag1" %}
+						<tr>
+						{% if vnameLower == "sex" or vnameLower == "inf" %}
+						<td><span class="owl-remove-disabled" title="This variable is included by default and cannot be removed.">&#9986</span></td>
+						{% else %}
+						<td><a href="basket?command=remove&name={{ vname }}">&#9986</a></td>
+						{% endif %}
+						<td><a href="variable?command=displayCard&name={{ vname }}">{{ vname|lower }}</a>{% if owlAvailable contains vname %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ vname|lower }}.html" target="_blank" rel="noopener" title="View {{ vname|lower }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[vname] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[vname] }}">&#x1F512;</span>{% endif %}</td>
+						<td>{{ vlabel }}</td>
+						<td>{{ vform }}</td>
+						<td>{{ vyear }}</td>
+						</tr>
+						{% endif %}
+					{% endif %}
+				{% endif %}
 			{% endif %}
 		{% endfor %}
-		</tr>
 	</table>
 	<p>
 		To remove all variables from this basket <a

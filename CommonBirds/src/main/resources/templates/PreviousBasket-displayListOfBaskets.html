@@ -3,12 +3,17 @@
 {% block results %}
 {# This is an example of a template which produces a table with 4 columns #}
 {# but only 2 of them come from the results vector supplied for the template #}
-
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
 {% include "oneverypage" %}
-<h2>{{ title }}</h2>
+<div class="help-header">
+	<h2>{{ title }}</h2>
+	<p>Every basket you've saved previously, ordered by when it was created. Select one to load it back into your working basket.</p>
+</div>
 {% if results is not empty %}
-  <table>
+  <table class="owl-table">
     <tr>
       <th style="width:20%">Basket ID</th> {# Column 1 #}
       <th style="width:60%">Description</th> {# Column 2#}

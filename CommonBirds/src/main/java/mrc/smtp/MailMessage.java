@@ -59,9 +59,26 @@ public class MailMessage
 			log.severe(HostInfo.tell()+" MailMessage: Error reading smtp.properties file.");
 			log.severe(HostInfo.tell()+ " Error: "+e.getMessage());
 		}
-        mailHost   = bdl.getString("mailHost");
-        mailSender = bdl.getString("mailSender");
-        sysVersion = bdl.getString("sysVersion");
+        // bdl is null whenever smtp.properties couldn't be found or
+        // read (e.g. it's packaged inside the jar, which
+        // FileInputStream can never open - it only reads real
+        // filesystem files). Previously this fell through to
+        // bdl.getString(...) unconditionally, throwing an uncaught
+        // NullPointerException that crashed the calling request
+        // entirely - e.g. Registration's confirmation page never
+        // rendering, even though the database save it happens after
+        // had already succeeded. Guarded here so a missing/unreadable
+        // properties file degrades to "mail sending silently does
+        // nothing" (consistent with every Transport.send(msg) call in
+        // this class already being commented out) rather than
+        // crashing whatever called this constructor.
+        if (bdl != null) {
+            mailHost   = bdl.getString("mailHost");
+            mailSender = bdl.getString("mailSender");
+            sysVersion = bdl.getString("sysVersion");
+        } else {
+            log.severe(HostInfo.tell()+" MailMessage: smtp.properties unavailable - mail sending will be a no-op for this instance.");
+        }
 
 	}
    /*

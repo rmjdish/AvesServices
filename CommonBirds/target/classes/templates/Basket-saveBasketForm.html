@@ -1,33 +1,86 @@
 <!-- This is a Pebble Template which inherits from ... -->
 {% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block results %}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script type='text/javascript'>
+// Wraps the existing, shared validateCheckoutForm() (in
+// FormValidation.js, also used by Trolley-saveTrolleyForm.html) rather
+// than changing it directly - only shows the wait overlay if that
+// validation actually passes, and only for this page.
+function validateAndShowWaitForSave(form) {
+	if (!validateCheckoutForm(form)) {
+		return false;
+	}
+	var overlay = document.getElementById('owlWaitOverlaySave');
+	if (overlay) {
+		overlay.style.display = 'flex';
+	}
+	return true;
+}
+// Live character count for the description field - the database
+// column itself allows up to 120 characters, but descriptions are
+// deliberately capped at 100 here (not counting the "(Basket X of N)"
+// suffix a split save appends automatically, which is added
+// server-side after this field's own contents), so a long
+// description doesn't get silently truncated once that suffix is
+// appended.
+function updateDescriptionCount(input) {
+	var remaining = 100 - input.value.length;
+	var counter = document.getElementById('owlDescriptionCount');
+	if (counter) {
+		counter.textContent = remaining + ' character' + (remaining === 1 ? '' : 's') + ' remaining';
+	}
+}
+</script>
+<div class="results owl-basket-page">
 	{% include "oneverypage" %}
-	<h2>{{ title }}</h2>
+	<div class="help-header">
+		<h2>{{ title }}</h2>
+		<p>Give your basket a description and save it, ready to finalise or come back to later.</p>
+	</div>
 	<form target="_self" enctype="application/x-www-form-urlencoded"
 		method="post" action="basket" name="savebasket" id="saveBasketForm"
-		onsubmit="return validateCheckoutForm(this)">
+		onsubmit="return validateAndShowWaitForSave(this)">
 		{% if numResults <= 250 %}
-		  <p style="color:darkgreen">You have {{ numResults }} variables in this basket.</p>
+		  <p class="owl-risk-note owl-risk-low">You have {{ numResults }} variables in this basket.</p>
 		{% elseif numResults > 250 and numResults <= 500 %}
-		  <p style="color:darkorange">You have {{ numResults }} variables in this basket. <br> This number is within our recommended range, but please be aware that larger baskets entail more laborious risk assessment procedures.</p>
+		  <p class="owl-risk-note owl-risk-medium">You have {{ numResults }} variables in this basket. This number is within our recommended range, but please be aware that larger baskets entail more laborious risk assessment procedures.</p>
 		{% else %}
-		  <p style="color:red">You have {{ numResults }} variables in your basket. <br> This basket of variables will entail a more laborious, and therfore slower, risk assessment procedure before data can be released.<br>
+		  <p class="owl-risk-note owl-risk-high">You have {{ numResults }} variables in your basket. This basket of variables will entail a more laborious, and therfore slower, risk assessment procedure before data can be released.
 		  You may wish to assess whether all of these variables are absolutely necessary for your project.</p>
 		{% endif %}
-		
-		<p>Your new basket will be called {{ basketId }}. You must enter a
-			description for this basket.</p>
-		<input class="testbutton" type="submit" form="saveBasketForm" value="Submit">
-		<input type="hidden" name="basketID" value="{{ basketId }}">
-		<input type="hidden" name="id" value="{{ sessionID }}">
-	<br>
-		<table>
-			<tr>
-				<td>Enter a description for this new basket:</td>
-				<td><input name="description" type="text" size="80"	maxlength="120">*</td>
-			</tr>
-		</table>
+
+		{% if plannedBasketIds is not empty and plannedBasketIds|length > 1 %}
+		<p class="owl-risk-note owl-risk-high">Because this exceeds the recommended limit of 500 variables per basket, it will be saved as <strong>{{ plannedBasketIds|length }} separate baskets</strong> instead of one:</p>
+		<ul class="owl-split-basket-list">
+		  {% for plannedId in plannedBasketIds %}
+		  <li><code>{{ plannedId }}</code></li>
+		  {% endfor %}
+		</ul>
+		<p class="owl-risk-note owl-risk-medium">SERNO, SEX, INF and NTAG1 will be included in every one of these baskets automatically.</p>
+		{% endif %}
+
+		<div class="owl-form-card">
+			{% if plannedBasketIds is not empty and plannedBasketIds|length > 1 %}
+			<label for="owlBasketDescription">Your basket will be saved as the {{ plannedBasketIds|length }} baskets listed above. You must enter a description to use for all of them:</label>
+			{% else %}
+			<label for="owlBasketDescription">Your new basket will be called {{ basketId }}. You must enter a description for this basket:</label>
+			{% endif %}
+			<input id="owlBasketDescription" name="description" type="text" maxlength="100" oninput="updateDescriptionCount(this)">
+			<div class="owl-required-note">Required, up to 100 characters. <span id="owlDescriptionCount">100 characters remaining</span></div>
+			<input class="owl-submit-button" type="submit" form="saveBasketForm" value="Submit">
+			<input type="hidden" name="basketID" value="{{ basketId }}">
+			<input type="hidden" name="id" value="{{ sessionID }}">
+		</div>
 	</form>
 </div>
-{% endblock results %} 
+<div id="owlWaitOverlaySave" class="owl-wait-overlay">
+  <div class="owl-wait-box">
+    <div class="owl-wait-spinner"></div>
+    <p>Saving your basket&hellip;</p>
+    <p class="owl-wait-subtext">This may take a moment for a large number of variables. Please wait.</p>
+  </div>
+</div>
+{% endblock results %}

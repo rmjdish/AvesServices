@@ -3,6 +3,7 @@
 <tr>
   <td>
     <ul id="menu-bar">
+      <li><a href="helpAccess">Get Started</a></li>
       <li class="active"><a href="index.html">Home</a></li>
     </ul>
   </td>
@@ -10,7 +11,14 @@
 {% endblock %}
 
 {% block results %}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+<div class="help-header">
+  <h2>{{ title }}</h2>
+  <p>Sign in to search, save, and submit baskets of NSHD variables.</p>
+</div>
 <form target="_self"
       enctype="application/x-www-form-urlencoded"
       method="post"
@@ -21,34 +29,22 @@
       >
       <p>If you have arrived here by selecting <em>Register</em> from the menu bar, your session may have timed out.  
       If you select <em>Register</em> again you will be taken to the registration form.</p>
-  <table>
-    <tr>
-      <td colspan="2"><h2 style="font-size: 150%">{{ title }}</h2></td>
-    </tr>
-    <tr>
-      <td style="font-size: 125%">Username:</td>
-      <td style="width:80em">
-	<input name="username" type="text" size="20" maxlength="20"></td>
-    </tr>
-    <tr>
-      <td style="font-size: 125%">Password:</td>
-      <td style="font-size: 125%">
-	<input type="password" name="password" size="20" maxlength="20"> * </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>* Note: All passwords are case-sensitive.</td>
-    </tr>
-  </table>
+  <div class="owl-form-card">
+    <label for="owlUsername">Username</label>
+    <input id="owlUsername" name="username" type="text" maxlength="20">
+    <label for="owlPassword" style="margin-top:10px;">Password</label>
+    <input id="owlPassword" type="password" name="password" maxlength="20">
+    <div class="owl-required-note">Passwords are case-sensitive.</div>
 {% if hostname | lower equals "finch" %}
-	<p><button class="testbutton" type="submit">Login</button></p>  	
+	<button class="owl-submit-button" type="submit">Login</button>
 {% elseif hostname | lower equals "kiwidev" %}
-	<p><button class="testbutton" type="submit">Kiwidev Login</button></p>  	
+	<button class="owl-submit-button" type="submit">Kiwidev Login</button>
 {% elseif hostname | lower equals "kiwi" %}
-	  <p><button class="testbutton" type="submit">Kiwi Login</button></p>  
+	<button class="owl-submit-button" type="submit">Kiwi Login</button>
 {% else %}
-	<p><button class="testbutton" type="submit">Login</button></p>  
+	<button class="owl-submit-button" type="submit">Login</button>
 {% endif %}
+  </div>
 </form>
 </div>
 {% endblock %}

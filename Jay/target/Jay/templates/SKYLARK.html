@@ -5,6 +5,10 @@
 <html template="true" lang="en">
   {% block header %}
   <head>
+    <!-- UCL Consent JS - loaded first so blocking takes effect before anything else -->
+    <script src="https://cookie-consent.ucl.ac.uk/dist/ucl-consent.blocker.min.js"></script>
+    <script src="https://cookie-consent.ucl.ac.uk/dist/ucl-consent.ui-full.min.js" defer></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
     <title>Condor</title>
@@ -16,7 +20,7 @@
     <!-- This is the top level Pebble template that will be 'inherited' by other templates -->
     <link rel="stylesheet" href="SWIFT15.css" type="text/css">
     <link rel="stylesheet" href="treeview-navigation.css" type="text/css">
-	<link rel="stylesheet" href="SWIFT15_Condor.css" type="text/css">
+    <link rel="stylesheet" href="SWIFT15_Condor.css" type="text/css">
 
     <script type="text/javascript" src="treeview-navigation.js"></script>
     <script type="text/javascript" src="treeitem.js"></script>
@@ -71,8 +75,16 @@
 		  <ul id="menu-bar">
 		    {% if menu | upper equals "EXTERNAL" %}
 		    <li><a href="logout?go=home">Home</a></li>
+		    <li><a href="#">OWL</a>
+		      <ul>
+			<li><a href="owlOverview">What is OWL</a></li>
+			<li><a href="owlHowItWorks">How It Works</a></li>
+			<li><a href="owlWalkthrough">Guided Walkthrough</a></li>
+			<!-- Upload OWL Basket to be added here once shared -->
+		    </ul></li>
 		    <li><a href="#">Search</a>
 		      <ul>
+			<li><a href="helpSearch">Get Started</a></li>
 			<li><a href="search?type=c">By Category</a></li>
 			<li><a href="search?type=n">By Variable Name</a></li>
 			<li><a href="search?type=k">By Keyword</a></li>
@@ -80,8 +92,9 @@
 			<li><a href="search?type=l">By Library</a></li>
 			<!-- <li><a href="search?type=t">By Topic</a></li> -->
 		    </ul></li>
-		    <li><a href="#">Baskets</a>
+		    <li><a href="#">Baskets{% if basketCount is not empty and basketCount > 0 %} <span class="owl-basket-count-badge {% if basketCount > 500 %}owl-basket-count-high{% elseif basketCount > 250 %}owl-basket-count-medium{% else %}owl-basket-count-low{% endif %}" title="{% if basketCount > 500 %}{{ basketCount - 500 }} over the 500-variable recommended limit.{% else %}{{ 500 - basketCount }} of 500 recommended variables remaining.{% endif %}">{{ basketCount }}</span>{% endif %}</a>
 		      <ul>
+			<li><a href="helpBaskets">Get Started</a></li>
 			<li><a href="basket?command=saveNew&id={{sessionID}}">Save
 			    Basket</a></li>
 			<li><a href="basket?id={{sessionID}}">View Current
@@ -111,8 +124,16 @@
 		      </div>
 		    </li> {% elseif menu | upper equals "INTERNAL" %}
 		    <li><a href="logout?go=home">Home</a></li>
+		    <li><a href="#">OWL</a>
+		      <ul>
+			<li><a href="owlOverview">What is OWL</a></li>
+			<li><a href="owlHowItWorks">How It Works</a></li>
+			<li><a href="owlWalkthrough">Guided Walkthrough</a></li>
+			<!-- Upload OWL Basket to be added here once shared -->
+		    </ul></li>
 		    <li><a href="#">Search</a>
 		      <ul>
+			<li><a href="helpSearch">Get Started</a></li>
 			<li><a href="search?type=c&id={{sessionID}}">By Category</a></li>
 			<li><a href="search?type=n&id={{sessionID}}">By Variable Name</a></li>
 			<li><a href="search?type=k&id={{sessionID}}">By Keyword</a></li>
@@ -120,8 +141,9 @@
 			<li><a href="search?type=l&id={{sessionID}}">By Library</a></li>
 			<!--<li><a href="search?type=t&id={{sessionID}}">By Topic</a></li>-->
 		    </ul></li>
-		    <li><a href="#">Baskets</a>
+		    <li><a href="#">Baskets{% if basketCount is not empty and basketCount > 0 %} <span class="owl-basket-count-badge {% if basketCount > 500 %}owl-basket-count-high{% elseif basketCount > 250 %}owl-basket-count-medium{% else %}owl-basket-count-low{% endif %}" title="{% if basketCount > 500 %}{{ basketCount - 500 }} over the 500-variable recommended limit.{% else %}{{ 500 - basketCount }} of 500 recommended variables remaining.{% endif %}">{{ basketCount }}</span>{% endif %}</a>
 		      <ul>
+			<li><a href="helpBaskets">Get Started</a></li>
 			<li><a href="basket?command=saveNew&id={{sessionID}}">Save
 			    Basket</a></li>
 			<li><a href="basket?id={{sessionID}}">View Current
@@ -150,6 +172,13 @@
 			<!-- <input name="search_submit" type="submit" value=""/>  -->
 		      </div>
 		    </li> {% elseif menu | upper equals "ADMIN" %}
+		    <li><a href="#">OWL</a>
+		      <ul>
+			<li><a href="owlOverview">What is OWL</a></li>
+			<li><a href="owlHowItWorks">How It Works</a></li>
+			<li><a href="owlWalkthrough">Guided Walkthrough</a></li>
+			<!-- Upload OWL Basket to be added here once shared -->
+		    </ul></li>
 		    <li><a href="#">Manage Users</a>
 		      <ul>
 			<li><a href="approveUser?id={{ sessionID }}">Approve
@@ -166,8 +195,16 @@
 			    Details</a></li>
 			<li><a href="changePassword">Change Password</a></li>
 		    </ul></li> {% elseif menu | upper equals "DSG" %}
-		    <li><a href="#">Baskets</a>
+		    <li><a href="#">OWL</a>
 		      <ul>
+			<li><a href="owlOverview">What is OWL</a></li>
+			<li><a href="owlHowItWorks">How It Works</a></li>
+			<li><a href="owlWalkthrough">Guided Walkthrough</a></li>
+			<!-- Upload OWL Basket to be added here once shared -->
+		    </ul></li>
+		    <li><a href="#">Baskets{% if basketCount is not empty and basketCount > 0 %} <span class="owl-basket-count-badge {% if basketCount > 500 %}owl-basket-count-high{% elseif basketCount > 250 %}owl-basket-count-medium{% else %}owl-basket-count-low{% endif %}" title="{% if basketCount > 500 %}{{ basketCount - 500 }} over the 500-variable recommended limit.{% else %}{{ 500 - basketCount }} of 500 recommended variables remaining.{% endif %}">{{ basketCount }}</span>{% endif %}</a>
+		      <ul>
+			<li><a href="helpBaskets">Get Started</a></li>
 			<li><a href="basket?command=saveNew&id={{sessionID}}">Save
 			    Basket</a></li>
 			<li><a href="basket?id={{sessionID}}">View Current
@@ -210,27 +247,6 @@
 	by email to MRCLHA.SwiftInfo@ucl.ac.uk.</p>
       {% endblock results %}
     </div>
-        <div class="cookie-banner" id="cookieBanner">
-        <div class="cookie-content">
-            <div class="cookie-text">
-                <h3>Condor uses cookies</h3>
-                <p>We use strictly necessary cookies to solely to
-                support core functionality and customise content for
-                you.  We do not use cookies for marketing, analytics,
-                or traffic analysis.  By clicking "Accept", you
-                consent to our use of cookies. If you reject cookies
-                you cannot use the Condor website.  See the NSHD
-                website <a href="https://skylark.ucl.ac.uk/NSHD/cookies/"
-                class="link">Cookie Policy</a></p>
-            </div>
-            <div class="cookie-actions">
-                <button class="cookie-btn reject"
-                id="rejectCookies">Reject</button>
-                <button class="cookie-btn accept"
-                id="acceptCookies">Accept</button>
-            </div>
-        </div>
-    </div>
 
     <footer> 
       {% block footer %}
@@ -250,60 +266,6 @@
       </table>			 
       {% endblock footer %} 
     </footer>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cookieBanner = document.getElementById('cookieBanner');
-            const acceptCookiesBtn = document.getElementById('acceptCookies');
-            const rejectCookiesBtn = document.getElementById('rejectCookies');
-            
-            // Check if user has already made a choice
-            if (!getCookie('CondorCookieConsent')) {
-                // Show the banner automatically after a short delay
-                setTimeout(() => {
-                    cookieBanner.classList.add('active');
-                }, 1500);
-            }
-            
-            // Accept cookies button
-            acceptCookiesBtn.addEventListener('click', () => {
-                setCookie('CondorCookieConsent', 'accepted', 1);
-                cookieBanner.classList.remove('active');
-            });
-            
-            // Reject cookies button
-            rejectCookiesBtn.addEventListener('click', () => {
-                // Go to Cookie Policy
-                cookieBanner.classList.remove('active');
-		window.location.href = 'https://www.ucl.ac.uk/home/cookies-settings';
-            });
-            
-            // Cookie functions
-            function setCookie(name, value, days) {
-                const d = new Date();
-                d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-                const expires = "expires=" + d.toUTCString();
-                document.cookie = name + "=" + value + ";" + expires + ";path=/";
-            }
-            
-            function getCookie(name) {
-                const cookieName = name + "=";
-                const decodedCookie = decodeURIComponent(document.cookie);
-                const cookieArray = decodedCookie.split(';');
-                
-                for (let i = 0; i < cookieArray.length; i++) {
-                    let cookie = cookieArray[i];
-                    while (cookie.charAt(0) === ' ') {
-                        cookie = cookie.substring(1);
-                    }
-                    if (cookie.indexOf(cookieName) === 0) {
-                        return cookie.substring(cookieName.length, cookie.length);
-                    }
-                }
-                return "";
-            }
-        });
-    </script>
   </body>
 </html>
 

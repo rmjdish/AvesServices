@@ -4,17 +4,23 @@
 {# This is an example of a template which produces a table with 4 columns #}
 {# but only 3 of them come from the results vector supplied for the template #}
 {% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
 <script>
 $(document).ready(function(){
 $('table').ddTableFilter();
 });
 </script>
 
-<div class="results">
-	<h2>{{ title }}</h2>
+<div class="results owl-basket-page">
+	<div class="help-header">
+		<h2>{{ title }}</h2>
+		<p>Baskets other users have made public. Load one into your own working basket to reuse their selection.</p>
+	</div>
 {% if results is not empty %}
 <p>There are {{ results | length }} shared baskets to view.</p>
-	<table>
+	<table class="owl-table">
 		<tr>
 			<th style="width: 10%;">User</th> {# Column 1 #}
 			<th class="skip-filter" style="width: 15%;">Basket ID</th> {# Column 2 #}
@@ -37,7 +43,7 @@ $('table').ddTableFilter();
 			{# loop.index is 2 so this is the Description field #}
 			<td>{{ val }}</td> {# Basket Description Field #} 
 			{# Put in final column offering chance to select for loading #}
-			<td><a href="loadBasket?basketID={{ thisbasket }}&id={{sessionID}}" style="font-size:1.5em">&#x2714;</a></td>
+			<td><a href="loadBasket?basketID={{ thisbasket }}&id={{sessionID}}" style="font-size:1.2em">&#x2714;</a></td>
 			</tr>
 			{# Throw end of row at this point #} 
 		{% endif %} 

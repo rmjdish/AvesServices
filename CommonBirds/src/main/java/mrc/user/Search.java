@@ -448,7 +448,18 @@ public class Search extends HttpServlet {
 			// Format the results with a template
 			p.setResults(results);
 			p.setnumResults(rowcount);
-			p.UserPage(out, "Search Results", s); // Populate template and print to output
+
+			// Collect every variable name in this page of results (every
+			// 7th entry starting at index 1) and check them all in one
+			// batch query, rather than one query per row.
+			ArrayList<String> namesToCheck = new ArrayList<String>();
+			for (int i = 1; i < results.size(); i += 7) {
+				namesToCheck.add(results.get(i));
+			}
+			java.util.Set<String> owlAvailable = mrc.util.OwlAvailability.checkAvailable(namesToCheck);
+			java.util.Map<String, String> restrictedMessages = mrc.util.RestrictedVariables.checkRestricted(namesToCheck);
+
+			p.UserPage(out, "Search Results", s, owlAvailable, restrictedMessages); // Populate template and print to output
 			rs.close();
 			c.release();
 		} catch (Exception e) {

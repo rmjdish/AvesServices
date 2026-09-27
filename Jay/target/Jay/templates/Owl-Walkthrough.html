@@ -1,0 +1,193 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results">
+<div class="help-page">
+
+  <div class="help-main">
+    <div class="help-header">
+      <h2>Guided walkthrough</h2>
+      <p>The same discover-in-OWL, finish-in-Condor workflow from
+      How It Works, but step by step — click a step to see exactly
+      what to do, then mark it done as you go.</p>
+    </div>
+
+    <div class="help-tips" id="storage-note">
+      <div class="help-section-label">Your progress is only saved in this browser</div>
+      <p style="font-size:14px;color:#7a4f00;margin:0;line-height:1.6;">Marking
+      a step as done is a convenience for you alone &mdash; it's
+      stored in this browser only (using localStorage), not on any
+      server. It won't follow you to a different device or browser,
+      and clearing your browser's site data will reset it. Nobody
+      else can see your progress, including LHA.</p>
+    </div>
+
+    <div class="walkthrough" id="owl-condor-walkthrough">
+
+      <div class="walkthrough-step" data-step-id="discover" style="background:hsl(180 45% 96%);border-left:4px solid hsl(180 45% 55%);color:hsl(180 45% 55%);">
+        <div class="walkthrough-step-header">
+          <div class="walkthrough-step-header-left">
+            <div class="walkthrough-step-badge" style="color:hsl(180 45% 40%);">1</div>
+            <div class="walkthrough-step-title" style="color:hsl(180 45% 20%);">Discover &mdash; search &amp; browse in OWL</div>
+          </div>
+          <span class="walkthrough-step-icon" style="color:hsl(180 45% 40%);">&#9662;</span>
+        </div>
+        <div class="walkthrough-step-detail">
+          <p>Start on OWL, not Condor &mdash; it's public, needs no
+          registration, and has more ways to find what you're looking
+          for. Pick whichever of these fits how much you already
+          know:</p>
+          <ul>
+            <li><strong>Know roughly what you want?</strong> Use Search Data Dictionary &mdash; OWL's recommended keyword search across every variable.</li>
+            <li><strong>Not sure where to start?</strong> Browse by Category to explore thematically instead.</li>
+            <li><strong>Want to see what others use?</strong> View Popular Variables shows what gets added to baskets most often.</li>
+            <li><strong>Need the same measure across sweeps?</strong> Longitudinal Search finds variables tracked consistently over time.</li>
+            <li><strong>Starting from a specific sweep?</strong> Search by Year filters by when data was collected.</li>
+            <li><strong>Working across cohorts?</strong> The UK LLC Catalogue covers NSHD's linked-data deposits.</li>
+            <li>Or just use the search bar at the top of any OWL page &mdash; it scans the whole site.</li>
+          </ul>
+          <p style="background:#fff9e6;border-left:3px solid #e8a200;border-radius:6px;padding:8px 12px;color:#7a4f00;">
+          <strong>If you're after early-life or childhood measures:</strong>
+          OWL's own coverage data shows early-life coverage (birth to
+          age 25) is smaller in scale than later-life sweeps &mdash;
+          the study used simpler instruments in its first two decades,
+          and OWL's cleaning has so far covered later, larger sweeps
+          more completely. If a childhood-era variable doesn't turn up
+          on OWL, that doesn't mean it doesn't exist: Condor always
+          holds the complete variable set, cleaned or not, so check
+          there directly rather than assuming it's unavailable.</p>
+          <div class="walkthrough-step-actions">
+            <a class="walkthrough-action" style="background:hsl(180 45% 45%);" href="https://rmjdish.github.io/OWL/" target="_blank" rel="noopener">Go to OWL &rarr;</a>
+            <a class="walkthrough-mark-done" style="color:hsl(180 45% 30%);" href="#">Mark as done</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="walkthrough-step" data-step-id="basket" style="background:hsl(35 60% 96%);border-left:4px solid hsl(35 60% 55%);color:hsl(35 60% 55%);">
+        <div class="walkthrough-step-header">
+          <div class="walkthrough-step-header-left">
+            <div class="walkthrough-step-badge" style="color:hsl(35 60% 40%);">2</div>
+            <div class="walkthrough-step-title" style="color:hsl(35 60% 22%);">Basket &mdash; collect variables, download the dictionary</div>
+          </div>
+          <span class="walkthrough-step-icon" style="color:hsl(35 60% 40%);">&#9662;</span>
+        </div>
+        <div class="walkthrough-step-detail">
+          <p>As you find variables you want, add each one to your
+          basket &mdash; it persists as you keep browsing, so you can
+          search several different ways (Step 1) and build up one
+          combined list.</p>
+          <p>When you're ready, download your basket from OWL. It
+          builds a complete Excel data dictionary for you automatically
+          &mdash; every variable in your basket is already marked in
+          the Request column, so there's nothing left to fill in by
+          hand.</p>
+          <p>Prefer not to use a basket at all? You can complete the
+          same dictionary entirely manually instead &mdash; download a
+          blank copy and mark variables yourself. Both approaches
+          produce the same file, and can be mixed: do part on OWL,
+          finish the rest by hand.</p>
+          <div class="walkthrough-step-actions">
+            <a class="walkthrough-action" style="background:hsl(35 60% 40%);" href="https://rmjdish.github.io/OWL/docs/getting-started/basket-management/" target="_blank" rel="noopener">OWL's basket guide &rarr;</a>
+            <a class="walkthrough-mark-done" style="color:hsl(35 60% 30%);" href="#">Mark as done</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="walkthrough-step" data-step-id="condor" style="background:hsl(340 45% 96%);border-left:4px solid hsl(340 45% 60%);color:hsl(340 45% 60%);">
+        <div class="walkthrough-step-header">
+          <div class="walkthrough-step-header-left">
+            <div class="walkthrough-step-badge" style="color:hsl(340 45% 45%);">3</div>
+            <div class="walkthrough-step-title" style="color:hsl(340 45% 28%);">Condor &mdash; upload, validate, and finalise</div>
+          </div>
+          <span class="walkthrough-step-icon" style="color:hsl(340 45% 45%);">&#9662;</span>
+        </div>
+        <div class="walkthrough-step-detail">
+          <p>Bring your completed dictionary &mdash; from OWL, done by
+          hand, or a mix of both &mdash; into Condor using
+          <strong>Upload OWL Basket</strong> from the OWL menu. It's
+          checked automatically before anything is added, using the
+          same validation OWL itself uses:</p>
+          <ul>
+            <li>Missing variable names are skipped and listed by row</li>
+            <li>Anything other than a blank or exact Y in the Request column is skipped and listed</li>
+            <li>Duplicate variable names: only the first is kept</li>
+            <li>A warning if your file would put a single basket over Condor's 500-variable limit</li>
+            <li>Restricted variables are named individually &mdash; they aren't imported automatically and need requesting separately</li>
+          </ul>
+          <p>Once it's through validation, your basket is finalised and
+          saved in Condor, ready for the last step.</p>
+          <div class="walkthrough-step-actions">
+            <a class="walkthrough-mark-done" style="color:hsl(340 45% 40%);" href="#">Mark as done</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="walkthrough-step" data-step-id="skylark" style="background:hsl(125 35% 95%);border-left:4px solid hsl(125 35% 55%);color:hsl(125 35% 55%);">
+        <div class="walkthrough-step-header">
+          <div class="walkthrough-step-header-left">
+            <div class="walkthrough-step-badge" style="color:hsl(125 35% 40%);">4</div>
+            <div class="walkthrough-step-title" style="color:hsl(125 35% 22%);">Skylark &mdash; submit your formal request</div>
+          </div>
+          <span class="walkthrough-step-icon" style="color:hsl(125 35% 40%);">&#9662;</span>
+        </div>
+        <div class="walkthrough-step-detail">
+          <p>Neither OWL nor Condor can submit your request directly
+          &mdash; that last step happens on Skylark. With your basket
+          finalised in Condor, head to Skylark and complete the formal
+          Data Access Request Form to actually apply for the data.</p>
+          <div class="walkthrough-step-actions">
+            <a class="walkthrough-action" style="background:hsl(125 35% 40%);" href="https://skylark.ucl.ac.uk/NSHD/" target="_blank" rel="noopener">Go to Skylark &rarr;</a>
+            <a class="walkthrough-mark-done" style="color:hsl(125 35% 30%);" href="#">Mark as done</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="help-afternote" id="back" style="margin-top:16px;">
+      <div class="help-section-label">Looking for the short version?</div>
+      <p>See <a href="owlHowItWorks">How It Works</a> for the same
+      workflow as a single-page overview, without the step-by-step
+      detail.</p>
+    </div>
+
+  </div>
+
+  <div class="help-sidebar">
+    <div class="help-sidebar-title">On this page</div>
+    <nav>
+      <a href="#storage-note">About your progress</a>
+      <a href="#owl-condor-walkthrough">The steps</a>
+      <a href="#back">Short version</a>
+    </nav>
+
+    <div class="walkthrough-checklist" data-walkthrough-target="owl-condor-walkthrough">
+      <div class="help-sidebar-title" style="border-top:1px solid #cfe0e3;margin-top:14px;padding-top:14px;">Your progress</div>
+      <p style="font-size:12px;color:#666;margin:0 0 8px;line-height:1.5;">Tick off steps as you complete them, or expand a step and use its "Mark as done" link.</p>
+      <div class="walkthrough-progress-count"></div>
+      <div class="walkthrough-checklist-item" data-step-id="discover" style="color:hsl(180 45% 40%);">
+        <span class="walkthrough-checklist-box"></span>
+        <span class="walkthrough-checklist-label">Discover</span>
+      </div>
+      <div class="walkthrough-checklist-item" data-step-id="basket" style="color:hsl(35 60% 40%);">
+        <span class="walkthrough-checklist-box"></span>
+        <span class="walkthrough-checklist-label">Basket</span>
+      </div>
+      <div class="walkthrough-checklist-item" data-step-id="condor" style="color:hsl(340 45% 45%);">
+        <span class="walkthrough-checklist-box"></span>
+        <span class="walkthrough-checklist-label">Condor</span>
+      </div>
+      <div class="walkthrough-checklist-item" data-step-id="skylark" style="color:hsl(125 35% 40%);">
+        <span class="walkthrough-checklist-box"></span>
+        <span class="walkthrough-checklist-label">Skylark</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+{% endblock %}

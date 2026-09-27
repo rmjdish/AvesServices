@@ -41,6 +41,7 @@ public class MessageRelay {
 		log - a Java Util Logging object that outputs to specified Tomcat logs
 */
 	private static HashMap<String, String> store = new HashMap<String, String>();
+	private static HashMap<String, String> categoryStore = new HashMap<String, String>();
 	private static ArrayList<String> sofar = new ArrayList<String>();
 	private static HashMap<Integer, String> messageSet = new HashMap<Integer, String>();
 	// private static final Logger log = Logger.getLogger(HostInfo.tell()+":"+SessMgr.class.getName());
@@ -71,9 +72,42 @@ public class MessageRelay {
 		add a message to the buffer of messages to be displayed
 */	
 	public void display (String key, int code) throws IOException {	
-		// Now print the message corresponding to number msg
-		log.fine(HostInfo.tell()+" MessageRelay: display key: "+key+" Msg: "+messageSet.get(code));
-		this.addmsg(key, messageSet.get(code));
+		// Existing 2-arg version, unchanged for LoadBasket.java and
+		// Trolley.java (the other two callers of this class) - defaults
+		// to a generic "added" category rather than requiring every
+		// caller to be updated.
+		this.display(key, code, "added");
+	}
+
+/*
+	Function: display (with category)
+		Same as <display> above, but also records a category
+		("restricted", "linked-restricted", "added", "linked-added")
+		against this key, so callers that need to distinguish why a
+		message was shown - not just what it says - can do so. Added
+		specifically because a linked variable that turned out to be
+		restricted was getting its correct restriction message
+		silently overwritten by a later, unconditional "also added"
+		call using the same key - the category makes it possible to
+		fix that at the call site instead of guessing from the
+		message text.
+*/
+	public void display (String key, int code, String category) throws IOException {	
+		log.fine(HostInfo.tell()+" MessageRelay: display key: "+key+" Msg: "+messageSet.get(code)+" Category: "+category);
+		this.addmsg(key, messageSet.get(code), category);
+	}
+
+/*
+	Function: displayText (with category)
+		Same as <display> above, but takes the message text directly
+		rather than looking it up by messageId - for messages built
+		up in Java (e.g. prefixing a stored restriction message with
+		"This is a linked variable but restricted") rather than
+		stored verbatim in the messages table.
+*/
+	public void displayText (String key, String text, String category) throws IOException {
+		log.fine(HostInfo.tell()+" MessageRelay: displayText key: "+key+" Msg: "+text+" Category: "+category);
+		this.addmsg(key, text, category);
 	}
 
 /*
@@ -81,20 +115,28 @@ public class MessageRelay {
 		Same as <display> above
 */	
 	public void quiet (String key, int code) throws IOException {	
-		// Now print the message corresponding to number msg
-		log.fine(HostInfo.tell()+" MessageRelay: quiet key: "+key+" Msg: "+messageSet.get(code));
-		this.addmsg(key, messageSet.get(code));
+		this.quiet(key, code, "added");
+	}
+
+/*
+	Function: quiet (with category)
+		Same as <display> (with category) above.
+*/	
+	public void quiet (String key, int code, String category) throws IOException {	
+		log.fine(HostInfo.tell()+" MessageRelay: quiet key: "+key+" Msg: "+messageSet.get(code)+" Category: "+category);
+		this.addmsg(key, messageSet.get(code), category);
 	}
 	
 /*	Function: addmsg
 		Puts a single message into the buffer to be displayed
 */
-	private void addmsg(String key, String msg) {
+	private void addmsg(String key, String msg, String category) {
 		final String nullMessage = "No Message";
 		if (StringUtils.isAllBlank(msg))
 			store.put(key, nullMessage);
 		else 
 			store.put(key, msg);
+		categoryStore.put(key, category);
 		log.fine(HostInfo.tell()+" MessageRelay: addmsg store: "+String.valueOf(store));
 
 	}
@@ -102,7 +144,12 @@ public class MessageRelay {
 /*
 	Function: msgFlush
 		Copies everything from the current store into the Class 
-		property sofar and then clears the buffer
+		property sofar and then clears the buffer. Now returns triples
+		(<var> <msg> <category> <var> <msg> <category>...) rather than
+		pairs, so callers that need the category (the Basket
+		Management confirmation page) can group/colour/count/filter by
+		it, without affecting anything that only reads the first two
+		of every three entries the way it always did.
 */
 	public ArrayList<String> msgFlush () {
 	    log.fine(HostInfo.tell()+" MessageRelay: msgFlush: store:"+store.toString());
@@ -110,11 +157,12 @@ public class MessageRelay {
 	    for (String key : store.keySet()) {
 	    	sofar.add(key);
 	    	sofar.add(store.get(key));
+	    	sofar.add(categoryStore.getOrDefault(key, "added"));
 	    }
 	    store.clear();
-	    // There are now pairs of elements in a serial list:
-	    // <var> <msg> <var> <msg>...
-	    // remove duplicates by throwin out the first of a pair
+	    categoryStore.clear();
+	    // There are now triples of elements in a serial list:
+	    // <var> <msg> <category> <var> <msg> <category>...
 
 	    return sofar;
 	}

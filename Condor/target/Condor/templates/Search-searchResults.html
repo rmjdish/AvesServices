@@ -1,9 +1,15 @@
 {% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 
 {% block results %}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
 {% include "oneverypage" %}
-<h2>{{ title }}</h2>
+<div class="help-header">
+  <h2>{{ title }}</h2>
+  <p>Your search returned {{ numResults }} results.</p>
+</div>
 
 <script type='text/javascript'>
 function masterCheck( btn, ca, ua )
@@ -14,20 +20,56 @@ for( var i = 0, len = elems.length; i < len; i++ )
     elems[ i ].checked = state; 
   btn.value = state ? ua : ca;
 }
+
+// Referenced by the form's onsubmit but was never actually defined
+// anywhere in the codebase - the form still submitted in practice
+// (most browsers don't block default submission just because an
+// inline handler threw a ReferenceError), just silently, with a
+// console error nobody would ever see. Defined properly now: basic
+// "at least one variable checked" validation, plus a full-page
+// "please wait" overlay for large selections, since Multiple Add is
+// a single, blocking form submission with no way to show real
+// progress mid-request (see the Basket Management page's dropdown
+// filter documentation for why a genuine progress bar would need a
+// separate polling endpoint and async submission - not attempted
+// here, this is a simple wait indicator only).
+function validateMultipleAdd(form) {
+	var elems = form.elements, checkedCount = 0;
+	for (var i = 0, len = elems.length; i < len; i++) {
+		if (elems[i].type && elems[i].type == 'checkbox' && elems[i].checked) {
+			checkedCount++;
+		}
+	}
+	if (checkedCount === 0) {
+		alert('Please check at least one variable to add.');
+		return false;
+	}
+	var overlay = document.getElementById('owlWaitOverlay');
+	if (overlay) {
+		overlay.style.display = 'flex';
+	}
+	return true;
+}
 </script>
 
-<p>Your search returned {{ numResults }} results.</p>
+<div id="owlWaitOverlay" class="owl-wait-overlay">
+  <div class="owl-wait-box">
+    <div class="owl-wait-spinner"></div>
+    <p>Adding your variables&hellip;</p>
+    <p class="owl-wait-subtext">This may take a moment for a large number of variables. Please wait.</p>
+  </div>
+</div>
+
+
 <form name="multipleAdd" onsubmit="return validateMultipleAdd(this)"
       action="variable" method="post" target="_self">
   <div class="form-header" id="Search-Results-Form">
-    &nbsp;&nbsp;&nbsp;
-    <input class="testbutton"
+    <input class="owl-submit-button"
 	   type="button"
 	   name="checkall"
 	   value="Check ALL"
 	   onClick="masterCheck(this, 'Check ALL', 'Uncheck ALL')">
-    &nbsp;&nbsp;&nbsp;
-    <input class="testbutton"
+    <input class="owl-submit-button"
 	   type="submit"
 	   value="Multiple Add">
   </div>
@@ -37,17 +79,23 @@ for( var i = 0, len = elems.length; i < len; i++ )
 	$('table').ddTableFilter();
     });
   </script>
-  <br>
-  <table>
+  {% if owlAvailable is not empty or restrictedMessages is not empty %}
+  <div class="help-tips" style="font-size:12px;">
+    {% if owlAvailable is not empty %}&#x1F989; = Available on OWL &mdash; click the icon to view this variable's metadata page on OWL.{% endif %}
+    {% if owlAvailable is not empty and restrictedMessages is not empty %}<br>{% endif %}
+    {% if restrictedMessages is not empty %}&#x1F512; = Restricted &mdash; hover the icon for details.{% endif %}
+  </div>
+  {% endif %}
+  <table class="owl-table">
     <tr>
-      <th style="width: 10%;" class="skip-filter">Variable</th>
-      <th style="width: 30%;" class="skip-filter">Description</th>
-      <th style="width: 10%;">Year</th>
-      <th style="width: 10%;">Form</th>
-      <th style="width: 10%;" class="skip-filter">Question</th>
+      <th style="width: 8%;" class="skip-filter">Variable Name</th>
+      <th style="width: 32%;" class="skip-filter">Description</th>
+      <th style="width: 5%;">Year</th>
+      <th style="width: 15%;">Form</th>
+      <th style="width: 9%;" class="skip-filter">Question</th>
       <th style="width: 10%;">Library File</th>
       <th style="width: 10%;">Add to Basket?</th>
-      <th style="width: 10%;">Multiple Add?</th>
+      <th style="width: 11%;">Multiple Add?</th>
     </tr>
     {# There are 7 columns of data supplied but 9 columns on the page #}
     {% for val in results %} 
@@ -64,10 +112,10 @@ for( var i = 0, len = elems.length; i < len; i++ )
     {% set vname = val %} {# remember the variable name #}
     <tr>
     {% if publicFlag == "1" %}
-      <td style="width: 15%;"><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a></td>
+      <td style="width: 15%;"><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}</td>
     {% else %}
       <td style="width: 15%;">
-        <a style="color:red" href="variable?command=displayCard&name={{ val }}">{{ val }}</a>
+        <a style="color:red" href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}
       </td>	
     {% endif %}				 
   {% elseif (loop.index + 1) % numCols equals 7 %} 
@@ -79,12 +127,11 @@ for( var i = 0, len = elems.length; i < len; i++ )
   {% endif %} {# end of if (loop.index...) #} 
   {% endfor %} 
   {# end of for val in results #}
-</table>
-{% else %} {# results is empty #}
-<p>Your search returned no results.</p>
-{% endif %} {# end of if results is not empty #}
+  </table>
+  {% else %} {# results is empty #}
+  <p>Your search returned no results.</p>
+  {% endif %} {# end of if results is not empty #}
+</form>
 </div>
 {% endblock results %}
-</table>
-</form>
 

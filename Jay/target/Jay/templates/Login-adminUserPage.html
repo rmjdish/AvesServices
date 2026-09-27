@@ -1,15 +1,22 @@
 <!-- This is a Pebble Template which inherits from ... -->
 {% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block results %}
-<div class="results">
-	<h2>{{ title }}</h2>
-	<p>You have the ability to:</p>
-	<ul>
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+	<div class="help-header">
+	  <h2>{{ title }}</h2>
+	  <p>You have the ability to:</p>
+	</div>
+	<ul class="owl-feature-list">
 		<li>Approve Users</li>
 		<li>Reset User Passwords</li>
 		<li>Update Admin User Details</li> {#
 		<li>Manage Baskets</li> #}
 	</ul>
-	<p>All using the menu bar above.</p>
+	<div class="help-afternote">
+	All using the menu bar above.
+	</div>
 </div>
 {% endblock %}

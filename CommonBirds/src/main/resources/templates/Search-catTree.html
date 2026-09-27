@@ -2,22 +2,29 @@
 {% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block results %}
 {% include "oneverypage" %}
-<div class="results">
-<h2>NSHD Search by Category</h2>
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+<div class="help-header">
+  <h2>NSHD Search by Category</h2>
+  <p>Browse the full category tree to find the section you need.</p>
+</div>
 <form name="input"
       onsubmit="return validateSearchForm(this)"
       action="search"
       method="post"
       target="_self"
       >
-  <div class="form-header" id="Search-catTree-Form">
+  <div class="owl-tree-actionbar" id="Search-catTree-Form">
     <input type="hidden" name="type" value="c">
-    &nbsp;&nbsp;&nbsp;
-    <input class="testbutton" type="submit" value="Search">  
-    <br>
-    <p style="color: red;">Parent categories may show zero items. Expand these to see subcategory item totals.</p>
-    <p style="color: MidnightBlue;">Currently selected categories are marked by a black bar to the left of the label.
-    <br>Numbers shown in square brackets are Showcase category labels.</p>
+    <button class="owl-submit-button" type="submit">Search</button>
+    <div class="help-tips" style="margin:0;">
+      Parent categories may show zero items. Expand these to see subcategory item totals.
+    </div>
+    <div class="help-afternote" style="margin:0;">
+      Selected categories are marked by a bar to the left of the label.
+    </div>
   </div>
   {% if results is empty %}
       <p>There are no category tree elements to display!</p>
@@ -27,7 +34,6 @@
       {{ line|raw }}
   {% endfor %}
 
-</select>
 </form>
 </div>
 {% endblock %}

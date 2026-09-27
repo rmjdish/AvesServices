@@ -3,16 +3,21 @@
 {% block results %}
 {# This is an example of a template which produces a table with 3 columns #}
 {# but only 2 of them come from the results vector supplied for the template #}
-
-<div class="results">
-<h2>{{ title }}</h2>
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+<div class="help-header">
+	<h2>{{ title }}</h2>
+	<p>Download a saved basket as an XML file for a formal data request.</p>
+</div>
 {% include "oneverypage" %}
-	<p>
+	<div class="help-tips">
 	    <strong>Please note that it is no longer necessary to send XML basket lists
-	    to the LHA.  Now, all you need to send us is the name of the required basket. </strong>
-	</p>
+	    to the LHA.</strong> Now, all you need to send us is the name of the required basket.
+	</div>
 {% if results is not empty %}
-  <table>
+  <table class="owl-table">
     <tr>
       <th style="width:20%">Basket ID</th> {# Column 1 #}
       <th style="width:65%">Description</th> {# Column 2#}

@@ -131,11 +131,34 @@ public class LoadBasket extends HttpServlet {
 
 		String accessLevel = s.getAttribute("accessLevel").toString();
 		Page p = new Page("LoadBasket-messageDisplay");
-		p.setnumCols(2);
 		s.setAttribute("items", v); // Push current list of variables on to the session
-		p.setResults(msg2u.msgFlush());
+		// msgFlush() always returns <name, message, category> triples
+		// now, regardless of caller - this previously still assumed
+		// the older <name, message> pairs (setnumCols(2) against data
+		// that was actually 3 items per group), which produced a
+		// visibly scrambled, misaligned table. Sorted and counted via
+		// the same shared BasketMessageTriples used by Variable.java's
+		// add-variable flow, rather than duplicating that logic here -
+		// this flow has no "linked" variables at all (it loads an
+		// already-saved basket rather than adding new ones), so
+		// category will only ever be "added"/"added-note"/"restricted"
+		// for these results, but the same sorting/counting is safe
+		// either way.
+		ArrayList<String> messages = mrc.util.BasketMessageTriples.sortByCategory(msg2u.msgFlush());
+		p.setnumCols(3);
+		p.setResults(messages);
+		ArrayList<String> namesToCheck = new ArrayList<String>();
+		for (int i = 0; i < messages.size(); i += 3) {
+			namesToCheck.add(messages.get(i));
+		}
+		java.util.Set<String> owlAvailable = mrc.util.OwlAvailability.checkAvailable(namesToCheck);
+		java.util.Map<String, String> restrictedMessages = mrc.util.RestrictedVariables.checkRestricted(namesToCheck);
+		java.util.Map<String, String> variableLabels = mrc.util.VariableLabels.checkLabels(namesToCheck);
+		java.util.Map<String, Integer> categoryCounts = mrc.util.BasketMessageTriples.countByCategory(messages);
+		java.util.Map<String, Object> extraFlags = new java.util.HashMap<String, Object>();
+		extraFlags.put("variableLabels", variableLabels);
 		try {
-			p.UserPage(out, "Basket " + basket + " Loaded", s);
+			p.UserPage(out, "Basket " + basket + " Loaded", s, owlAvailable, restrictedMessages, categoryCounts, extraFlags);
 		} catch (Exception err3) {
 			log.severe(" addVars: Attempt to print tamplate failed");
 			err3.printStackTrace();

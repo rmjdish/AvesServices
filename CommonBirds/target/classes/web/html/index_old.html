@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no"/>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"/>
+    <title>Condor Home Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta name="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <link rel="stylesheet" href="SWIFT15.css" type="text/css"/>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <script src="FormValidation.js"></script>
+    <script src="Help.js"></script>
+    <script src="treeitemClick.js"></script>
+    <script src="treeitem.js"></script>
+    <script src="treeview-navigation.js"></script>
+  </head>
+  <body>
+  <header>
+    <table style="width:100%">
+	<tr>
+	  <td>
+	    <div class="banner">
+		<img src="NSHDLogo.png" alt="National Survey of Health & Development" />
+		<h1>&nbsp;&nbsp;MRC National Survey of Health and Development&nbsp;&nbsp;</h1>
+		<img src="ukrimrc.png" alt="UKRI" />
+	    </div>
+	    <!-- End of Banner -->
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <ul id="menu-bar">
+          <li><a href="index.html" title="Home">Home</a></li>
+          <li><a href="register" title="Register">Register</a></li>
+          <li><a href="login" title="Login">Login</a></li>
+          <li><a href="#">About...</a>
+            <ul>
+	          <li><a href="https://skylark.ucl.ac.uk/NSHD/" target="_blank">About NSHD</a></li>
+	          <li><a href="https://www.ucl.ac.uk/cardiovascular/research/population-science-and-experimental-medicine/unit-lifelong-health-and-ageing-ucl" target="_blank">About LHA</a></li>
+	          <li><a href="https://skylark.ucl.ac.uk/NSHD/about-nshd/" target="_blank">About NSHD Data</a>
+	          <li><a href="mailto:MRCLHA.SwiftInfo@ucl.ac.uk?subject=Condor%20NSHD%20Enquiry" title="Enquiry">Enquiry</a></li>        
+            </ul>
+	    </ul>
+	  </td>
+	</tr>
+	</table>
+	</header>
+
+	  <div class="results">
+	    <h2>Welcome to Condor, the NSHD metadata browser.</h2>
+	    <p>The Medical Research Council (MRC) National Survey
+	      of Health of Development (NSHD) is an ongoing cohort study involving
+	      some 5,362 men and women born in England, Scotland and Wales who have
+	      been followed up since their birth in March 1946. Over the 70+ year
+	      follow-up, study participants have provided personal information about
+	      their health and life circumstances and taken part in a wide range of
+	      tests of their physical, cognitive and mental health. Their right to
+	      privacy, and the ethical conduct of all researchers accessing the data,
+	      must be guaranteed.</p>		    
+	    <p>The scientific mission of the Unit for
+	      Lifelong Health and Ageing, UCL (LHA), which manages the NSHD, is the
+	      discovery of life course influences on normal and healthy ageing, and
+	      the promotion of healthy ageing. </p>
+	    <p>Condor provides a means for researchers to access
+	    public study metadata.</p>
+	    <p>For full instructions on how to use <em>Condor</em> please visit our
+	    <a href="https://skylark.ucl.ac.uk/NSHD/">web site</a>
+	    </p>
+	    </div>
+	  <!-- Cookie Banner -->
+          <div class="cookie-banner" id="cookieBanner">
+            <div class="cookie-content">
+              <div class="cookie-text">
+                <h3>Condor uses cookies</h3>
+                <p>We use strictly necessary cookies to solely to
+                  support core functionality and customise content for
+                  you.  We do not use cookies for marketing, analytics,
+                  or traffic analysis.  By clicking "Accept", you
+                  consent to our use of cookies. If you reject cookies
+                  you cannot use the Condor website.  See the NSHD
+                  website <a href="https://skylark.ucl.ac.uk/NSHD/cookies/"
+			     class="link">Cookie Policy</a></p>
+              </div>
+              <div class="cookie-actions">
+                <button class="cookie-btn reject"
+			id="rejectCookies">Reject</button>
+                <button class="cookie-btn accept"
+			id="acceptCookies">Accept</button>
+            </div>
+            </div>
+	  </div>
+	  <script>
+            document.addEventListener('DOMContentLoaded', function() {
+		const cookieBanner = document.getElementById('cookieBanner');
+		const acceptCookiesBtn = document.getElementById('acceptCookies');
+		const rejectCookiesBtn = document.getElementById('rejectCookies');
+		
+		// Check if user has already made a choice
+		if (!getCookie('CondorCookieConsent')) {
+                    // Show the banner automatically after a short delay
+                    setTimeout(() => {
+			cookieBanner.classList.add('active');
+                    }, 1500);
+		}
+		
+		// Accept cookies button
+		acceptCookiesBtn.addEventListener('click', () => {
+                    setCookie('CondorCookieConsent', 'accepted', 1);
+                    cookieBanner.classList.remove('active');
+		});
+		
+		// Reject cookies button
+		rejectCookiesBtn.addEventListener('click', () => {
+                    // Go to Cookie Policy
+                    cookieBanner.classList.remove('active');
+		    window.location.href = 'https://www.ucl.ac.uk/home/cookies-settings';
+		});
+		
+		// Cookie functions
+		function setCookie(name, value, days) {
+                    const d = new Date();
+                    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+                    const expires = "expires=" + d.toUTCString();
+                    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+		}
+		
+		function getCookie(name) {
+                    const cookieName = name + "=";
+                    const decodedCookie = decodeURIComponent(document.cookie);
+                    const cookieArray = decodedCookie.split(';');
+                    
+                    for (let i = 0; i < cookieArray.length; i++) {
+			let cookie = cookieArray[i];
+			while (cookie.charAt(0) === ' ') {
+                            cookie = cookie.substring(1);
+			}
+			if (cookie.indexOf(cookieName) === 0) {
+                            return cookie.substring(cookieName.length, cookie.length);
+			}
+                    }
+                    return "";
+		}
+            });
+	  </script>
+  </body>
+</html>

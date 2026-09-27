@@ -90,6 +90,35 @@ public class SessionFilter implements Filter {
 		}
 		else {
 			log.fine(HostInfo.tell()+" SessionFilter: valid session.");
+			// Real HTTP response headers, not just the <meta> tags
+			// already in SKYLARK.html's <head> - those are known to be
+			// unreliable specifically against the browser's
+			// back/forward cache (bfcache), which is what was causing
+			// the basket-count badge (and any other server-rendered,
+			// per-request content) to show a stale snapshot after
+			// clicking Back, corrected only by an explicit refresh.
+			//
+			// no-store fixes that reliably, but purges the cache entry
+			// outright - applied to a POST response, that means the
+			// browser has no choice but to re-POST the original form
+			// data to go back to it, triggering a "Confirm Form
+			// Resubmission" warning. no-cache alone avoids that, but
+			// isn't strong enough to reliably defeat bfcache in every
+			// browser, so the stale badge came back.
+			//
+			// Scoped to GET requests only, which is where a stale
+			// badge on Back is actually the concern (returning to a
+			// results/basket page after adding a variable elsewhere) -
+			// POST responses keep their normal cacheability, so
+			// Multiple Add and any POST-submitted search results page
+			// don't trigger a resubmission prompt on Back.
+			if ("GET".equalsIgnoreCase(req.getMethod())) {
+				res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+			} else {
+				res.setHeader("Cache-Control", "no-cache, must-revalidate");
+			}
+			res.setHeader("Pragma", "no-cache");
+			res.setDateHeader("Expires", 0);
 			// pass the request along the filter chain
 			chain.doFilter(request, response);
 		}

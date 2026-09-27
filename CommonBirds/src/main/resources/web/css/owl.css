@@ -1,0 +1,1671 @@
+/* owl.css
+   Theme layer for Condor's OWL-related pages (Search/Baskets/Access
+   "Get Started" pages, and What is OWL / How It Works). Loaded AFTER
+   help-pages.css on every page that uses it — help-pages.css keeps
+   all structural CSS (layout, sidebar positioning, accordion
+   mechanics, the .results specificity fix); this file only touches
+   colour, font, and surface styling, sourced directly from OWL's own
+   getting-started.css and topics.css (not guessed).
+
+   Selectors here reuse the same ".results ..." prefix pattern as
+   help-pages.css where they target a <div>, for the same reason:
+   beating the site-wide ".results div { margin: 2em; ... }" rule on
+   specificity, independent of load order.
+*/
+
+.results .help-page,
+.results .help-page * {
+    font-family: Arial, sans-serif;
+}
+
+/* ---- Hero / header panel ---- */
+
+.results .help-header {
+    background: linear-gradient(135deg, #E8F5E9, #F3E5F5, #FFF3E0, #E0F7FA);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+}
+
+.results .help-header h2 {
+    color: #800020;
+}
+
+.results .help-header p {
+    color: #555;
+}
+
+/* ---- Cards: OWL's 8-colour pastel rotation, applied automatically
+   regardless of how many .help-card elements a page has ---- */
+
+.results .help-card:nth-of-type(8n+1) { background: hsl(180 45% 96%); border: 1px solid hsl(180 45% 58%); border-left: 4px solid hsl(180 45% 55%); }
+.results .help-card:nth-of-type(8n+1) .help-card-label { color: hsl(180 45% 22%); }
+
+.results .help-card:nth-of-type(8n+2) { background: hsl(35 60% 96%); border: 1px solid hsl(35 60% 58%); border-left: 4px solid hsl(35 60% 55%); }
+.results .help-card:nth-of-type(8n+2) .help-card-label { color: hsl(35 60% 25%); }
+
+.results .help-card:nth-of-type(8n+3) { background: hsl(340 45% 96%); border: 1px solid hsl(340 45% 60%); border-left: 4px solid hsl(340 45% 60%); }
+.results .help-card:nth-of-type(8n+3) .help-card-label { color: hsl(340 45% 28%); }
+
+.results .help-card:nth-of-type(8n+4) { background: hsl(125 35% 95%); border: 1px solid hsl(125 35% 58%); border-left: 4px solid hsl(125 35% 55%); }
+.results .help-card:nth-of-type(8n+4) .help-card-label { color: hsl(125 35% 22%); }
+
+.results .help-card:nth-of-type(8n+5) { background: hsl(210 45% 96%); border: 1px solid hsl(210 45% 58%); border-left: 4px solid hsl(210 45% 55%); }
+.results .help-card:nth-of-type(8n+5) .help-card-label { color: hsl(210 45% 22%); }
+
+.results .help-card:nth-of-type(8n+6) { background: hsl(270 35% 96%); border: 1px solid hsl(270 35% 58%); border-left: 4px solid hsl(270 35% 55%); }
+.results .help-card:nth-of-type(8n+6) .help-card-label { color: hsl(270 35% 25%); }
+
+.results .help-card:nth-of-type(8n+7) { background: hsl(160 40% 96%); border: 1px solid hsl(160 40% 45%); border-left: 4px solid hsl(160 40% 42%); }
+.results .help-card:nth-of-type(8n+7) .help-card-label { color: hsl(160 40% 22%); }
+
+.results .help-card:nth-of-type(8n+8) { background: hsl(50 70% 95%); border: 1px solid hsl(50 70% 48%); border-left: 4px solid hsl(50 70% 45%); }
+.results .help-card:nth-of-type(8n+8) .help-card-label { color: hsl(50 70% 26%); }
+
+.results .help-card {
+    border-radius: 9px;
+    transition: box-shadow 0.15s, transform 0.1s;
+}
+
+.results .help-card:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+    transform: translateY(-1px);
+}
+
+.results .help-card p {
+    color: #333;
+}
+
+.help-card a,
+.help-btn {
+    background: #6a0dad;
+    color: #fff;
+}
+
+.help-card a:hover,
+.help-btn:hover {
+    background: #3a0066;
+}
+
+/* ---- Tips: already close to OWL's own warning-callout style;
+   aligned exactly here rather than left as a coincidence ---- */
+
+.results .help-tips {
+    background: #fff9e6;
+    border: none;
+    border-left: 3px solid #e8a200;
+    border-radius: 8px;
+}
+
+.results .help-tips .help-section-label {
+    color: #7a4f00;
+}
+
+.results .help-tips ul,
+.results .help-tips li {
+    color: #7a4f00;
+}
+
+/* ---- FAQ / after-note: OWL's "note" callout style (light lavender,
+   purple accent) ---- */
+
+.results .help-faq,
+.results .help-afternote {
+    background: #f5f2ff;
+    border: none;
+    border-left: 3px solid #6a0dad;
+    border-radius: 8px;
+}
+
+.results .help-faq .help-section-label,
+.results .help-afternote .help-section-label {
+    color: #3b2a8a;
+}
+
+.help-faq-question {
+    color: #3a0066;
+}
+
+.help-faq-answer {
+    color: #333;
+}
+
+.help-faq-icon {
+    color: #6a0dad !important;
+}
+
+.results .help-afternote p {
+    color: #333;
+}
+
+/* ---- Basket splitting: teal, matching the same teal already
+   established elsewhere on the site (owl-tips-standard) for
+   informational, non-warning content ---- */
+
+.results .help-splitting {
+    margin: 0 0 16px;
+    background: #e0f7fa;
+    border: none;
+    border-left: 3px solid #00838f;
+    border-radius: 8px;
+    padding: 12px 16px;
+    scroll-margin-top: 200px;
+}
+
+.results .help-splitting .help-section-label {
+    color: #006064;
+}
+
+.results .help-splitting p {
+    font-size: 14px;
+    color: #333;
+    margin: 0 0 10px;
+    line-height: 1.6;
+}
+
+.results .help-splitting p:last-child {
+    margin-bottom: 0;
+}
+
+.results .help-splitting code {
+    background: #fff;
+    border: 1px solid #b2ebf2;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 13px;
+}
+
+/* ---- Linked variables: a stronger navy/blue, tying visually to the
+   same colour the Basket Management page itself already uses for
+   its "linked" badges and toggle ---- */
+
+.results .help-linked-vars {
+    margin: 0 0 16px;
+    background: #dde3f5;
+    border: none;
+    border-left: 3px solid #2c3e6b;
+    border-radius: 8px;
+    padding: 12px 16px;
+    scroll-margin-top: 200px;
+}
+
+.results .help-linked-vars .help-section-label {
+    color: #1f2d4d;
+}
+
+.results .help-linked-vars p {
+    font-size: 14px;
+    color: #333;
+    margin: 0 0 10px;
+    line-height: 1.6;
+}
+
+.results .help-linked-vars p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---- Danger callout: a small, nested warning box inside a wider
+   section (e.g. inside .help-splitting) - reuses the exact same red
+   already established for View Current Basket's high-risk note
+   (owl-risk-high), rather than inventing a separate red variant. */
+
+.results .help-callout-danger {
+    background: #fdeaea;
+    border: none;
+    border-left: 3px solid #c0392b;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 14px 0 0;
+}
+
+.results .help-callout-danger-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #8b1a1a;
+    margin: 0 0 6px;
+}
+
+.results .help-callout-danger p {
+    font-size: 14px;
+    color: #8b1a1a;
+    margin: 0 0 8px;
+    line-height: 1.6;
+}
+
+.results .help-callout-danger p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---- Sidebar ---- */
+
+.results .help-sidebar {
+    background: linear-gradient(135deg, #E8F5E9, #F3E5F5, #FFF3E0, #E0F7FA);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.results .help-sidebar-title {
+    color: #3a0066;
+    border-bottom: 2px solid #6a0dad;
+}
+
+.help-sidebar nav a::before {
+    color: #6a0dad;
+}
+
+.help-sidebar nav a.active {
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 3px solid #6a0dad;
+    color: #3a0066;
+    border-radius: 0 5px 5px 0;
+}
+
+.help-sidebar nav a:hover {
+    background: rgba(255, 255, 255, 0.6);
+    color: #6a0dad;
+}
+
+.help-sidebar-totop {
+    background: #E8F5E9;
+    border: 1px solid #a5d6a7;
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: #4b067a;
+}
+
+.help-sidebar-totop:hover {
+    background: #d6ebd8;
+    color: #4b067a;
+}
+
+/* ---- Guided walkthrough ----
+   A clickable, expandable stepper, distinct from the FAQ accordion
+   only in styling (each step carries its own accent colour) - the
+   expand/collapse mechanic itself is the same pattern, driven by
+   help-pages.js toggling a shared "open" class.
+
+   All rules below set margin and padding fully and explicitly from
+   the start (see the In-App Help Pages Documentation, 9.6) rather
+   than leaving any side to fall back to the site-wide .results div
+   rule - every one of these is a <div>. */
+
+.results .walkthrough {
+    margin: 0 0 16px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    scroll-margin-top: 200px;
+}
+
+.results .walkthrough-step {
+    margin: 0;
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.results .walkthrough-step-header {
+    margin: 0;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.results .walkthrough-step-header-left {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.results .walkthrough-step-badge {
+    margin: 0;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.walkthrough-step.done .walkthrough-step-badge {
+    background: currentColor;
+    color: #fff !important;
+}
+
+.results .walkthrough-step-title {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.walkthrough-step-icon {
+    font-size: 14px;
+    transition: transform 0.2s ease;
+}
+
+.walkthrough-step.open .walkthrough-step-icon {
+    transform: rotate(180deg);
+}
+
+.results .walkthrough-step-detail {
+    margin: 0;
+    padding: 0 14px 16px 46px;
+    display: none;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.walkthrough-step.open .walkthrough-step-detail {
+    display: block;
+}
+
+.walkthrough-step-detail ul {
+    margin: 8px 0;
+    padding-left: 18px;
+}
+
+.results .walkthrough-step-actions {
+    margin: 10px 0 0 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.walkthrough-step-actions a.walkthrough-action {
+    font-size: 12px;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.walkthrough-mark-done {
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.results .walkthrough-progress-count {
+    margin: 4px 0 0 0;
+    padding: 0;
+    font-size: 12px;
+    color: #888;
+}
+
+/* ---- Walkthrough checklist (sidebar) ----
+   An always-visible summary of progress through a .walkthrough,
+   living in the sidebar rather than inside the (collapsible, so not
+   always visible) walkthrough steps themselves. Linked to its
+   walkthrough via data-walkthrough-target matching the walkthrough's
+   id - see help-pages.js. */
+
+.results .walkthrough-checklist {
+    margin: 0;
+    padding: 0;
+}
+
+.results .walkthrough-checklist .walkthrough-progress-count {
+    margin: 0 0 10px 0;
+    padding: 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.results .walkthrough-checklist-item {
+    margin: 0;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.walkthrough-checklist-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 2px solid currentColor;
+    flex-shrink: 0;
+    display: inline-block;
+    position: relative;
+}
+
+.walkthrough-checklist-item.done .walkthrough-checklist-box {
+    background: currentColor;
+}
+
+.walkthrough-checklist-item.done .walkthrough-checklist-box::after {
+    content: "\2713";
+    position: absolute;
+    top: -3px;
+    left: 1px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.walkthrough-checklist-item.done .walkthrough-checklist-label {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+/* ---- Basket management pages ----
+   These four pages (View Current Basket, Save Basket, Load/Share My
+   Basket, Load Shared Basket) are plain, unstyled HTML tables and a
+   table-based form - genuinely different in shape from the card/
+   accordion pages elsewhere in this system, so this is new styling,
+   not a reuse of .help-card etc. Kept as a lighter visual layer over
+   the EXISTING page structure (no sidebar, no .help-page layout) -
+   this is "match the look", not a restructure of pages that have
+   worked as simple tables for years. */
+
+.results table.owl-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    border: 1px solid #c2cbe0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.results table.owl-table th {
+    background: #2c3e6b;
+    color: #fff;
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.results table.owl-table td {
+    padding: 9px 14px;
+    border-top: 1px solid #e5e8f2;
+}
+
+.results table.owl-table tr:nth-child(even) td {
+    background: #f5f6fa;
+}
+
+.results table.owl-table tr:hover td {
+    background: #e3e7f2;
+}
+
+.results table.owl-table a {
+    color: #2c3e6b;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.results table.owl-table a:hover {
+    text-decoration: underline;
+}
+
+/* Add to Basket (\u03a3) links specifically - a third, distinct shade
+   from both the header and the variable-name links, targeted by
+   href pattern since this link has no class of its own to hook into
+   without a template change. */
+.results table.owl-table a[href*="command=addCard"] {
+    color: #1d2a4a;
+}
+
+.results table.owl-table input[type="checkbox"] {
+    accent-color: #1d2a4a;
+}
+
+.results .owl-risk-note {
+    margin: 0 0 14px 0;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.results .owl-risk-low {
+    background: #eef8ee;
+    border-left: 3px solid #2e7d32;
+    color: #1b5e20;
+}
+
+.results .owl-risk-medium {
+    background: #fff9e6;
+    border-left: 3px solid #e8a200;
+    color: #7a4f00;
+}
+
+.results .owl-risk-high {
+    background: #fdeaea;
+    border-left: 3px solid #c0392b;
+    color: #8b1a1a;
+}
+
+.results .owl-form-card {
+    margin: 0 0 16px 0;
+    padding: 18px 20px;
+    background: #faf7ff;
+    border-left: 4px solid #6a0dad;
+    border-radius: 0 8px 8px 0;
+    max-width: 560px;
+}
+
+.results .owl-form-card-wide {
+    max-width: 900px; /* 711px + ~5cm (189px at 96dpi), per further request for long library titles */
+}
+
+.owl-form-card label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3a0066;
+    margin-bottom: 6px;
+}
+
+.owl-form-card input[type="text"],
+.owl-form-card input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    margin: 0 0 4px 0;
+    background-color: #fff;
+    border: 1px solid #d3c3f0;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+.owl-form-card input[type="text"]:focus,
+.owl-form-card input[type="password"]:focus {
+    outline: none;
+    border-color: #6a0dad;
+}
+
+.owl-form-card .owl-required-note {
+    font-size: 12px;
+    color: #888;
+    margin: 0 0 14px 0;
+}
+
+.owl-submit-button {
+    background: #6a0dad;
+    color: #fff;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+.owl-submit-button:hover {
+    background: #3a0066;
+}
+
+/* ---- Font applied page-wide on pages outside the .help-page system
+   (the basket management pages) - the existing Arial rule is scoped
+   to .help-page specifically, which these pages don't use. Not
+   .results-prefixed since font-family isn't affected by the .results
+   div margin/padding bug this file works around elsewhere. */
+
+.owl-basket-page,
+.owl-basket-page * {
+    font-family: Arial, sans-serif;
+}
+
+/* ---- Standalone page banner ----
+   A variant of .help-header for use OUTSIDE .results entirely - a
+   top-level banner sitting above the content section, rather than as
+   the first thing inside it. .help-header itself only matches when
+   nested inside .results (.results .help-header), so this is a
+   separate, self-contained rule with the same look, usable anywhere
+   in the page regardless of ancestor. */
+
+.owl-page-banner {
+    background: linear-gradient(135deg, #E8F5E9, #F3E5F5, #FFF3E0, #E0F7FA);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 16px 20px 8px;
+    margin: 205px 12px 12px 12px;
+    width: 95%;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Scoped narrowly via adjacent-sibling: only applies to a .results
+   that directly follows an .owl-page-banner (i.e. only on pages using
+   this banner pattern), leaving .results's normal margin-top: 15%
+   (from the base SWIFT15.css, needed to clear the page's fixed
+   header on its own) untouched everywhere else. That 15% was already
+   doing this same job before the banner existed, so once the banner
+   also pushes content down, the two stack into an oversized gap. */
+.owl-page-banner + .results.owl-basket-page {
+    margin-top: 73px !important; /* 16px (original tuned value) + ~57px (1.5cm at 96dpi), per direct feedback. !important and the added .owl-basket-page class both ensure this wins over the general .results.owl-basket-page rule below, which was otherwise silently overriding this page-specific value due to matching specificity. */
+    width: 95% !important;
+    box-sizing: border-box;
+    background: white !important; /* the three home-page cards sat on a visible grey-blue background otherwise - traced to this page specifically (other .owl-basket-page pages don't show it), so fixed here rather than on the general rule below, which would affect every page using that class. */
+}
+
+.owl-page-banner h2 {
+    color: #800020;
+    margin: 0 0 4px 0;
+    font-size: 22px;
+}
+
+.owl-page-banner p {
+    color: #555;
+    margin: 0 0 14px 0;
+}
+
+/* ---- Category tree (Search-catTree.html) ----
+   The tree itself (div.tree > ul[role="tree"] > li[role="treeitem"])
+   is generated server-side by TreeSearch.java/CatTree.java as raw
+   HTML, and its expand/collapse, selection, hover, and focus
+   mechanics are entirely handled by treeview-navigation.css via
+   role/aria-* attribute selectors. Nothing structural is touched
+   here - only font and label colour, which that file doesn't set at
+   all, so there's no risk of conflicting with the working widget. */
+
+.owl-basket-page .tree {
+    font-family: Arial, sans-serif;
+}
+
+/* ---- Category tree: sticky action bar + prettier tree ----
+   Two separate sticky elements (the action bar and the "category
+   selected" indicator) stack visually adjacent as you scroll, since
+   .owl-category-selected is generated server-side by TreeSearch.java
+   and isn't a DOM sibling the action bar can simply contain. */
+
+.results .owl-tree-actionbar {
+    margin: 0 0 4px 0;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: #fff;
+    position: sticky;
+    top: 210px;
+    z-index: 10;
+    border-bottom: 1px solid #eee;
+}
+
+.owl-tree-actionbar .help-tips,
+.owl-tree-actionbar .help-afternote {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 14px;
+}
+
+.results .owl-category-selected {
+    margin: 0 0 14px 0;
+    padding: 10px 16px;
+    background: #f5f2ff;
+    border: 1px solid #e0d6f5;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    top: 262px;
+    z-index: 9;
+    font-size: 13px;
+    font-weight: 700;
+    color: #3a0066;
+}
+
+.owl-category-selected label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    width: 100%;
+}
+
+.owl-category-selected input {
+    background: #fff;
+    border: 1px solid #6a0dad;
+    color: #3a0066;
+    padding: 4px 12px;
+    margin: 0;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    width: 100% !important;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Category folders: consistent purple, matching span.showcase set
+   earlier - the folder/open/closed icon inherits this same colour
+   automatically via ::before, no extra rule needed. */
+
+.owl-basket-page span.showcase {
+    color: #3a0066;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    width: calc(100% - 30px);
+}
+
+.owl-basket-page span.doc-label {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    width: calc(100% - 30px);
+    /* colour intentionally not set here - inherited from the parent
+       li's depth-based colour rule, same as before this change */
+}
+
+.owl-tree-count {
+    display: inline-block;
+    background: transparent;
+    color: #999;
+    font-size: 11px;
+    font-weight: 400;
+    padding: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* Remove the tree widget's own default "everything looks focused"
+   grey background (see treeview-navigation.css, .focus) within this
+   page only - not touched in the shared file itself, since the tree
+   may be reused elsewhere and its own default behaviour there is
+   left alone. Also tightens up the vertical spacing between items,
+   relying on indentation + colour to show hierarchy instead of gaps. */
+
+.owl-basket-page [role="treeitem"].focus,
+.owl-basket-page [role="treeitem"] span.focus {
+    background-color: transparent !important;
+}
+
+.owl-basket-page ul[role="tree"] li,
+.owl-basket-page ul[role="group"] li {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* The <ul role="group"> wrapping each expanded set of children has
+   never had its own default browser margin reset (typically ~1em
+   top/bottom) - that's the gap appearing above and below every
+   expanded category, distinct from the li/span padding fixed above.
+   Horizontal indentation (padding-left) is left exactly as the
+   browser default provides it. */
+
+.owl-basket-page [role="group"] {
+    margin: 0;
+}
+
+/* The shared treeview-navigation.css sets a fixed width: 20em and its
+   own padding: 0.125em on BOTH [role="treeitem"] and the span inside
+   it separately - the fixed width truncates long category/variable
+   names, and the doubled-up padding (li's own plus its span's own)
+   is the real source of the vertical gap between items, not just the
+   li's padding alone. Both overridden here, scoped to this page only
+   - the shared file itself is untouched. */
+
+.owl-basket-page [role="treeitem"],
+.owl-basket-page [role="treeitem"] span {
+    width: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Depth-based colour: every item at the same nesting level shares one
+   colour, and colour changes only when you go a level deeper - not
+   varied between siblings at the same level, which read as arbitrary
+   rather than meaningful. CSS has no native "nesting depth" selector,
+   so this is written out explicitly per level via repeated group
+   selectors, matching how deeply TreeSearch.java actually nests
+   ul.section/li.section - the same purple used for span.showcase
+   carries through as level 1's colour, so folders and their labels
+   stay visually consistent at the top level. */
+
+.owl-basket-page ul[role="tree"] > li,
+.owl-basket-page ul[role="tree"] > li > span.showcase {
+    color: hsl(270 35% 30%);
+}
+.owl-basket-page ul[role="tree"] > li ul.section > li,
+.owl-basket-page ul[role="tree"] > li ul.section > li > span.showcase {
+    color: hsl(180 45% 32%);
+}
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li,
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li > span.showcase {
+    color: hsl(35 60% 34%);
+}
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li ul.section > li,
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li ul.section > li > span.showcase {
+    color: hsl(340 45% 38%);
+}
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li ul.section > li ul.section > li,
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li ul.section > li ul.section > li > span.showcase {
+    color: hsl(125 35% 30%);
+}
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li ul.section > li ul.section > li ul.section > li,
+.owl-basket-page ul[role="tree"] > li ul.section > li ul.section > li ul.section > li ul.section > li ul.section > li > span.showcase {
+    color: hsl(15 65% 38%);
+}
+
+.owl-basket-page [role="treeitem"].doc:hover {
+    background: #faf8fe;
+    border-radius: 4px;
+}
+
+/* Selected category: a clearly visible highlight, added alongside
+   (not replacing) the existing left-border rule in
+   treeview-navigation.css, which is left completely untouched. */
+
+/* Selected-category highlight removed on request (was reported as
+   confusing) - the original left-border indicator in
+   treeview-navigation.css, untouched throughout this whole project,
+   remains the only selection indicator. */
+
+/* Update: the left-border indicator itself was also reported as no
+   longer needed, now that the +/- indicators and connecting lines
+   make the hierarchy clear on their own. Neutralised here rather
+   than edited in treeview-navigation.css directly - that file is
+   still left untouched, in case the tree is reused elsewhere where
+   this indicator is still wanted. */
+
+.owl-basket-page [role="treeitem"][aria-selected="true"] {
+    border-left: none !important;
+    padding-left: 0 !important;
+}
+
+/* ---- Registration form: sectioned, colour-coded, wide layout ----
+   Four logical sections (Personal Details, Postal Address, Contact
+   Details, Your Account) as their own colour-coded cards in a 2x2
+   grid, replacing one long narrow single-column form. Colours are
+   explicit per section (not the automatic :nth-of-type rotation used
+   for .help-card elsewhere), since this needed a specific requested
+   order (Personal Details top-left, Your Account bottom-right) that
+   an automatic rotation can't guarantee. */
+
+.results .owl-reg-grid {
+    margin: 0 0 4px 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.results .owl-reg-section {
+    margin: 0;
+    padding: 16px 18px;
+    border-radius: 8px;
+}
+
+.owl-reg-section label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.owl-reg-section input[type="text"],
+.owl-reg-section input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px 10px;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+.results .owl-reg-section-title {
+    margin: 0 0 12px 0;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.results .owl-reg-pair {
+    margin: 10px 0 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 800px) {
+    .results .owl-reg-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---- Logged-in landing pages (Login-*UserPage.html) ----
+   A styled feature list replacing the plain <ul>, used across all
+   four session-type landing pages (External, Internal, DSG, Admin). */
+
+.results .owl-feature-list {
+    margin: 0 0 16px 0;
+    padding: 16px 14px 16px 36px;
+    list-style: none;
+    background: #faf8fe;
+    border-radius: 6px;
+}
+
+.results .owl-feature-list li {
+    margin: 0 0 8px 0;
+    padding: 2px 0;
+    position: relative;
+    font-size: 14px;
+    color: #333;
+}
+
+.results .owl-feature-list li:last-child {
+    margin-bottom: 0;
+}
+
+.owl-feature-list li::before {
+    content: "\2713";
+    position: absolute;
+    left: -24px;
+    color: #6a0dad;
+    font-weight: 700;
+}
+
+/* ---- Variable Detail page: colour-coded sections + sidebar ----
+   Six sections (Details, Linked Variables, Documents, Categories,
+   Value Labels, Frequency Distribution), each its own colour from
+   the established HSL family, with the section title inside the
+   coloured area itself rather than a plain heading above it -
+   matching OWL's own tabbed-section convention on its variable
+   pages. Uses the full .help-page/.help-sidebar layout, since this
+   page is long/complex enough to benefit from it, unlike the
+   simpler basket/search pages built without one. */
+
+.results .owl-var-section {
+    margin: 0 0 16px 0;
+    padding: 16px 18px;
+    border-radius: 8px;
+    scroll-margin-top: 200px;
+}
+
+.results .owl-var-section-title {
+    margin: 0 0 12px 0;
+    padding: 0;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.owl-var-section table.owl-table {
+    margin: 0;
+}
+
+/* ---- Sortable table headers ----
+   Applies to every .owl-table automatically via help-pages.js -
+   these rules just supply the hover feedback and sort-direction
+   indicator; the click behaviour itself lives in the JS. */
+
+.results table.owl-table th {
+    cursor: pointer; /* CSS-based rather than inline, so it survives ddTableFilter rebuilding the header row later */
+}
+
+.results table.owl-table th:hover {
+    background: #3a4f89;
+}
+
+.results table.owl-table th::after {
+    content: " \25B2\25BC"; /* both arrows stacked (unsorted) - built from the same two characters already confirmed working below, rather than a less common single glyph (\21C5) that may not render in every font */
+    font-size: 8px;
+    opacity: 0.6;
+    letter-spacing: -2px;
+}
+
+.results table.owl-table th.owl-sort-asc::after {
+    content: " \25B2";
+    font-size: 10px;
+    opacity: 1;
+}
+
+.results table.owl-table th.owl-sort-desc::after {
+    content: " \25BC";
+    font-size: 10px;
+    opacity: 1;
+}
+
+/* ---- Closing the gap under the sticky header on simpler pages ----
+   .results.owl-basket-page (the plain structure used by most pages -
+   Search, Baskets, Login, etc. - as opposed to .help-page, which
+   already had its own margin-top correction) was never given its own
+   fix, so it was still picking up margin-top from the site-wide
+   .results rule uncorrected. Scoped to this exact class combination
+   only, so nothing else is affected. */
+
+.results.owl-basket-page {
+    margin-top: -28px;
+    padding-top: 0;
+}
+
+/* ---- Library search dropdown: matching the menu bar's own dropdown
+   colours, so this select feels consistent with the site's other
+   dropdown. Browser support for styling <option> elements is
+   inconsistent (works in Chrome/Edge, patchy/absent in Firefox and
+   Safari) - this is a real, known limitation of native <select>
+   elements, not something more CSS can fully resolve. */
+
+#owlLibrary option {
+    background: #fff;
+    color: #8a3a4d;
+}
+
+#owlLibrary option:hover,
+#owlLibrary option:checked {
+    background: #CFCFCF;
+    color: #8a3a4d;
+}
+
+/* ---- Clearer tree hierarchy: expand indicators + connecting lines ----
+   A +/- badge added to every category (li.section, which is the only
+   kind of tree item that ever expands - leaf/doc items have no
+   children and correctly show nothing here), purely additive
+   alongside the existing folder icon rather than replacing it.
+   Targets li itself (not the span), so it sits to the left of
+   everything else in the row. */
+
+.owl-basket-page li.section[role="treeitem"] {
+    position: relative;
+    padding-left: 20px !important;
+}
+
+.owl-basket-page li.section[role="treeitem"]::after {
+    content: "+";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+    background: #6a0dad;
+    border-radius: 3px;
+    line-height: 1;
+}
+
+.owl-basket-page li.section[role="treeitem"][aria-expanded="true"]::after {
+    content: "\2212"; /* minus sign */
+}
+
+/* Connecting line: a visible left border on every nested group, so
+   child categories/items visually trace back to their parent rather
+   than relying on indentation spacing alone. */
+
+.owl-basket-page ul[role="group"] {
+    border-left: 2px solid #e0d6f5;
+    margin-left: 8px !important;
+}
+
+/* ---- Restricted-variable icon (red lock) ----
+   Second icon in the icon system (see Icon System documentation) -
+   coexists with the OWL-availability owl wherever both apply to the
+   same variable. Wrapped in a red-tinted badge rather than relying
+   on the lock emoji's own colour, since emoji glyphs often ignore
+   CSS color entirely. Uses the HTML entity form (&#x1F512;), not a
+   raw character, matching the lesson learned from the OWL icon's
+   ISO-8859-1 encoding issue. */
+
+.owl-restricted-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fdeaea;
+    border: 1px solid #e6a0a0;
+    border-radius: 4px;
+    padding: 1px 4px;
+    cursor: help;
+    font-size: 12px;
+}
+
+/* ---- Compensating for a stacked margin on Variable Detail specifically ----
+   .results.owl-basket-page (-28px) and .help-page (-98px) are each
+   independently correct for the pages they were tuned for - but
+   Variable Detail is the one page using BOTH classes together (the
+   "Get Started"/OWL pages use .help-page alone, with no
+   .owl-basket-page), so it was getting both pulls stacked, pulling
+   .help-page up far enough to overlap .help-header above it. Scoped
+   to this exact combination only, so neither general rule needed
+   changing for the pages that actually rely on just one of them. */
+
+.results.owl-basket-page .help-page {
+    margin-top: -10px !important; /* reduced from -70px - that value (calculated as an assumed compensation) was still overlapping .help-header; -10px is deliberately conservative to stop the overlap first, may need a small further adjustment either direction */
+}
+
+/* ---- Sort indicator note ----
+   An earlier attempt to keep the sort arrow and ddTableFilter's
+   dropdown on one line (constraining the dropdown's width, then
+   absolutely positioning the arrow instead) ended up hiding the
+   dropdown either way. Reverted to the simple, unpositioned version
+   below - the arrow wraps under the dropdown on wider filtered
+   columns, but the dropdown itself stays visible and usable, which
+   matters more. Worth revisiting once the dropdown-visibility issue
+   is diagnosed properly (see Icon System-style investigation, not
+   yet done for this one). */
+
+/* ---- Restricted-variable banner (Variable Detail page) ----
+   A prominent top-of-page notice, distinct from the small lock icon
+   used elsewhere - only shown when the page's main variable is
+   itself restricted, using the same restrictedMessages data already
+   available from the icon feature (RestrictedVariables.java) - no
+   new backend work needed for this. */
+
+.results .owl-restricted-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fdeaea;
+    border-left: 4px solid #c0392b;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 0 0 16px 0;
+    color: #7a2020;
+    font-size: 14px;
+}
+
+.owl-restricted-banner-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* ---- Disabled remove for standard variables (SEX, INF) ----
+   Visually matches the active remove link's position/size, but
+   greyed out and non-interactive - these two are mandatory in every
+   basket, unlike SERNO/NTAG1 which are hidden from the list entirely
+   further up in this same file's basket-page rules. */
+
+.owl-remove-disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* ---- Check ALL / Multiple Add buttons: matching the new navy table theme ----
+   Scoped to #Search-Results-Form specifically, not the shared
+   .owl-submit-button class - that class is used site-wide (Login,
+   Registration, Save Basket, etc.), and this table-theme change was
+   scoped to the table pages only, not every button on the site. */
+
+#Search-Results-Form .owl-submit-button {
+    background: #2c3e6b;
+}
+
+#Search-Results-Form .owl-submit-button:hover {
+    background: #1d2a4a;
+}
+
+/* ---- Home page: "About" / "What's New" / "Condor Features" three-column section ----
+   Sized proportionally to the page's own width, not stretched to
+   fill it: 75% total, centred, so there's even space on both sides
+   regardless of how wide the page itself renders. Three narrower
+   columns (rather than two wider ones) also keep each column's own
+   body text at a comfortable line length on a wide monitor without
+   needing a separate fixed-pixel cap. */
+
+.owl-home-columns {
+    width: 75%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 28px;
+}
+
+.owl-home-card {
+    border-radius: 6px;
+    padding: 22px 26px;
+}
+
+.owl-home-card-about {
+    border: 1px solid #f0d9c0;
+    background: #fdf3e7;
+}
+
+.owl-home-card-new {
+    border: 1px solid #c2cbe0;
+    background: #e8ecf7;
+}
+
+.owl-home-card-features {
+    border: 1px solid #d9c7f0;
+    background: #f3ebfc;
+}
+
+.owl-home-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: 14px;
+}
+
+.owl-home-card-about .owl-home-card-title {
+    color: #800020;
+}
+
+.owl-home-card-new .owl-home-card-title {
+    color: #2c3e6b;
+}
+
+.owl-home-card-features .owl-home-card-title {
+    color: #3a0066;
+}
+
+.owl-home-card p {
+    font-size: 13.5px;
+    color: #444;
+    line-height: 1.7;
+    margin: 0 0 14px;
+}
+
+.owl-home-card p:last-child {
+    margin-bottom: 0;
+}
+
+.owl-home-card-about a {
+    color: #800020;
+}
+
+.owl-home-check-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.owl-home-check-list li {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 13px;
+    font-size: 13.5px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.owl-home-check-list li:last-child {
+    margin-bottom: 0;
+}
+
+.owl-home-check-list li span:first-child {
+    color: #2c3e6b;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .owl-home-columns {
+        width: 95%;
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---- Basket count badge in the menu bar ----
+   Reads directly from the session's own "items" list via Page.java's
+   UserPage()/variableMetadata() (the two central rendering methods),
+   so this works on every page automatically without each servlet
+   needing its own change. Hidden entirely (via the template's own
+   > 0 check) until at least one variable has been added. */
+
+.owl-basket-count-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 4px;
+    vertical-align: middle;
+    text-shadow: none; /* #menu-bar a sets a dark text-shadow on all menu links, inherited by this badge since it's nested inside that same <a> - unreadable against a light badge background */
+    cursor: help;
+}
+
+.owl-basket-count-low {
+    background: #eef8ee;
+    color: #1b5e20;
+}
+
+.owl-basket-count-medium {
+    background: #fff9e6;
+    color: #7a4f00;
+}
+
+.owl-basket-count-high {
+    background: #fdeaea;
+    color: #8b1a1a;
+}
+
+/* ---- Basket Management confirmation page: category grouping, colours, counts, filter ----
+   Rows are grouped server-side (Variable.java's sortMessagesByCategory)
+   into restricted first, then normally-added, then added-as-linked -
+   these classes colour-code each group so they stand out, reusing the
+   same red/green established for View Current Basket's risk notices,
+   plus a distinct navy for the linked-added group. */
+
+.owl-msg-summary {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.owl-msg-count {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.owl-msg-count-restricted {
+    background: #fdeaea;
+    color: #8b1a1a;
+}
+
+.owl-msg-count-added {
+    background: #d3edd4;
+    color: #1b5e20;
+}
+
+.owl-msg-count-linked {
+    background: #d6dcee;
+    color: #2c3e6b;
+}
+
+.owl-msg-filter {
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.owl-msg-filter select {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-left: 6px;
+}
+
+.results table.owl-table tr.owl-msg-row-restricted td {
+    background: #fdeaea;
+    color: #8b1a1a;
+}
+
+.results table.owl-table tr.owl-msg-row-linked-restricted td {
+    background: #fbdccb;
+    color: #7a3a00;
+}
+
+.results table.owl-table tr.owl-msg-row-added td,
+.results table.owl-table tr.owl-msg-row-added-note td {
+    background: #eef8ee;
+    color: #1b5e20;
+}
+
+.results table.owl-table tr.owl-msg-row-linked-added td {
+    background: #eef0f7;
+    color: #2c3e6b;
+}
+
+/* ---- Distinct colours for the OWL legend and the SERNO/NTAG1 note ----
+   Both previously just used the plain, shared .help-tips class
+   (yellowish/amber), the same shade already used for the risk-level
+   note above them - making all three callouts look identical. These
+   are additive modifier classes (added alongside help-tips, not
+   replacing it), so the many other plain uses of help-tips elsewhere
+   are unaffected. Colours chosen to avoid clashing with what's
+   already established: green/amber/red (risk levels, message counts)
+   and navy (the table theme, linked-added). */
+
+.results .help-tips.owl-tips-legend {
+    background: #f3e5f5;
+    border-left: 3px solid #6a0dad;
+}
+
+.results .help-tips.owl-tips-standard {
+    background: #e0f7fa;
+    border-left: 3px solid #00838f;
+}
+
+/* ---- Basket Management summary: two-panel layout ----
+   Counts + filter dropdown on the left (in a coloured card), a plain-
+   language legend explaining what "added", "linked" and "restricted"
+   mean on the right - reuses the same .help-page/.help-sidebar
+   two-column pattern already established on Variable Detail, rather
+   than inventing a new layout convention. */
+
+/* Single, compact box - each line is a count badge followed by its
+   plain-language definition in brackets, rather than two separate
+   panels (counts and legend) side by side, which read as disjointed
+   and wasted width. */
+.results .owl-msg-panel {
+    background: #f5f6fa;
+    border: 1px solid #c2cbe0;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin: 0 0 8px;
+}
+
+/* Pulls this panel up when it directly follows the OWL/restricted
+   legend (.owl-tips-legend, from help-pages.css's shared .help-tips
+   class, margin-bottom: 16px) - compensates for that margin rather
+   than reducing it globally, since .help-tips is used elsewhere too. */
+.owl-tips-legend + .owl-msg-panel {
+    margin-top: -8px;
+}
+
+.owl-msg-panel p {
+    margin: 0 0 4px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.owl-msg-panel p:last-of-type {
+    margin-bottom: 6px;
+}
+
+.owl-msg-panel .owl-msg-count {
+    display: inline-block;
+    width: 130px;
+    text-align: left;
+    margin-right: 6px;
+}
+
+.owl-msg-def {
+    color: #555;
+}
+
+.owl-msg-panel .owl-msg-filter {
+    margin-bottom: 0;
+}
+
+/* ---- "Please wait" overlay for Multiple Add ----
+   Multiple Add is a single, blocking form submission - the browser
+   gets nothing back from the server until the entire loop of
+   variables has been processed, so there's no way to show a real,
+   incrementing progress bar without a much larger change (a separate
+   polling endpoint and async submission). This is a simple, honest
+   "this may take a moment" indicator instead: shown the instant the
+   form is submitted (validateMultipleAdd(), in the template's own
+   script), and it disappears on its own when the browser navigates
+   to the resulting confirmation page, since the overlay is part of
+   this page, not the one being loaded. */
+
+.owl-wait-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.owl-wait-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px 36px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 340px;
+}
+
+.owl-wait-box p {
+    margin: 4px 0 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2c3e6b;
+}
+
+.owl-wait-box .owl-wait-subtext {
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: normal;
+    color: #666;
+}
+
+.owl-wait-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    border: 4px solid #e0e0e0;
+    border-top: 4px solid #2c3e6b;
+    border-radius: 50%;
+    animation: owl-spin 0.8s linear infinite;
+}
+
+@keyframes owl-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---- Save Basket: split-into-several-baskets preview ----
+   Shown on the save form when the basket exceeds the per-basket
+   variable limit (Basket.java's MAX_VARS_PER_BASKET), listing the
+   IDs it will actually be saved under before the user commits. */
+.owl-split-basket-list {
+    margin: 4px 0 12px;
+    padding-left: 24px;
+}
+
+.owl-split-basket-list li {
+    margin-bottom: 4px;
+}
+
+.owl-split-basket-list code {
+    background: #f5f6fa;
+    border: 1px solid #c2cbe0;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 13px;
+}
+
+/* ---- Basket Management: "keep linked variables" toggle ----
+   Styled as a real toggle switch, but implemented as a plain <a>
+   link (not a form/checkbox) - matches the same GET-based pattern
+   already used for Remove/Remove All elsewhere in the basket
+   templates. Reversible: switching it off removes this add's linked
+   variables from the basket, switching it back on re-adds them
+   (see Variable.java's toggleLinkedVariables()), so an accidental
+   click isn't permanent. Sits as its own tinted sub-section inside
+   the wider .owl-msg-panel (counts + filter), rather than as a
+   separate box below it - the toggle switch itself is left-aligned,
+   before the label, with the description text following it. */
+
+.results .owl-linked-toggle-subsection {
+    background: #fdf3e0;
+    border: 1px solid #e8cf9a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 0 0 12px;
+}
+
+.results .owl-linked-toggle-row {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.results .owl-linked-toggle-text {
+    margin: 0;
+    padding: 0;
+}
+
+.owl-linked-toggle-label {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    color: #8a5a00;
+}
+
+.owl-linked-toggle-desc {
+    font-size: 12px;
+    color: #8a5a00;
+    opacity: 0.85;
+    margin: 4px 0 0;
+}
+
+.owl-linked-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    border-radius: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.owl-linked-toggle-switch.owl-toggle-on {
+    background: #b3841a;
+}
+
+.owl-linked-toggle-switch.owl-toggle-off {
+    background: #b0b0b0;
+}
+
+.owl-linked-toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    transition: left 0.15s;
+}
+
+.owl-linked-toggle-switch.owl-toggle-on .owl-linked-toggle-thumb {
+    left: 20px;
+}

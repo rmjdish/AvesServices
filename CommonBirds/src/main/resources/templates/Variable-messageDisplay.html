@@ -1,32 +1,103 @@
 <!-- This is a Pebble Template which inherits from ... -->
 {% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
 {% block results %}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
 	{% include "oneverypage" %}
-	<h2>Basket Management</h2>
+	<div class="help-header">
+	  <h2>Basket Management</h2>
+	  <p>The result of your most recent add-to-basket action.</p>
+	</div>
 	{% if results is empty %}
 	<p>There are no results to see here.</p>
 	{% else %}
-	<table>
+	{% if owlAvailable is not empty or restrictedMessages is not empty %}
+	<div class="help-tips owl-tips-legend" style="font-size:12px;">
+	  {% if owlAvailable is not empty %}&#x1F989; = Available on OWL &mdash; click the icon to view that variable's metadata page on OWL.{% endif %}
+	  {% if owlAvailable is not empty and restrictedMessages is not empty %}<br>{% endif %}
+	  {% if restrictedMessages is not empty %}&#x1F512; = Restricted &mdash; hover the icon for details.{% endif %}
+	</div>
+	{% endif %}
+
+	<div class="owl-msg-panel">
+	  {% if hasLinkedVars %}
+	  <div class="owl-linked-toggle-subsection">
+	    <div class="owl-linked-toggle-row">
+	      <a href="variable?command=toggleLinked" class="owl-linked-toggle-switch {{ linkedVarsKept ? 'owl-toggle-on' : 'owl-toggle-off' }}" aria-label="{{ linkedVarsKept ? 'Turn off to remove linked variables' : 'Turn on to restore linked variables' }}">
+	        <span class="owl-linked-toggle-thumb"></span>
+	      </a>
+	      <div class="owl-linked-toggle-text">
+	        <p class="owl-linked-toggle-label">Keep linked variables</p>
+	        <p class="owl-linked-toggle-desc">Turn off to remove the {{ linkedVarsCount }} variable{{ linkedVarsCount == 1 ? '' : 's' }} added automatically alongside your search, keeping only the ones you added directly. You can turn this back on at any time to restore {{ linkedVarsCount == 1 ? 'it' : 'them' }}, so an accidental toggle isn't permanent.</p>
+	      </div>
+	    </div>
+	  </div>
+	  {% endif %}
+	  <p><span class="owl-msg-count owl-msg-count-added">{{ (categoryCounts["added"] is not empty ? categoryCounts["added"] : 0) + (categoryCounts["added-note"] is not empty ? categoryCounts["added-note"] : 0) }} added</span> <span class="owl-msg-def">(Successfully added to your basket.)</span></p>
+	  <p><span class="owl-msg-count owl-msg-count-linked">{{ categoryCounts["linked-added"] is not empty ? categoryCounts["linked-added"] : 0 }} added as linked</span> <span class="owl-msg-def">(Added automatically alongside a variable you searched for, because it belongs to the same longitudinal measure.)</span></p>
+	  <p><span class="owl-msg-count owl-msg-count-restricted">{{ (categoryCounts["restricted"] is not empty ? categoryCounts["restricted"] : 0) + (categoryCounts["linked-restricted"] is not empty ? categoryCounts["linked-restricted"] : 0) }} restricted</span> <span class="owl-msg-def">(Not added &mdash; access to this variable is restricted. See the message for details.)</span></p>
+	  <div class="owl-msg-filter">
+	    <label for="owlMsgFilter">Show:</label>
+	    <select id="owlMsgFilter" onchange="owlFilterMsgTable(this.value)">
+	      <option value="all">All</option>
+	      <option value="restricted">Restricted only</option>
+	      <option value="added">Added only</option>
+	      <option value="linked-added">Linked only</option>
+	    </select>
+	  </div>
+	</div>
+
+	<table class="owl-table" id="owlMsgTable">
 		<tr>
-			<th width="20%"><b>Variable Name</b></th>
-			<th width="80%"><b>Result</b></th>
+			<th style="width:15%;" class="skip-filter">Variable Name</th>
+			<th style="width:25%;" class="skip-filter">Label</th>
+			<th style="width:45%;" class="skip-filter">Result</th>
+			<th style="width:15%;" class="skip-filter">Category</th>
 		</tr>
 
-		{% for val in results %} 
-			{% if (loop.index + 1) % numCols equals 0 %}
-			<!-- If loop index is whole multiple of numCols -->
-			<td>{{ val }}</td>
-			</tr>
+		{% for val in results %}
+			{% if loop.index % numCols equals 0 %}
+				<!-- Position 0 of each group of 3: the variable name -->
+				{% set vname = val %}
 			{% else %}
-				<tr>
-				<td>{{ val }}</td>
-				<!-- Not multiple of numCols -->
-			{% endif %} 
+				{% if loop.index % numCols equals 1 %}
+					<!-- Position 1: the message -->
+					{% set vmsg = val %}
+				{% else %}
+					<!-- Position 2: the category - now we have all 3, output the row -->
+					{% set vcat = val %}
+					<tr class="owl-msg-row-{{ vcat }}" data-owl-category="{{ vcat }}">
+					<td>{{ vname|lower }}{% if owlAvailable contains vname %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ vname|lower }}.html" target="_blank" rel="noopener" title="View {{ vname|lower }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[vname] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[vname] }}">&#x1F512;</span>{% endif %}</td>
+					<td>{{ variableLabels[vname|lower] is not empty ? variableLabels[vname|lower] : "NA" }}</td>
+					<td>{{ vmsg }}</td>
+					<td>
+						{% if vcat == "restricted" %}Restricted
+						{% elseif vcat == "linked-restricted" %}Linked (restricted)
+						{% elseif vcat == "added-note" %}Added
+						{% elseif vcat == "linked-added" %}Linked
+						{% else %}Added
+						{% endif %}
+					</td>
+					</tr>
+				{% endif %}
+			{% endif %}
 		{% endfor %}
 	</table>
 	{% endif %}
 </div>
+<script>
+function owlFilterMsgTable(value) {
+  var rows = document.querySelectorAll('#owlMsgTable tr[data-owl-category]');
+  for (var i = 0; i < rows.length; i++) {
+    var cat = rows[i].getAttribute('data-owl-category');
+    var show = (value === 'all')
+      || (value === 'restricted' && (cat === 'restricted' || cat === 'linked-restricted'))
+      || (value === 'added' && (cat === 'added' || cat === 'added-note'))
+      || (value === 'linked-added' && cat === 'linked-added');
+    rows[i].style.display = show ? '' : 'none';
+  }
+}
+</script>
 {% endblock results %}
-
-

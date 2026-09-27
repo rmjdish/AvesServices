@@ -1,0 +1,139 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results">
+<div class="help-page">
+
+  <div class="help-main">
+    <div class="help-header">
+      <h2>How OWL and Condor work together</h2>
+      <p>OWL is where you discover variables. Condor is where you
+      finalise and submit a request. Here's exactly how the two
+      connect.</p>
+    </div>
+
+    <div class="help-afternote" id="walkthrough-link" style="margin-bottom:16px;">
+      <div class="help-section-label">Prefer a step-by-step guide?</div>
+      <p>This page covers the workflow in one read-through. For the
+      same thing broken into clickable steps &mdash; with more detail
+      and a way to track your progress as you go &mdash; see the
+      <a href="owlWalkthrough">Guided Walkthrough</a>.</p>
+    </div>
+
+    <div id="workflow" style="margin:0 0 18px 0;padding:14px 16px;background:hsl(210 45% 97%);border-left:4px solid hsl(210 45% 58%);border-radius:8px;">
+      <div class="help-section-label" style="margin:0 0 10px 0;padding:0;color:hsl(210 45% 22%);">The workflow, end to end</div>
+      <div style="margin:0;padding:0;display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:6px;align-items:stretch;">
+        <div style="margin:0;padding:10px 8px;border-radius:8px;background:hsl(180 45% 96%);border-left:4px solid hsl(180 45% 55%);text-align:center;">
+          <div style="margin:0 0 4px 0;padding:0;font-size:11px;color:hsl(180 45% 22%);font-weight:700;text-transform:uppercase;">1. Discover</div>
+          <div style="margin:0;padding:0;font-size:12px;color:#333;">Search &amp; browse in OWL (public, no login)</div>
+        </div>
+        <div style="margin:0;padding:0;align-self:center;color:#6a0dad;font-size:18px;">&rarr;</div>
+        <div style="margin:0;padding:10px 8px;border-radius:8px;background:hsl(35 60% 96%);border-left:4px solid hsl(35 60% 55%);text-align:center;">
+          <div style="margin:0 0 4px 0;padding:0;font-size:11px;color:hsl(35 60% 25%);font-weight:700;text-transform:uppercase;">2. Basket</div>
+          <div style="margin:0;padding:0;font-size:12px;color:#333;">Add variables, download as an Excel dictionary</div>
+        </div>
+        <div style="margin:0;padding:0;align-self:center;color:#6a0dad;font-size:18px;">&rarr;</div>
+        <div style="margin:0;padding:10px 8px;border-radius:8px;background:hsl(340 45% 96%);border-left:4px solid hsl(340 45% 60%);text-align:center;">
+          <div style="margin:0 0 4px 0;padding:0;font-size:11px;color:hsl(340 45% 28%);font-weight:700;text-transform:uppercase;">3. Condor</div>
+          <div style="margin:0;padding:0;font-size:12px;color:#333;">Upload OWL Basket, finalise &amp; save</div>
+        </div>
+        <div style="margin:0;padding:0;align-self:center;color:#6a0dad;font-size:18px;">&rarr;</div>
+        <div style="margin:0;padding:10px 8px;border-radius:8px;background:hsl(125 35% 95%);border-left:4px solid hsl(125 35% 55%);text-align:center;">
+          <div style="margin:0 0 4px 0;padding:0;font-size:11px;color:hsl(125 35% 22%);font-weight:700;text-transform:uppercase;">4. Skylark</div>
+          <div style="margin:0;padding:0;font-size:12px;color:#333;">Submit as a formal data request</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-cards" id="dictionary">
+
+      <div class="help-card" style="background:hsl(160 40% 96%) !important;border-left:4px solid hsl(160 40% 42%) !important;">
+        <div class="help-card-label" style="color:hsl(160 40% 22%) !important;">Two ways to complete the dictionary</div>
+        <p>The Data Dictionary is just an Excel spreadsheet, marked
+        <strong>Y</strong> against every variable you want. You can
+        complete it entirely by hand &mdash; open a blank copy and
+        mark variables yourself &mdash; or build a basket on OWL and
+        let it fill the dictionary in for you automatically.</p>
+      </div>
+
+      <div class="help-card" style="background:hsl(50 70% 95%) !important;border-left:4px solid hsl(50 70% 45%) !important;">
+        <div class="help-card-label" style="color:hsl(50 70% 26%) !important;">Why OWL is the better route</div>
+        <p>OWL has search tools this manual route doesn't: keyword
+        search across the whole dictionary, browse-by-category, and
+        &mdash; usefully &mdash; searchable documentation, so you can
+        find a variable from a write-up or topsheet rather than
+        already knowing its name. It's the faster, more reliable way
+        to build an accurate list.</p>
+      </div>
+
+    </div>
+
+    <div id="upload" style="margin:0 0 16px 0;padding:14px 16px;background:hsl(270 35% 96%);border-left:4px solid hsl(270 35% 55%);border-radius:8px;">
+      <div class="help-section-label" style="margin-bottom:10px;color:hsl(270 35% 25%);">Uploading to Condor: Upload OWL Basket</div>
+      <p style="font-size:14px;color:#333;margin:0 0 12px;line-height:1.6;">Whichever
+      way you completed the dictionary &mdash; downloaded from OWL, or
+      filled in by hand &mdash; upload the same file using
+      <strong>Upload OWL Basket</strong> from the OWL menu. The
+      file is checked before anything is added, using the same
+      validation OWL itself uses:</p>
+      <ul style="margin:0;padding-left:18px;font-size:14px;color:#333;line-height:1.7;">
+        <li><strong>Missing variable name</strong> &mdash; rows marked
+        Y with no variable name are skipped and listed by row
+        number.</li>
+        <li><strong>Invalid Request variable value</strong> &mdash;
+        anything other than blank or exactly Y (a lowercase y, N, or a
+        stray note) is skipped and listed with the value found.</li>
+        <li><strong>Duplicate variable names</strong> &mdash; only the
+        first occurrence marked Y is kept; the rest are listed.</li>
+        <li><strong>Over 500 variables</strong> &mdash; a warning if
+        the file would take a single basket over Condor's 500-variable
+        limit (see below).</li>
+        <li><strong>Restricted variables found</strong> &mdash; a
+        highlighted notice naming each one. See below for what this
+        means for your request.</li>
+      </ul>
+    </div>
+
+    <div class="help-tips" id="restricted">
+      <div class="help-section-label">A note on restricted variables</div>
+      <p style="font-size:14px;color:#444;margin:0;line-height:1.6;">Restricted
+      variables can be added to an OWL basket and downloaded like any
+      other &mdash; OWL doesn't block them. But when that file is
+      uploaded to Condor, <strong>restricted variables are not
+      imported automatically</strong> with the rest of your request.
+      Each one needs to be requested separately; who to contact
+      depends on the specific variable, and that contact is shown when
+      you hover the lock icon next to it on OWL. Check your basket for
+      lock icons before uploading, so you're not waiting on a second
+      round trip after submission.</p>
+    </div>
+
+    <div class="help-afternote" id="limit">
+      <div class="help-section-label">Maximum basket size: 500 variables</div>
+      <p>A single basket submission to Condor should contain no more
+      than 500 variables. If your project needs more, either build
+      several smaller baskets from the start, or build one larger list
+      and split it into baskets under 500 before uploading each.</p>
+    </div>
+
+  </div>
+
+  <div class="help-sidebar">
+    <div class="help-sidebar-title">On this page</div>
+    <nav>
+      <a href="#walkthrough-link">Step-by-step guide</a>
+      <a href="#workflow">The workflow</a>
+      <a href="#dictionary">Completing the dictionary</a>
+      <a href="#upload">Uploading to Condor</a>
+      <a href="#restricted">Restricted variables</a>
+      <a href="#limit">Maximum basket size</a>
+    </nav>
+  </div>
+
+</div>
+</div>
+{% endblock %}
