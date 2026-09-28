@@ -81,6 +81,19 @@ public class Basket extends HttpServlet
         ArrayList<String> v = new ArrayList<String>();
         v = (ArrayList<String>) s.getAttribute("items"); // The Variable list is carried around in the session object
         String username = s.getAttribute("username").toString();
+        // Lightweight "how many variables are in my basket right now"
+        // lookup, returned as plain text with no page rendered - used
+        // by the menu bar's basket-count badge (see SKYLARK.html) to
+        // refresh itself when the browser restores a page from its
+        // back/forward cache, where the page's own server-rendered
+        // count would otherwise be a stale snapshot.
+        if ("count".equalsIgnoreCase(request.getParameter("command")))
+        {
+            response.setContentType("text/plain");
+            response.setHeader("Cache-Control", "no-store");
+            out.print(v == null ? 0 : v.size());
+            return;
+        }
         /* Variable: p
           	Pebble template based object that uses .html file 
           	indicated as parameter to Page constructor

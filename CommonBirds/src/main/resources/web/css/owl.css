@@ -659,7 +659,7 @@
    doing this same job before the banner existed, so once the banner
    also pushes content down, the two stack into an oversized gap. */
 .owl-page-banner + .results.owl-basket-page {
-    margin-top: 73px !important; /* 16px (original tuned value) + ~57px (1.5cm at 96dpi), per direct feedback. !important and the added .owl-basket-page class both ensure this wins over the general .results.owl-basket-page rule below, which was otherwise silently overriding this page-specific value due to matching specificity. */
+    margin-top: 24px !important; /* reduced from 73px (16px original + ~57px) to close the gap between the banner and the cards below it, per direct feedback. !important and the added .owl-basket-page class both ensure this wins over the general .results.owl-basket-page rule below, which was otherwise silently overriding this page-specific value due to matching specificity. */
     width: 95% !important;
     box-sizing: border-box;
     background: white !important; /* the three home-page cards sat on a visible grey-blue background otherwise - traced to this page specifically (other .owl-basket-page pages don't show it), so fixed here rather than on the general rule below, which would affect every page using that class. */
@@ -1237,10 +1237,14 @@
    needing a separate fixed-pixel cap. */
 
 .owl-home-columns {
-    width: 75%;
+    width: 96%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
+    /* First card (About the Study) kept close to its earlier width;
+       the two feature lists get the extra room, and lay their bullets
+       out in two columns (see .owl-home-check-list below) so the cards
+       stay short enough not to need scrolling. */
+    grid-template-columns: 1.2fr 1.4fr 1.4fr;
     gap: 28px;
 }
 
@@ -1322,6 +1326,32 @@
     color: #2c3e6b;
     font-weight: 700;
     flex-shrink: 0;
+}
+
+/* The two feature lists run their bullets in two columns, which needs
+   the extra width; on narrower screens fall back to one column each
+   rather than squeezing two columns of text into a narrow card. */
+.owl-home-card-features .owl-home-check-list,
+.owl-home-card-new .owl-home-check-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+}
+
+.owl-home-card-features .owl-home-check-list li,
+.owl-home-card-new .owl-home-check-list li {
+    margin-bottom: 0;
+}
+
+@media (max-width: 1300px) {
+    .owl-home-card-features .owl-home-check-list,
+    .owl-home-card-new .owl-home-check-list {
+        grid-template-columns: 1fr;
+    }
+    .owl-home-card-features .owl-home-check-list li,
+    .owl-home-card-new .owl-home-check-list li {
+        margin-bottom: 13px;
+    }
 }
 
 @media (max-width: 900px) {

@@ -266,6 +266,41 @@
       </table>			 
       {% endblock footer %} 
     </footer>
+    <script>
+    // Refreshes the menu's basket-count badge when the browser restores
+    // this page from history (Back/Forward) - in that case the page's own
+    // server-rendered count is a stale snapshot from when it was first
+    // loaded, e.g. still showing no badge at all if the basket was empty
+    // then. Asks the server for the current count (basket?command=count)
+    // and updates or creates the badge to match; does nothing on a
+    // normal page load, where the count is already correct.
+    window.addEventListener('pageshow', function (event) {
+      var nav = (performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {};
+      if (!event.persisted && nav.type !== 'back_forward') { return; }
+      fetch('basket?command=count', { credentials: 'same-origin', cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (text) {
+          var n = parseInt(text, 10);
+          if (isNaN(n)) { return; }
+          var links = document.querySelectorAll('#menu-bar a');
+          for (var i = 0; i < links.length; i++) {
+            var a = links[i];
+            if (!a.firstChild || a.firstChild.nodeType !== 3 || a.firstChild.nodeValue.trim().indexOf('Baskets') !== 0) { continue; }
+            var old = a.querySelector('.owl-basket-count-badge');
+            if (old) { a.removeChild(old); }
+            if (n > 0) {
+              var badge = document.createElement('span');
+              badge.className = 'owl-basket-count-badge ' + (n > 500 ? 'owl-basket-count-high' : (n > 250 ? 'owl-basket-count-medium' : 'owl-basket-count-low'));
+              badge.title = n > 500 ? (n - 500) + ' over the 500-variable recommended limit.' : (500 - n) + ' of 500 recommended variables remaining.';
+              badge.textContent = n;
+              a.insertBefore(document.createTextNode(' '), a.children[0] || null);
+              a.insertBefore(badge, a.children[0] ? a.children[0].nextSibling : null);
+            }
+          }
+        })
+        .catch(function () { /* leave the page's own count as it was */ });
+    });
+    </script>
   </body>
 </html>
 
