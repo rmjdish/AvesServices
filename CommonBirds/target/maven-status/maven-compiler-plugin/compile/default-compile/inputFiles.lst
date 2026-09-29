@@ -15,6 +15,7 @@ D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\FileDownload.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\HelpAccess.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\HelpBaskets.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Helper.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\HelpPresentation.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\HelpSearch.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\LoadBasket.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Login.java
@@ -41,6 +42,7 @@ D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\SearchRest.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\SharedBasket.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\StoreXMLBasket.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Trolley.java
+D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\UploadDictionary.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\UploadOwl.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\user\Variable.java
 D:\UCL\Github\AvesServices\CommonBirds\src\main\java\mrc\util\Announce.java

@@ -33,13 +33,13 @@
         </div>
         <div style="margin:0;padding:0;align-self:center;color:#6a0dad;font-size:18px;">&rarr;</div>
         <div style="margin:0;padding:10px 8px;border-radius:8px;background:hsl(35 60% 96%);border-left:4px solid hsl(35 60% 55%);text-align:center;">
-          <div style="margin:0 0 4px 0;padding:0;font-size:11px;color:hsl(35 60% 25%);font-weight:700;text-transform:uppercase;">2. Basket</div>
+          <div style="margin:0 0 4px 0;padding:0;font-size:11px;color:hsl(35 60% 25%);font-weight:700;text-transform:uppercase;">2. Data Dictionary</div>
           <div style="margin:0;padding:0;font-size:12px;color:#333;">Add variables, download as an Excel dictionary</div>
         </div>
         <div style="margin:0;padding:0;align-self:center;color:#6a0dad;font-size:18px;">&rarr;</div>
         <div style="margin:0;padding:10px 8px;border-radius:8px;background:hsl(340 45% 96%);border-left:4px solid hsl(340 45% 60%);text-align:center;">
           <div style="margin:0 0 4px 0;padding:0;font-size:11px;color:hsl(340 45% 28%);font-weight:700;text-transform:uppercase;">3. Condor</div>
-          <div style="margin:0;padding:0;font-size:12px;color:#333;">Upload OWL Basket, finalise &amp; save</div>
+          <div style="margin:0;padding:0;font-size:12px;color:#333;">Upload the data dictionary, finalise &amp; save</div>
         </div>
         <div style="margin:0;padding:0;align-self:center;color:#6a0dad;font-size:18px;">&rarr;</div>
         <div style="margin:0;padding:10px 8px;border-radius:8px;background:hsl(125 35% 95%);border-left:4px solid hsl(125 35% 55%);text-align:center;">
@@ -56,8 +56,8 @@
         <p>The Data Dictionary is just an Excel spreadsheet, marked
         <strong>Y</strong> against every variable you want. You can
         complete it entirely by hand &mdash; open a blank copy and
-        mark variables yourself &mdash; or build a basket on OWL and
-        let it fill the dictionary in for you automatically.</p>
+        mark variables yourself &mdash; or build your dictionary on
+        OWL and let it fill itself in for you automatically.</p>
       </div>
 
       <div class="help-card" style="background:hsl(50 70% 95%) !important;border-left:4px solid hsl(50 70% 45%) !important;">
@@ -73,14 +73,13 @@
     </div>
 
     <div id="upload" style="margin:0 0 16px 0;padding:14px 16px;background:hsl(270 35% 96%);border-left:4px solid hsl(270 35% 55%);border-radius:8px;">
-      <div class="help-section-label" style="margin-bottom:10px;color:hsl(270 35% 25%);">Uploading to Condor: Upload OWL Basket</div>
+      <div class="help-section-label" style="margin-bottom:10px;color:hsl(270 35% 25%);">Uploading to Condor: Upload Data Dictionary</div>
       <p style="font-size:14px;color:#333;margin:0 0 12px;line-height:1.6;">Whichever
       way you completed the dictionary &mdash; downloaded from OWL, or
       filled in by hand &mdash; upload the same file using
-      <strong>Upload OWL Basket</strong> from the OWL menu. The
-      file is checked before anything is added, using the same
-      validation OWL itself uses:</p>
-      <ul style="margin:0;padding-left:18px;font-size:14px;color:#333;line-height:1.7;">
+      <strong>Upload Data Dictionary</strong> from the OWL menu. The
+      file is checked before anything is added:</p>
+      <ul style="margin:0 0 12px;padding-left:18px;font-size:14px;color:#333;line-height:1.7;">
         <li><strong>Missing variable name</strong> &mdash; rows marked
         Y with no variable name are skipped and listed by row
         number.</li>
@@ -89,35 +88,54 @@
         stray note) is skipped and listed with the value found.</li>
         <li><strong>Duplicate variable names</strong> &mdash; only the
         first occurrence marked Y is kept; the rest are listed.</li>
-        <li><strong>Over 500 variables</strong> &mdash; a warning if
-        the file would take a single basket over Condor's 500-variable
-        limit (see below).</li>
-        <li><strong>Restricted variables found</strong> &mdash; a
-        highlighted notice naming each one. See below for what this
-        means for your request.</li>
       </ul>
+      <p style="font-size:14px;color:#333;margin:0;line-height:1.6;">Once
+      you confirm, the variables are added to your Condor basket, and
+      you're taken straight to a results page showing exactly what
+      happened &mdash; including anything that couldn't be added
+      because it's restricted. That check needs Condor's own records
+      to answer, so it only appears at this point, rather than before
+      you confirm. If your data dictionary takes your basket over 500
+      variables, Condor handles that automatically when you save
+      &mdash; see below.</p>
     </div>
 
     <div class="help-tips" id="restricted">
       <div class="help-section-label">A note on restricted variables</div>
       <p style="font-size:14px;color:#444;margin:0;line-height:1.6;">Restricted
-      variables can be added to an OWL basket and downloaded like any
-      other &mdash; OWL doesn't block them. But when that file is
-      uploaded to Condor, <strong>restricted variables are not
-      imported automatically</strong> with the rest of your request.
-      Each one needs to be requested separately; who to contact
-      depends on the specific variable, and that contact is shown when
-      you hover the lock icon next to it on OWL. Check your basket for
-      lock icons before uploading, so you're not waiting on a second
-      round trip after submission.</p>
+      variables can be added to your data dictionary on OWL and
+      downloaded like any other &mdash; OWL doesn't block them. But
+      when that file is uploaded to Condor, <strong>restricted
+      variables are not imported automatically</strong> with the rest
+      of your request &mdash; you'll see them listed on the results
+      page once you confirm, not before. Each one needs to be
+      requested separately; who to contact depends on the specific
+      variable, and that contact is shown when you hover the lock icon
+      next to it on OWL. Check your data dictionary for lock icons
+      before uploading, so you're not waiting on a second round trip
+      after submission.</p>
     </div>
 
     <div class="help-afternote" id="limit">
-      <div class="help-section-label">Maximum basket size: 500 variables</div>
-      <p>A single basket submission to Condor should contain no more
-      than 500 variables. If your project needs more, either build
-      several smaller baskets from the start, or build one larger list
-      and split it into baskets under 500 before uploading each.</p>
+      <div class="help-section-label">Large data dictionaries: automatic splitting</div>
+      <p>You no longer need to split a large list yourself before
+      uploading. If your data dictionary has more than 500 variables,
+      Condor automatically divides it into several saved baskets when
+      you save &mdash; each with no more than 500 &mdash; so you can
+      upload the whole thing in one go.</p>
+
+      <div class="help-callout-danger">
+        <div class="help-callout-danger-label">Important: how split baskets are reviewed</div>
+        <p>If your request has been split into multiple saved baskets,
+        they are reviewed <strong>collectively</strong>, as one
+        overall request &mdash; not as separate, independent
+        submissions. Requests for a large number of variables may take
+        longer to process, since they go through a more thorough risk
+        assessment, which can delay your dataset being created. You
+        may be asked to justify your request if your total comes to
+        more than 500 variables across a single submission, even
+        though it's been split into several saved baskets.</p>
+      </div>
     </div>
 
   </div>
@@ -130,7 +148,7 @@
       <a href="#dictionary">Completing the dictionary</a>
       <a href="#upload">Uploading to Condor</a>
       <a href="#restricted">Restricted variables</a>
-      <a href="#limit">Maximum basket size</a>
+      <a href="#limit">Large data dictionaries</a>
     </nav>
   </div>
 

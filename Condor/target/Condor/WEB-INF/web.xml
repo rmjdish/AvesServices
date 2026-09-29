@@ -91,6 +91,14 @@
     <servlet-class>mrc.user.HelpAccess</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>helpPresentation</servlet-name>
+    <servlet-class>mrc.user.HelpPresentation</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>uploadDictionary</servlet-name>
+    <servlet-class>mrc.user.UploadDictionary</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>owlOverview</servlet-name>
     <servlet-class>mrc.user.OwlOverview</servlet-class>
   </servlet>
@@ -117,6 +125,14 @@
   <servlet-mapping>
     <servlet-name>helpAccess</servlet-name>
     <url-pattern>/helpAccess</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>helpPresentation</servlet-name>
+    <url-pattern>/helpPresentation</url-pattern>
+  </servlet-mapping>  
+  <servlet-mapping>
+    <servlet-name>uploadDictionary</servlet-name>
+    <url-pattern>/uploadDictionary</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>owlOverview</servlet-name>

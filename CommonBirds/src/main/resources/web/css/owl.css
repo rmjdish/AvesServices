@@ -235,6 +235,215 @@
     margin-bottom: 0;
 }
 
+/* ---- Condor User Guide presentation page (Help-Presentation.html) ----
+   .results prefix throughout, beating the site-wide ".results div"
+   rule on specificity - same reasoning as every other new div-based
+   rule in this file. */
+
+.results .owl-presentation-intro {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin: 0 0 16px;
+    max-width: 900px;
+}
+
+.results .owl-presentation-frame {
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin: 0 0 16px;
+    background: #f4f4f6;
+}
+
+.results .owl-presentation-frame iframe {
+    display: block;
+    width: 100%;
+    height: 640px;
+    border: none;
+    background: #e9e9ee;
+}
+
+.results .owl-presentation-downloads {
+    margin: 0 0 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.results a.owl-btn-primary,
+.results a.owl-btn-secondary,
+.results button.owl-btn-primary,
+.results button.owl-btn-secondary {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.results a.owl-btn-primary,
+.results button.owl-btn-primary {
+    background: #800020;
+    color: #fff;
+    border: 1px solid #800020;
+}
+
+.results a.owl-btn-primary:hover,
+.results button.owl-btn-primary:hover {
+    background: #660019;
+}
+
+.results button.owl-btn-primary:disabled {
+    background: #b98a97;
+    border-color: #b98a97;
+    cursor: not-allowed;
+}
+
+.results a.owl-btn-secondary,
+.results button.owl-btn-secondary {
+    background: #fff;
+    color: #800020;
+    border: 1px solid #800020;
+}
+
+.results a.owl-btn-secondary:hover,
+.results button.owl-btn-secondary:hover {
+    background: #fdf1f4;
+}
+
+/* ---- Upload Data Dictionary page (Help-UploadDictionary.html) ----
+   .results prefix throughout, beating the site-wide ".results div"
+   rule on specificity - same reasoning as every other new div-based
+   rule in this file. */
+
+.results .owl-upload-intro {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin: 0 0 16px;
+    max-width: 900px;
+}
+
+.results .owl-upload-controls {
+    margin: 0 0 12px;
+}
+
+.results .owl-upload-status {
+    font-size: 14px;
+    color: #8b1a1a;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+.results .owl-upload-progress-container {
+    background: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 22px;
+    max-width: 500px;
+    margin: 0 0 4px;
+}
+
+.results .owl-upload-progress-fill {
+    background: #800020;
+    height: 100%;
+    width: 0%;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 22px;
+    transition: width 0.2s ease;
+    white-space: nowrap;
+}
+
+.results .owl-upload-progress-fill.owl-indeterminate {
+    width: 100% !important;
+    background: repeating-linear-gradient(45deg, #800020, #800020 12px, #a34059 12px, #a34059 24px);
+    background-size: 34px 34px;
+    animation: owl-upload-stripes 1s linear infinite;
+}
+
+@keyframes owl-upload-stripes {
+    from { background-position: 0 0; }
+    to { background-position: 34px 0; }
+}
+
+.results .owl-upload-progress-label {
+    font-size: 12px;
+    color: #666;
+    margin: 0 0 16px;
+}
+
+.results .owl-upload-warn-box {
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 0 0 12px;
+    max-width: 900px;
+}
+
+.results .owl-upload-warn-box summary {
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.results .owl-upload-warn-box .owl-details-hint {
+    font-weight: 400;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.results .owl-upload-warn-box .owl-upload-var-list {
+    font-size: 13px;
+    margin-top: 8px;
+    line-height: 1.6;
+    word-break: break-word;
+}
+
+.results .owl-upload-warn-box.owl-warn-amber {
+    background: #fdf3e0;
+    border: 1px solid #e8cf9a;
+    color: #8a5a00;
+}
+
+.results .owl-upload-preview-highlight {
+    font-size: 14px;
+    color: #333;
+    margin: 0 0 12px;
+}
+
+.results .owl-upload-confirm-row {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 14px;
+}
+
+.results table.owl-upload-preview-table {
+    margin: 0 0 16px;
+}
+
+.results .owl-upload-note {
+    background: #eef0f7;
+    border-left: 3px solid #2c3e6b;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin: 0 0 16px;
+    max-width: 900px;
+}
+
+.results .owl-upload-note p {
+    font-size: 13px;
+    color: #1f2d4d;
+    margin: 0;
+    line-height: 1.6;
+}
+
 /* ---- Sidebar ---- */
 
 .results .help-sidebar {

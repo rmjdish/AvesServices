@@ -1,0 +1,93 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results owl-basket-page">
+
+  <div class="help-header">
+    <h2>Upload Data Dictionary</h2>
+    <p>Add every variable from a saved data dictionary spreadsheet to your
+    Condor basket in one go.</p>
+  </div>
+
+  <p class="owl-upload-intro" id="owlUploadIntro">Upload either a basket
+  file you downloaded earlier from OWL, or the full Data Dictionary
+  spreadsheet with variables marked <b>Y</b> in the <i>Request variable</i>
+  column. Nothing is added to your basket until you review the list below
+  and confirm.</p>
+
+  <div class="owl-upload-controls">
+    <button type="button" id="owlUploadBtn" class="owl-btn-primary">&#11014; Upload saved data dictionary</button>
+    <input type="file" id="owlUploadFile" accept=".csv,.xlsx,.xls" style="display:none;">
+  </div>
+
+  <p id="owlUploadStatus" class="owl-upload-status"></p>
+
+  <div class="owl-upload-progress-container" id="owlUploadProgressContainer" style="display:none;">
+    <div class="owl-upload-progress-fill" id="owlUploadProgressFill">0%</div>
+  </div>
+  <p class="owl-upload-progress-label" id="owlUploadProgressLabel" style="display:none;"></p>
+
+  <details id="owlMissingNameBox" class="owl-upload-warn-box owl-warn-amber" style="display:none;">
+    <summary><span id="owlMissingNameSummary"></span> <span class="owl-details-hint">(click for details)</span></summary>
+    <div id="owlMissingNameDetail" class="owl-upload-var-list"></div>
+  </details>
+
+  <details id="owlInvalidValueBox" class="owl-upload-warn-box owl-warn-amber" style="display:none;">
+    <summary><span id="owlInvalidValueSummary"></span> <span class="owl-details-hint">(click for details)</span></summary>
+    <div id="owlInvalidValueDetail" class="owl-upload-var-list"></div>
+  </details>
+
+  <details id="owlDuplicateBox" class="owl-upload-warn-box owl-warn-amber" style="display:none;">
+    <summary><span id="owlDuplicateSummary"></span> <span class="owl-details-hint">(click for details)</span></summary>
+    <div id="owlDuplicateDetail" class="owl-upload-var-list"></div>
+  </details>
+
+  <div id="owlUploadPreview" style="display:none;">
+    <p id="owlUploadPreviewSummary" class="owl-upload-preview-highlight">
+      <b id="owlUploadVarCount"></b> variable(s) found in this file, ready to add.
+    </p>
+    <div class="owl-upload-confirm-row">
+      <button type="button" id="owlConfirmUploadBtn" class="owl-btn-primary">Confirm &amp; Add to Basket</button>
+      <button type="button" id="owlCancelUploadBtn" class="owl-btn-secondary">Cancel</button>
+    </div>
+    <table class="owl-table owl-upload-preview-table">
+      <thead>
+        <tr><th>#</th><th>NSHD Variable Name</th><th>Variable Label</th></tr>
+      </thead>
+      <tbody id="owlUploadPreviewBody"></tbody>
+    </table>
+    <div class="owl-upload-confirm-row">
+      <button type="button" id="owlConfirmUploadBtnBottom" class="owl-btn-primary">Confirm &amp; Add to Basket</button>
+      <button type="button" id="owlCancelUploadBtnBottom" class="owl-btn-secondary">Cancel</button>
+    </div>
+  </div>
+
+  <div id="owlUploadNote" class="owl-upload-note" style="display:none;">
+    <p>Once you confirm, you'll be taken to Basket Management, where you'll
+    see exactly what was added, what was pulled in automatically as a
+    linked variable, and what couldn't be added because access is
+    restricted.</p>
+  </div>
+
+  <!-- Hidden form submitted programmatically on confirm - one input per
+       variable name, named after the variable itself, matching exactly
+       how Multiple Add's own checkboxes work, so Variable's existing
+       doPost() (getParameterNames()) picks every one of them up without
+       any change to that server-side logic. -->
+  <form id="owlUploadForm" method="post" action="variable" style="display:none;"></form>
+
+  <div id="owlWaitOverlay" class="owl-wait-overlay">
+    <div class="owl-wait-box">
+      <div class="owl-wait-spinner"></div>
+      <p>Adding your variables&hellip;</p>
+      <p class="owl-wait-subtext">This may take a moment for a large data dictionary. Please wait.</p>
+    </div>
+  </div>
+
+</div>
+<script src="upload-dictionary.js"></script>
+{% endblock %}

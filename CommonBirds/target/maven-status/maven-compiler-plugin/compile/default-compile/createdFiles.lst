@@ -40,12 +40,14 @@ mrc\user\ChangePassword.class
 mrc\util\BasketMessageTriples$1.class
 mrc\user\BroadcastEmail.class
 mrc\util\TreeSearch.class
+mrc\user\HelpPresentation.class
 mrc\user\Login$Menu.class
 mrc\util\Util.class
 ucl\service\zip\jaxws\LobjobResponse.class
 mrc\util\HostInfo.class
 mrc\util\FormXML.class
 mrc\user\HelpSearch.class
+mrc\user\UploadDictionary.class
 mrc\util\Properties.class
 mrc\user\HelpAccess.class
 mrc\user\LoadBasket.class
