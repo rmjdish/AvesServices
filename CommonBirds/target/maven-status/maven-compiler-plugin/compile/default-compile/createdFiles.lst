@@ -30,6 +30,7 @@ ucl\service\zip\ZIPServiceClient.class
 mrc\util\GenerateTemplate.class
 mrc\user\SearchPage.class
 mrc\user\Basket.class
+mrc\user\RequestingBasket.class
 mrc\util\RestrictedVariables.class
 mrc\user\Download.class
 mrc\user\Trolley.class

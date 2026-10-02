@@ -7,19 +7,114 @@
 <link rel="stylesheet" href="owl.css" type="text/css">
 <div class="results owl-basket-page">
 <div class="help-header">
-  <h2>{{ title }}</h2>
-  <p>From this page, you can:</p>
+  <h2>Welcome, {{ firstName }} {{ lastName }} ({{ username }})</h2>
+  <p>Here's where to find everything in Condor.</p>
 </div>
-<ul class="owl-feature-list">
-  <li>Search for variables of interest.</li>
-  <li>Add variables of interest to your shopping basket.</li>
-  <li>Save your basket.</li>
-  <li>Review your previous shopping baskets.</li>
-  <li>Share a saved basket with other users.</li>
-  <li>View and load shared baskets provided by other users.</li>
-  <li>Update your registration details.</li>
-  <li>Change your password.</li>
-</ul>
+
+<div class="owl-landing-grid">
+
+  <div class="owl-landing-section owl-landing-teal">
+    <div class="owl-landing-section-title">OWL</div>
+  <ul class="owl-landing-list">
+    <li>
+      <a href="owlWalkthrough" class="owl-landing-link">Guided Walkthrough</a>
+      <div class="owl-landing-desc">A short, hands-on introduction to OWL, with progress tracking.</div>
+    </li>
+    <li>
+      <a href="owlOverview" class="owl-landing-link">What is OWL</a>
+      <div class="owl-landing-desc">OWL's public metadata platform, and how it relates to Condor.</div>
+    </li>
+    <li>
+      <a href="owlHowItWorks" class="owl-landing-link">How It Works</a>
+      <div class="owl-landing-desc">The end-to-end workflow from OWL to a Condor data request.</div>
+    </li>
+    <li>
+      <a href="uploadDictionary" class="owl-landing-link">Upload Data Dictionary</a>
+      <div class="owl-landing-desc">Add every variable from a saved spreadsheet to your basket at once.</div>
+    </li>
+    <li>
+      <a href="requestingBasket" class="owl-landing-link">Requesting your Basket</a>
+      <div class="owl-landing-desc">Turning a saved basket into an actual data request.</div>
+    </li>
+  </ul></div>
+
+  <div class="owl-landing-section owl-landing-amber">
+    <div class="owl-landing-section-title">SEARCH</div>
+  <ul class="owl-landing-list">
+    <li>
+      <a href="helpSearch" class="owl-landing-link">Get Started</a>
+      <div class="owl-landing-desc">An overview of all four ways to search.</div>
+    </li>
+    <li>
+      <a href="search?type=c" class="owl-landing-link">By Category</a>
+      <div class="owl-landing-desc">Browse the full category tree.</div>
+    </li>
+    <li>
+      <a href="search?type=n" class="owl-landing-link">By Variable Name</a>
+      <div class="owl-landing-desc">Fastest if you already know, or can guess, the name.</div>
+    </li>
+    <li>
+      <a href="search?type=k" class="owl-landing-link">By Keyword</a>
+      <div class="owl-landing-desc">Search labels and descriptions for a topic.</div>
+    </li>
+    <li>
+      <a href="search?type=l" class="owl-landing-link">By Library</a>
+      <div class="owl-landing-desc">Browse within one study document or sweep.</div>
+    </li>
+  </ul></div>
+
+  <div class="owl-landing-section owl-landing-rose">
+    <div class="owl-landing-section-title">BASKETS</div>
+  <ul class="owl-landing-list">
+    <li>
+      <a href="helpBaskets" class="owl-landing-link">Get Started</a>
+      <div class="owl-landing-desc">How saving, loading and sharing baskets works.</div>
+    </li>
+    <li>
+      <a href="basket?command=saveNew&id={{sessionID}}" class="owl-landing-link">Save Basket</a>
+      <div class="owl-landing-desc">Save your working basket, ready to request.</div>
+    </li>
+    <li>
+      <a href="basket?id={{sessionID}}" class="owl-landing-link">View Current Basket</a>
+      <div class="owl-landing-desc">See and edit everything in your working basket.</div>
+    </li>
+    <li>
+      <a href="previousBasket?id={{sessionID}}" class="owl-landing-link">Load/Share My Basket</a>
+      <div class="owl-landing-desc">Reopen or share one of your own saved baskets.</div>
+    </li>
+    <li>
+      <a href="sharedBasket?id={{sessionID}}" class="owl-landing-link">Load Shared Basket</a>
+      <div class="owl-landing-desc">Load a basket another user has shared with you.</div>
+    </li>
+    <li>
+      <a href="retrieve?id={{sessionID}}" class="owl-landing-link">Download Basket</a>
+      <div class="owl-landing-desc">Export a saved basket for use outside Condor.</div>
+    </li>
+  </ul></div>
+
+  <div class="owl-landing-section owl-landing-blue">
+    <div class="owl-landing-section-title">YOUR ACCOUNT</div>
+  <ul class="owl-landing-list">
+    <li>
+      <a href="helpPresentation" class="owl-landing-link">Condor User Guide</a>
+      <div class="owl-landing-desc">A short slide overview of Condor's features.</div>
+    </li>
+    <li>
+      <a href="changeRegistration" class="owl-landing-link">Update Contact Details</a>
+      <div class="owl-landing-desc">Keep your registered details current.</div>
+    </li>
+    <li>
+      <a href="changePassword" class="owl-landing-link">Change Password</a>
+      <div class="owl-landing-desc">Update your Condor password.</div>
+    </li>
+    <li>
+      <a href="logout?id={{sessionID}}" class="owl-landing-link">Logout</a>
+      <div class="owl-landing-desc">End your Condor session.</div>
+    </li>
+  </ul></div>
+
+</div>
+
 <div class="help-tips">
 Please note that your Condor session will be timed out after 15 minutes of inactivity. If this happens you need
 to login again <strong>and you will lose any selected variables that have not been saved in a basket</strong>.

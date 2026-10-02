@@ -99,6 +99,10 @@
     <servlet-class>mrc.user.UploadDictionary</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>requestingBasket</servlet-name>
+    <servlet-class>mrc.user.RequestingBasket</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>owlOverview</servlet-name>
     <servlet-class>mrc.user.OwlOverview</servlet-class>
   </servlet>
@@ -133,6 +137,10 @@
   <servlet-mapping>
     <servlet-name>uploadDictionary</servlet-name>
     <url-pattern>/uploadDictionary</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>requestingBasket</servlet-name>
+    <url-pattern>/requestingBasket</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>owlOverview</servlet-name>

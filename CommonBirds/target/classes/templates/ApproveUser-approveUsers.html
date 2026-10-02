@@ -3,18 +3,24 @@
 
 
 {% block results %}
-<div class="results">
-	<h2>{{ title }}</h2>
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+	<div class="help-header">
+	  <h2>{{ title }}</h2>
+	  <p>Review this user's registration details before approving or refusing them.</p>
+	</div>
 	{% include "oneverypage" %} 
 	{% if results is not empty %} 
 		{% set candidate = results | slice(1,2) | first %}
-		<table>
+		<table class="owl-table">
 		{% for col in results %} 
 			{% if loop.index is even %}
 				<tr>
 					<td>{{ col }}</td> 
 			{% else %}
-					<td>{{ col }}</td>
+					<td><strong>{{ col }}</strong></td>
 				</tr>
 			{% endif %} 
 		{% endfor %}

@@ -58,10 +58,32 @@ public class ResetPassword extends HttpServlet
     throws ServletException, IOException 
     {
         PrintWriter out = response.getWriter();        
-        Page p=new Page("ResetPassword-ResetPassword");
         HttpSession s = request.getSession();
-        p.setResults(getUserList());
-        p.UserPage(out, "Change Password", s);
+        String user = request.getParameter("user");
+        if (user == null || user.isEmpty()) {
+            // No user chosen yet - show the filterable/searchable list of
+            // every user, each with its own Reset Password link, rather
+            // than the single dropdown this page used before. The table
+            // is built directly in Java and passed through as a finished
+            // HTML string (see Page.rawTablePage() for why) rather than
+            // grouped in a Pebble loop, after two different attempts at
+            // the latter each failed in a different way.
+            Page p = new Page("ResetPassword-userList");
+            String tableHtml = buildUserTableHtml(getUserList(), s.getId());
+            p.rawTablePage(out, "Reset a User's Password", s, tableHtml);
+        } else {
+            // A specific user was chosen from the list - show just the
+            // password-entry form for them, with no dropdown at all. The
+            // chosen username is passed via setResults(), the same proven
+            // pattern updateDetails() below already uses for a single
+            // value, rather than assuming how request parameters reach
+            // the template directly.
+            Page p = new Page("ResetPassword-ResetPassword");
+            ArrayList<String> chosen = new ArrayList<String>();
+            chosen.add(user);
+            p.setResults(chosen);
+            p.UserPage(out, "Change Password for " + user, s);
+        }
     } 
 
     /** 
@@ -88,10 +110,17 @@ public class ResetPassword extends HttpServlet
     * @param out HTML PrintWriter 
     * @param username Username
     */
-    private ArrayList<String> getUserList() 
+    private ArrayList<String[]> getUserList() 
     {
-        String query = "select username from users where username != \'director\'";
-    	ArrayList<String> results = new ArrayList<String>();
+        // Widened from username-only so the list can show a name and
+        // institution alongside each username, rather than a bare list of
+        // usernames with no other context. Returned as one String[4] per
+        // user (username, firstName, lastName, affiliation) - the table
+        // HTML is built directly in Java from this (buildUserTableHtml()
+        // below), not grouped in a Pebble loop; see Page.rawTablePage()
+        // for why.
+        String query = "select username, firstName, lastName, affiliation from users where username != \'director\'";
+    	ArrayList<String[]> results = new ArrayList<String[]>();
         getServletContext().log("manager:"+query);
         try 
         {
@@ -100,7 +129,8 @@ public class ResetPassword extends HttpServlet
             ResultSet rs = c.doQuery(query);
             while (rs.next()) 
             {
-                results.add(rs.getString(1));          }
+                results.add(new String[]{ rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4) });
+            }
             rs.close();
             c.release();
         } 
@@ -109,6 +139,67 @@ public class ResetPassword extends HttpServlet
             e.printStackTrace();
         }
         return results;
+    }
+
+    /*
+     Method: buildUserTableHtml
+     	Builds the Reset Password user list table (Username/First Name/
+     	Last Name/Institution plus a Reset Password link) directly as an
+     	HTML string - see the comment on Page.rawTablePage() for why.
+
+     Parameters:
+     	users - one String[4] per user: {username, firstName, lastName, affiliation}
+     	sessionID - the current session's ID, needed for each row's own &id= parameter
+    */
+    private String buildUserTableHtml(ArrayList<String[]> users, String sessionID) {
+        StringBuilder html = new StringBuilder();
+        if (users.isEmpty()) {
+            html.append("<p>There are no users to list.</p>\n");
+            return html.toString();
+        }
+        html.append("<input type=\"text\" id=\"userSearchBox\" class=\"owl-user-search\" placeholder=\"Search by username, name, or institution&hellip;\">\n");
+        html.append("<table class=\"owl-table\" id=\"userResetTable\">\n");
+        html.append("<tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Institution</th><th class=\"skip-filter\">Reset Password</th></tr>\n");
+        for (String[] u : users) {
+            String uname = escapeHtml(u[0]);
+            String fname = escapeHtml(u[1]);
+            String lname = escapeHtml(u[2]);
+            String affil = escapeHtml(u[3]);
+            html.append("<tr><td>").append(uname).append("</td><td>").append(fname).append("</td><td>")
+                .append(lname).append("</td><td>").append(affil).append("</td>")
+                .append("<td><a href=\"resetPassword?id=").append(sessionID).append("&user=").append(uname).append("\">Reset Password</a></td></tr>\n");
+        }
+        html.append("</table>\n");
+        html.append("<script src=\"ddtf.js\"></script>\n");
+        html.append("<script>\n");
+        html.append("$(document).ready(function () {\n");
+        html.append("  $('#userResetTable').ddTableFilter();\n");
+        html.append("  var searchBox = document.getElementById('userSearchBox');\n");
+        html.append("  if (searchBox) {\n");
+        html.append("    searchBox.addEventListener('keyup', function () {\n");
+        html.append("      var term = searchBox.value.trim().toLowerCase();\n");
+        html.append("      var rows = document.querySelectorAll('#userResetTable tr');\n");
+        html.append("      for (var i = 1; i < rows.length; i++) {\n");
+        html.append("        var text = rows[i].textContent.toLowerCase();\n");
+        html.append("        if (term === '' || text.indexOf(term) !== -1) { rows[i].classList.remove('owl-search-hidden'); }\n");
+        html.append("        else { rows[i].classList.add('owl-search-hidden'); }\n");
+        html.append("      }\n");
+        html.append("    });\n");
+        html.append("  }\n");
+        html.append("});\n");
+        html.append("</script>\n");
+        return html.toString();
+    }
+
+    /*
+     Method: escapeHtml
+     	Basic HTML-escaping before user-sourced values (name, affiliation)
+     	go into a hand-built HTML string - the same precaution already
+     	used in Basket.java's own table-building method.
+    */
+    private String escapeHtml(String value) {
+        if (value == null) return "";
+        return value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
     }
 
     /** 

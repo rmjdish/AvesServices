@@ -1,11 +1,14 @@
 <!-- This is a Pebble Template which inherits from ... -->
 {% extends "Login-loginForm" %}
 {% block results %}
-<div class="results">
-<h2 >{{ title }}</h2>
-
-<p >Unfortunately, your application for access to Condor
-  has not been yet been approved. Please contact the LHA for more details.</p>
-<p>From this page, you can:</p>
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+<div class="help-header">
+  <h2>{{ title }}</h2>
+  <p>Your account has not yet been approved.</p>
+</div>
+<p>Unfortunately, your application for access to Condor has not yet been approved. Please contact the LHA for more details.</p>
 </div>
  {% endblock %}

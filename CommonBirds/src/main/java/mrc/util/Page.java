@@ -172,6 +172,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             context.put("numCols", this.getnumCols()); 
@@ -206,6 +208,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             context.put("numCols", this.getnumCols()); 
@@ -234,6 +238,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             if (cardList != null) {
@@ -262,6 +268,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             if (wrapinfo != null) {
@@ -291,6 +299,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             if (wrapinfo != null) {
@@ -319,6 +329,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             if (wrapinfo != null) {
@@ -346,6 +358,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             if (cardnums != null) {
@@ -380,6 +394,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             context.put("swiftVersion", HostInfo.tell());
             java.util.ArrayList<?> basketItems = (java.util.ArrayList<?>) session.getAttribute("items");
             context.put("basketCount", basketItems != null ? basketItems.size() : 0);
@@ -425,6 +441,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             if (xout != null) {
                 context.put("xml", xout);
             }
@@ -508,6 +526,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             context.put("numResults", this.getnumResults());
@@ -570,6 +590,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             context.put("numResults", this.getnumResults());
@@ -583,6 +605,51 @@ public class Page
             // Basket count for the menu bar badge - read directly from
             // the session's own "items" list, so this works on every
             // page render path without each one needing its own change.
+            java.util.ArrayList<?> basketItems = (java.util.ArrayList<?>) session.getAttribute("items");
+            context.put("basketCount", basketItems != null ? basketItems.size() : 0);
+            tplate.rollPress(out, context);
+        }
+    }
+
+    public void rawTablePage(PrintWriter out, String title, HttpSession session, String tableHtml) throws IOException
+    /*
+     * A dedicated, minimal render method for a page whose entire content
+     * is one HTML table the caller has already built as a plain Java
+     * string - e.g. ApproveUser-userApprovalList.html and
+     * ResetPassword-userList.html, each showing every user's
+     * username/firstName/lastName/affiliation in one row per user.
+     * Built after a genuine, unresolved failure attempting the same
+     * four-per-row grouping directly in Pebble: a nested nested {% if %}
+     * approach produced rows with the wrong data shifted between them,
+     * and a follow-up attempt using direct results[index] array access
+     * produced no rows at all, for reasons that could not be confirmed
+     * without a live test environment. Rather than keep guessing at
+     * Pebble's exact semantics for this shape of data, grouping and
+     * row-building now happens entirely in Java, which can actually be
+     * reasoned about and reviewed, and the finished HTML is passed
+     * through as one string - the same proven approach already used by
+     * savedBasketsConfirmation() just above for the same underlying
+     * reason (a save can produce several independent tables, better
+     * built directly than pushed through machinery designed for one
+     * flat, evenly-grouped table).
+     */
+    {
+        if (session != null) {  // Check session is still valid
+            GenerateTemplate tplate = createGenerateTemplate(session.getServletContext());
+            Map<String, Object> context = new HashMap<>();
+            context.put("hostname", HostInfo.chezmoi());
+            if (session.getAttribute("menutype") != null) {
+                context.put("menu", session.getAttribute("menutype").toString());
+            }
+            context.put("title",title);
+            context.put("sessionID", session.getId());
+            context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
+            String accessLevel=(String)session.getAttribute("accessLevel");
+            context.put("accessLevel", accessLevel);
+            context.put("tableHtml", tableHtml);
+            context.put("swiftVersion", HostInfo.tell());
             java.util.ArrayList<?> basketItems = (java.util.ArrayList<?>) session.getAttribute("items");
             context.put("basketCount", basketItems != null ? basketItems.size() : 0);
             tplate.rollPress(out, context);
@@ -613,6 +680,8 @@ public class Page
             context.put("title",title);
             context.put("sessionID", session.getId());
             context.put("username",  session.getAttribute("username"));
+            context.put("firstName",  session.getAttribute("firstName"));
+            context.put("lastName",  session.getAttribute("lastName"));
             String accessLevel=(String)session.getAttribute("accessLevel");
             context.put("accessLevel", accessLevel);
             context.put("tableHtml", tableHtml);

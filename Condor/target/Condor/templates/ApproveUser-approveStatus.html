@@ -1,9 +1,15 @@
 <!-- This is a Pebble Template which inherits from ... -->
 {% extends "Login-adminUserPage" %} 
 {% block results %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
 {% include "oneverypage" %}
-<div class="results">
-	<h2>{{ title }}</h2>
+<div class="results owl-basket-page">
+	<div class="help-header">
+	  <h2>{{ title }}</h2>
+	  <p>Confirmation of the approval decision just made.</p>
+	</div>
 	<p>{{ message }}</p>
 </div>
 {% endblock %}

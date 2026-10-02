@@ -389,8 +389,16 @@ public class ApproveUser extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession s = request.getSession();
 		String accessLevel = s.getAttribute("accessLevel").toString();        
-        ArrayList<String> results = new ArrayList<>();
-        String query = "select username from users where status = \'unverified\'";
+        // Widened from username-only so the admin can actually identify who
+        // they're approving/refusing without opening Review first for every
+        // single row. Stored as one String[4] per user (username,
+        // firstName, lastName, affiliation) rather than a flat list -
+        // the table HTML is now built directly here in Java and passed
+        // through as a finished string (see rawTablePage() in Page.java
+        // for why: two different attempts at grouping this same shape
+        // of data directly in Pebble each failed in a different way).
+        ArrayList<String[]> users = new ArrayList<>();
+        String query = "select username, firstName, lastName, affiliation from users where status = \'unverified\'";
         log.info("Condor userApprovalList inside Servlet ApproveUser");
         getServletContext().log("userApprovalList :"+query);
         Page p = new Page("ApproveUser-userApprovalList");
@@ -401,8 +409,7 @@ public class ApproveUser extends HttpServlet {
             ResultSet rs = c.doQuery(query);
             while (rs.next()) 
             {
-               results.add(rs.getString(1));
-              
+               users.add(new String[]{ rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4) });
             }
             rs.close();
             c.release();
@@ -411,8 +418,53 @@ public class ApproveUser extends HttpServlet {
         {
         	log.severe(HostInfo.tell()+" Error in userApprovalList with: "+query);
         }
-        p.setResults(results);
-        p.UserPage(out, "List of Users for Approval", s);
+        String tableHtml = buildApprovalTableHtml(users, s.getId());
+        p.rawTablePage(out, "List of Users for Approval", s, tableHtml);
+    }
+
+    /*
+     Method: buildApprovalTableHtml
+     	Builds the "List of Users for Approval" table (First Name/Last
+     	Name/Username/Institution plus the three action links) directly
+     	as an HTML string, rather than through a Pebble loop - see the
+     	comment on Page.rawTablePage() for why.
+
+     Parameters:
+     	users - one String[4] per pending user: {username, firstName, lastName, affiliation}
+     	sessionID - the current session's ID, needed for each action link's own &id= parameter
+    */
+    private String buildApprovalTableHtml(ArrayList<String[]> users, String sessionID) {
+        StringBuilder html = new StringBuilder();
+        if (users.isEmpty()) {
+            html.append("<p>There are no users awaiting approval.</p>\n");
+            return html.toString();
+        }
+        html.append("<table class=\"owl-table\">\n");
+        html.append("<tr><th>First Name</th><th>Last Name</th><th>Username</th><th>Institution</th><th>Approve External</th><th>Review</th><th>Refuse</th></tr>\n");
+        for (String[] u : users) {
+            String uname = escapeHtml(u[0]);
+            String fname = escapeHtml(u[1]);
+            String lname = escapeHtml(u[2]);
+            String affil = escapeHtml(u[3]);
+            html.append("<tr><td>").append(fname).append("</td><td>").append(lname).append("</td><td>")
+                .append(uname).append("</td><td>").append(affil).append("</td>")
+                .append("<td><a href=\"approveUser?id=").append(sessionID).append("&user=").append(uname).append("&approve=external\">Approve External</a></td>")
+                .append("<td><a href=\"approveUser?id=").append(sessionID).append("&user=").append(uname).append("&approve=review\">Review</a></td>")
+                .append("<td><a href=\"approveUser?id=").append(sessionID).append("&user=").append(uname).append("&approve=no\">Refuse</a></td></tr>\n");
+        }
+        html.append("</table>\n");
+        return html.toString();
+    }
+
+    /*
+     Method: escapeHtml
+     	Basic HTML-escaping before user-sourced values (name, affiliation)
+     	go into a hand-built HTML string - the same precaution already
+     	used in Basket.java's own table-building method.
+    */
+    private String escapeHtml(String value) {
+        if (value == null) return "";
+        return value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
     }
 
 

@@ -119,6 +119,7 @@ public class Login extends HttpServlet {
 				String accountStatus = checkAccountStatus(username);
 				String accessLevel = checkUserAccessLevel(username);
 				int seclevel = checkUserSecLevel(username);
+				String[] fullName = checkUserFullName(username);
 				String ipaddr = new String();
 				ipaddr = request.getRemoteAddr();
 				HttpSession s = request.getSession();
@@ -127,6 +128,8 @@ public class Login extends HttpServlet {
 				s.setAttribute("accessLevel", accessLevel);
 				s.setAttribute("items", v);
 				s.setAttribute("username", request.getParameter("username"));
+				s.setAttribute("firstName", fullName[0]);
+				s.setAttribute("lastName", fullName[1]);
 				s.setAttribute("seclevel", seclevel);
 				s.setAttribute("ip", ipaddr);
 				if (accountStatus.equalsIgnoreCase("APPROVED")) {
@@ -299,6 +302,45 @@ public class Login extends HttpServlet {
 			log.severe(HostInfo.tell()+" Login: Error obtaining password from database.");
 		}
 		return authenticated;
+	}
+
+	/* Function: checkUserFullName
+	 	Looks up a user's first and last name from the users table, for
+	 	the personalised "Welcome, First Last (username)" heading on the
+	 	post-login landing pages (see externalUserPage() and its
+	 	siblings below). Returns a 2-element array [firstName, lastName]
+	 	- both empty strings if the lookup fails for any reason, so a
+	 	template can fall back to just the username without needing to
+	 	handle a null.
+
+	  Parameters:
+		username - Username to look up
+	*/
+	private String[] checkUserFullName(String username) {
+		String firstName = "";
+		String lastName = "";
+		String query = null;
+		if (Util.mainApp().equalsIgnoreCase("Jay")) {
+			query = "select firstName, lastName from rook.users where username=?";
+		} else {
+			query = "select firstName, lastName from users where username=?";
+		}
+		HashMap<Integer,Object> theparms = new HashMap<Integer,Object>();
+		theparms.put(1, username);
+		try {
+			ConnectDB c = new ConnectDB();
+			c.capture();
+			ResultSet rs = c.doPQuery(query, theparms);
+			while (rs.next()) {
+				firstName = rs.getString("firstName");
+				lastName = rs.getString("lastName");
+			}
+			rs.close();
+			c.release();
+		} catch (Exception e) {
+			log.severe(HostInfo.tell() + " Login: Error obtaining first/last name from database.");
+		}
+		return new String[]{ firstName == null ? "" : firstName, lastName == null ? "" : lastName };
 	}
 
 

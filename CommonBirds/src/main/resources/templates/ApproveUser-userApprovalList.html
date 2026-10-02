@@ -1,28 +1,15 @@
 <!-- This is a Pebble Template which inherits from ... -->
 {% extends "Login-adminUserPage" %}
 {% block results %}
-<div class="results">
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
 	{% include "oneverypage" %}
-	<h2>{{ title }}</h2>
-	<table>
-		<tr>
-			<th>User Name</th>
-			<th></th>
-			<th></th>
-			<th></th>
-		</tr>
-
-		{% for val in results %}
-		<tr>
-			<td>{{ val }}</td>
-			<td><a
-				href="approveUser?id={{ sessionID }}&user={{ val }}&approve=external">Approve External</a></td>
-			<td><a href="approveUser?id={{ sessionID }}&user={{ val }}&approve=review">Review</a></td>
-			<td><a href="approveUser?id={{ sessionID }}&user={{ val }}&approve=no">Refuse</a></td>
-		</tr>
-		{% endfor %}
-
-	</table>
+	<div class="help-header">
+	  <h2>{{ title }}</h2>
+	  <p>Everyone who has registered but not yet been approved or refused.</p>
+	</div>
+	{{ tableHtml|raw }}
 </div>
 {% endblock %}
-
