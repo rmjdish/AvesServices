@@ -1,0 +1,34 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results owl-basket-page">
+
+  <div class="help-header">
+    <h2>Condor User Guide</h2>
+    <p>A short slide presentation covering Condor's features &mdash; how to search,
+    build a basket, and save it.</p>
+  </div>
+
+  <p class="owl-presentation-intro">This presentation walks through the main
+  things you can do in Condor, step by step, with real screenshots. Use the
+  arrows below to move through the slides, or download a copy to view
+  offline.</p>
+
+  <div class="owl-presentation-frame">
+    <iframe src="Condor_Presentation.pdf" title="Condor User Guide presentation" loading="lazy">
+      <p>Your browser can't display this presentation inline.
+      <a href="Condor_Presentation.pdf">Download the PDF</a> instead.</p>
+    </iframe>
+  </div>
+
+  <div class="owl-presentation-downloads">
+    <a href="Condor_Presentation.pptx" class="owl-btn-primary" download>&#11015; Download as PowerPoint</a>
+    <a href="Condor_Presentation.pdf" class="owl-btn-secondary" download>&#11015; Download as PDF</a>
+  </div>
+
+</div>
+{% endblock %}

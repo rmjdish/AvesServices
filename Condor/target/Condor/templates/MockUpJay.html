@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+
+<html template="true" lang="en">
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+<title>Jay</title>
+<meta http-equiv="Content-Type" content="text/html;"
+	charset="iso-8859-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- This is the top level Pebble template that will be 'inherited' by other templates -->
+<link rel="stylesheet" href="SWIFT15.css" type="text/css">
+<script src="FormValidation.js"></script>
+<script src="Help.js"></script>
+</head>
+<body>
+	<header>
+	<form action="#" onsubmit="return validateSearchForm(this)" method="post">	
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<div class="banner">
+							<img src="Jay.jpg" alt="a jay in flight" height="70" width="55" />
+							<h1>MRC National Survey of Health and Development</h1>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<!-- Trying CSS3 - <nav> out but wait for the moment. -->
+						<ul id="menu-bar">
+								<li><a href="#">Forms</a>
+									<ul>
+										<li><a href="#">Ingest</a></li>
+										<li><a href="#">Approve</a></li>
+										<li><a href="#">Print</a></li>
+										<li><a href="#">Search...</a>
+											<ul>
+												<li><a href="#">by Date Submitted</a></li>
+												<li><a href="#">by Date Approved</a></li>
+												<li><a href="#">by Start Date</a></li>
+												<li><a href="#">by End Date</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a href="#">Projects</a>
+									<ul>
+										<li><a href="#">Update Details</a></li>
+										<li><a href="#">Publish to Wiki</a></li>
+										<li><a href="#">Update Status</a></li>
+										<li><a href="#">Search...</a>
+											<ul>
+												<li><a href="#">by Date Submitted</a></li>
+												<li><a href="#">by Date Approved</a></li>
+												<li><a href="#">by Start Date</a></li>
+												<li><a href="#">by End Date</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a href="#">Reports</a>
+									<ul>
+										<li><a href="#">Applications Received</a></li>
+										<li><a href="#">By Status</a></li>
+										<li><a href="#">By Processing Time</a></li>
+										<li><a href="#">Problem Projects</a>
+											<ul>
+												<li><a href="#">Contract Not Agreed</a></li>
+												<li><a href="#">Security Concerns</a></li>
+												<li><a href="#">Lack of Progress</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								
+								<li><a href="#">More...</a>
+									<ul>
+										<li><a href="#">Logout</a></li>
+										<li><a href="javascript:help();">Help</a></li>
+										<li><a href="#">Update Contact Details</a></li>
+										<li><a href="#">Change Password</a></li>
+									</ul>
+								</li>
+								<li><input name="term" type="text" placeholder="Search..." />
+									<input name="type" type="hidden" value="k" />
+								</li>
+								<li>
+									
+								</li>
+							</ul> <!-- </nav> Paired with nav above -->
+						</td>
+
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	</header>
+	<div class="results">
+		<p style="margin: 5%; font-size: 150%;">Welcome to Jay the
+			data sharing information system for the NSHD.</p>
+		<p style="margin: 5%; font-size: 110%;">Please report any problems
+			by email to MRCLHA.SwiftInfo@ucl.ac.uk.</p>
+	</div>
+	<footer> 
+		<table>
+		  <tr>
+			<td>
+			  <center>
+			    <a href="https://skylark.ucl.ac.uk/NSHD//doku.php?id=skylark:skylark" >Help</a>
+			  </center> 
+			  <center>
+			    <b>Problems?</b>
+			    <a href="mailto:MRCLHA.Swiftinfo@ucl.ac.uk">Contact LHA</a>
+			    <br>Version: Jay Mock Up
+			  </center>
+			</td>
+		  </tr>
+		</table>			 
+	</footer>
+</body>
+</html>
+

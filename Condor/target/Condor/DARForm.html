@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html template="true" lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
+<link rel="stylesheet" href="SWIFT15.css" type="text/css"  media="screen"/>
+<link rel="stylesheet" href="JAYPRINT.css" type="text/css" media="print"/>
+<script type="text/javascript" src="FileSaver.js"></script>
+<script type="text/javascript" src="FormValidation.js"></script>
+<script>
+function wrapUp(doc) {
+    console.log(doc);
+    let frm = doc.name;
+    let fname = "";
+    let metaobj = "";
+    // Boring but go through form elements twice
+    // First time to pick out CSV file headers...
+    for (i = 0; i < doc.length; i++) {
+	let myprop = doc.elements[i].name;
+	metaobj  += myprop + " | ";
+    };
+    metaobj += "\n";  // End of row
+    // Second time to pull out rows
+    // Also grab file name from form elements		    
+    for (i = 0; i < doc.length; i++) {
+	let myprop = doc.elements[i].name;
+	let myval  = '"' + doc.elements[i].value.replace(/(\r?\n|\r)/g," ") + '"';
+	if (myprop == "output-fileName") {
+	    fname = myval.slice(1,-1) + '.csv';
+	    continue;
+	}
+	metaobj  += myval + " | ";
+    };
+    metaobj += "\n"; // End of row	  
+    // Now metaobj contains everything we want to write 
+    var text = metaobj;
+    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, fname);
+};
+</script>
+<script>
+function xmlUp(doc) {
+	if (!validateProposalForm(doc)) {
+		// Problem with unfilled info
+		return;
+	}
+    console.log(doc);
+    let frm = doc.name;
+    let fname = "";
+    let metaobj = '<?xml version="1.0" encoding="UTF-8"?>';
+    metaobj += "\n<Form>\n";  // Beginning of document		    
+    for (i = 0; i < doc.length; i++) {
+	  let myprop = doc.elements[i].name;
+	  let myval  = doc.elements[i].value.replace(/\046/g,"").replace(/amp;/g,"and");
+	  if (myprop == "output-fileName") {  // exlcude from xml output
+	      fname = myval + '.lmx';
+	      continue;
+	  }
+	  if (myprop == "submit") { // exclude from xml output
+		  continue;
+	  }
+	  metaobj  += '<' + myprop + '>' + myval + '</' + myprop + '>' + '\n';
+    };
+    metaobj += "\n</Form>\n"; // End of document 
+    // Now metaobj contains everything we want to write 
+    var text = metaobj;
+    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, fname);
+};
+</script>
+
+<script>
+function removeClass(elem,thisclass) {
+	var x = document.getElementById(elem);
+	x.classList.remove(thisclass);
+	console.log(x.classList);
+   }
+</script>
+
+<script>
+function showThis(tag,elem) {
+	var x = document.getElementById(elem);
+    if (tag) {
+		x.removeAttribute("disabled");
+    } else {
+    	x.setAttribute("disabled");
+   }
+    return tag;
+}
+</script>
+
+
+<style>
+em { color:blue;
+	font-size:75%;
+}
+strong { font-size:110%;
+}
+.results ul { list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.results li {
+	margin: 1em 0em 1em 0em;
+	padding: 0;
+}
+
+.results ul li:nth-child(odd) {
+    background-color: #EBF5FB;
+}
+.results ul li:nth-child(even) {
+    background-color: white;
+
+}
+.results ul li:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.results ul li:first-child {
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+}
+.results ul li:first-child {
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+}
+
+
+.results ul li:last-child  {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}  
+.results ul li:last-child  {
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+.results ul li:last-child  {
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+}
+
+.topofform h1 {
+ color: darkblue !important;
+}
+
+.topofform img {
+	width: 75px;
+	height: 75px;
+}
+</style>
+<title>Metadata Capture</title>
+</head>
+
+<body>
+<div class="topofform">
+<h1><img src="https://skylark.ucl.ac.uk/Skylark/skylark.jpg" alt="a swift in flight" />
+MRC National Survey of Health and Development</h1>
+</div>
+
+<div class="results">
+  <form target="_self"
+	enctype="application/x-www-form-urlencoded"
+	name="collectMetadata"
+	id="metadataForm"
+	action="#"
+	>
+    <h2>Data/Biological Samples Access Request Form</h2>
+
+    <p style="width:75%">This form should be used to submit a data access request to the Data Sharing Committee of the MRC Lifelong Health and Ageing Unit at UCL.  To enable the form to be considered we expect all sections of the form to be completed.  For information on how and why we collect this information please see: https://www.ucl.ac.uk/cardiovascular/research/department-population-science-experimental-medicine/mrc-unit-for-lifelong-health-and-ageing/governance/data-sharing-privacy-notice/index
+    </p>
+    <p><strong>Please note that information in sections 1,2, and 4 will be made publicly available</strong> to other researchers applying for access to NSHD data.  Information supplied by you in all other sections will be treated as confidential and used solely for the purposes of processing your data application request.  By submitting this form you are consenting to the disclosure of this limited set of information to other researchers.  If you do not consent to this, please do not submit this form.</p>
+    <p><strong>N.B.</strong> if your application is part of studying for a PhD, your supervisor <strong>must</strong> be named as principal applicant on the application.</p>
+    <p style="width:75%">When you have finshed entering information, click on the <em>Save to file</em> button at the bottom of
+    the form.  <strong>Make sure to save the file and send it to
+    MRCLHA.SwiftInfo@ucl.ac.uk</strong></p>
+  <table>
+  	<tr>
+  		<th style="width: 40%">Form Question</th>
+  		<th>Form Data</th>
+  	</tr>
+    <tr>
+    	<td><label for="output-fileName"><strong>File name to save this information</strong><br> <em>(omit the extension)</em></label></td>
+    	<td><input type="text" name="output-fileName" placeholder="Enter Output File Name" maxlength="128" size="100"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><h2>Section 1 - Public Information</h2></td>
+    </tr>
+    
+    <tr>
+    <td><label for="PrinApp">1. Principal Applicant's Name<br><em>Name: maximum chars 128</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="text" name="PrinApp"  maxlength="128" placeholder="Enter name" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="PrinAppPos">2. Principal Applicant's Position<br><em>Position: maximum chars 256</em>&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="text" name="PrinAppPos" maxlength="256" placeholder="Enter Position" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="PrinAppInst">3. Principal Applicant's Institution<br><em>Name: maximum chars 256</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="text" name="PrinAppInst" maxlength="256" placeholder="Enter Institution" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="PrinAppEmail">4. Principal Applicant's Email Address<br><em>Email: maximum chars 256</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="email" name="PrinAppEmail" maxlength="256" placeholder="Enter Email Address" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="CoApp">5. Co-applicant's Name<br><em>Name: maximum chars 128</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="text" name="CoApp" maxlength="128" placeholder="Enter name" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="CoAppPos">6. Co-applicant's Position<br><em>Position: maximum chars 256</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="text" name="CoAppPos" maxlength="256" placeholder="Enter Position" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="CoAppInst">7. Co-applicant's Institution<br><em>Name: maximum chars 256</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="text" name="CoAppInst" maxlength="256" placeholder="Enter Institution" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="CoAppEmail">8. Co-applicant's Email Address<br><em>Email: maximum chars 256</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="email" name="CoAppEmail" maxlength="256" placeholder="Enter Email Address" size="100"></td>
+    </tr>
+
+    <tr>
+    <td><label for="MoreApps">9. Further Co-applicants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><textarea name="MoreApps" rows="6" cols="80" placeholder="Enter Further Co-applicant details"></textarea></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2"><h2>Section 2 - Public Information</h2></td>
+    </tr>
+    
+    <tr>
+    <td><label for="Title">10. Project Title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input type="text" name="Title" placeholder="Enter a title for the project" size="100"></td>
+    </tr>
+    
+    <tr>
+    <td><label for="StartDate">11. Project Start Date<em>(please enter dd/mm/yyyy)</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input name="StartDate" type="date"></td>
+    </tr>
+    
+    <tr>
+    <td><label for="EndDate">12. Project End Date<em>(please enter dd/mm/yyyy)</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><input name="EndDate" type="date"></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2"><h2>Section 3 - Confidential Information</h2></td>
+    </tr>
+    
+    <tr>
+      <td><label for="Funded">13. Will/has the project be(en) peer reviewed and funded?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+      <td><select name="Funded">
+	  		<option value="1">Yes</option>
+	  		<option value="0" selected="selected">No</option>
+	 	</select></td>
+      
+      <!--  <button class="tb5" name="Funded" onclick="this.value = showThis(1,'Funder')">Yes</button> -->
+      <!--  <button class="tb5" name="Funded" onclick="removeClass('FunderThing','downlow')">Yes</button> -->
+    </tr>
+
+
+    <tr>
+      <td><label for="Funder">14. Funding Organisation<br><em>Name: maximum chars 256</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+      <td><input type="text" name="Funder" id="Funder" maxlength="256" placeholder="Enter name of funding organisation." size="100" ></td>
+    </tr>
+
+    <tr>
+    <td><label for="ProjDesc">15. Brief description of the project including proposed output<br><em>(no more than 1 side of A4 and no more than 10 key references)</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+    <td><textarea name="ProjDesc" rows="12" cols="80" placeholder="Enter project description."></textarea></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2"><h2> Section 4 - Public Information</h2></td>
+    </tr>
+       
+    <tr>
+    <td><label for="PubSumry">16. Public summary of this project.</label></td>
+    <td><textarea name="PubSumry" rows="5" cols="80" placeholder="Enter a public summary."></textarea></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2"><h2>Section 5 - Confidential Information</h2></td>
+    </tr>
+          
+    <tr>
+      <td><label for="OtherStudies">17. Are other studies included in this project?</label></td>
+	  <td><select name="OtherStudies">
+	  		<option value="1">Yes</option>
+	  		<option value="0" selected="selected">No</option>
+		  </select></td>
+    </tr>
+    
+    <tr>
+    <td><label for="StudyList">18. If yes, please specify the other studies.</label></td>
+    <td><textarea name="StudyList" rows="2" cols="80" placeholder="Enter other studies."></textarea></td>
+    </tr>
+    
+    <tr>
+      <td><label for="Genotyping">19. Does your project involve genotyping?</label></td>
+	  <td><select name="Genotyping">
+	  		<option value="1">Yes</option>
+	  		<option value="0" selected="selected">No</option>
+		  </select></td>
+    </tr>
+    
+    <tr>
+    <td><label for="GenoList">20. If yes please specify:<br><em>a) list of SNPs to be genotyped;<br>b) pre-existing data on genotype frequency;<br>c) reference any of the applicant's previous experience in this area.</em></label></td>
+    <td><textarea name="GenoList" rows="5" cols="80" placeholder="Enter details."></textarea></td>
+    </tr>
+    
+    <tr>
+      <td><label for="DNA">21. Does your project involve DNA?</label></td>
+	  <td><select name="DNA">
+	  		<option value="1">Yes</option>
+	  		<option value="0" selected="selected">No</option>
+		</select></td>
+    </tr>
+    
+    <tr>
+    <td><label for="DNAList">22. This is only provided in certain circumstances;<br> please see the guidelines available on our website.<br><em>State amount, rationale for request of DNA, and describe the processes to be carried out.</em></label></td>
+    <td><textarea name="DNAList" rows="5" cols="80" placeholder="Enter details."></textarea></td>
+    </tr>
+    
+    <tr>
+      <td><label for="Samples">23. DNA samples:<br><em>Are there any special requirements for the DNA extraction or potential problems<br> with using pre-amplified rather than genomic DNA?</em></label></td>  
+	  <td><select name="Samples">
+	  		<option value="1">Yes</option>
+	  		<option value="0" selected="selected">No</option>
+			</select></td>
+    </tr>
+    
+    <tr>
+    <td><label for="SampleList">24. If yes, please specify.</label></td>
+    <td><textarea name="SampleList" rows="5" cols="80" placeholder="Enter details."></textarea></td>
+    </tr>
+    
+    <tr>
+      <td><label for="RNA">25. Does your project involve RNA or other cellular material?</label></td>  
+	  <td><select name="RNA">
+	  		<option value="1">Yes</option>
+	  		<option value="0" selected="selected">No</option>
+			</select></td>
+    </tr>
+    
+    <tr>
+    <td><label for="RNAList">26. If yes, please state amount and rationale for request, and describe the processes to be carried out.<br><em>Also please answer the next question.</em></label></td>
+    <td><textarea name="RNAList" rows="5" cols="80" placeholder="Enter details."></textarea></td>
+    </tr>
+    
+    <tr>
+    <td><label for="FQCExp">27. Feasibility and quality control:<br><em>Does(Do) the applicant(s) have sufficient experience<br> and expertise to carry out the DNA or RNA investigations described?</em></label></td>
+    <td><textarea name="FQCExp" rows="6" cols="80" placeholder="Enter details"></textarea></td>
+    </tr>
+
+    <tr>
+      <td colspan="2"><h2>Section 6 - Confidential Information</h2></td>
+    </tr>
+    
+    <tr>
+      <td><label for="Insight46">28. Does your project involve data collected for Insight46?</label></td>
+	  <td><select name="Insight46">
+	  <option value="1">Yes</option>
+	  <option value="0" selected="selected">No</option>
+	</select></td>  
+    </tr>
+
+    <tr>
+    <td><label for="Insight46List">29. If yes, please specify.</label></td>
+    <td><textarea name="Insight46List" rows="5" cols="80" placeholder="Enter details."></textarea></td>
+    </tr>
+    
+    <tr>
+      <td><label for="ImagingData">30. Does your project involve imaging data?</label></td>
+      <td><select name="ImagingData">
+	  		<option value="1">Yes</option>
+	  		<option value="0" selected="selected">No</option>
+		</select></td>
+    </tr>
+    
+    <tr>
+    <td><label for="ImagingDataList">31. If yes, please state which sequences and the rationale for request.<br><em>Also please answer the next question.</em></label></td>
+    <td><textarea name="ImagingDataList" rows="5" cols="80" placeholder="Enter details."></textarea></td>
+    </tr>
+    
+    <tr>
+    <td><label for="ImgExp">32. Feasibility and quality control:<br><em>Does(Do) the applicant(s) have sufficient experience<br>and expertise to store the images and carry out the image analysis requested?</em></label></td>
+    <td><textarea name="ImgExp" rows="6" cols="80" placeholder="Enter details"></textarea></td>
+    </tr>
+ 
+    <tr>
+      <td colspan="2"><h2>Section 7 - Confidential Information</h2></td>
+    </tr>
+    
+    <tr>
+    <td><label for="VarList">33. Analyses: What variables from the NSHD database<br> will be required for statistical analysis?</label></td>
+    <td><textarea name="VarList" rows="6" cols="80" placeholder="Enter details"></textarea></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2"><h2>Section 8 - Confidential Information</h2></td>
+    </tr>      
+    
+    <tr>
+    <td><label for="SecMgr">34. Within your organisation, what is the <strong>name</strong> of the person who will be responsible for managing the information security of any NSHD data shared with you.<br><em>Name: maximum chars 256</em></label></td>
+    <td><input type="text" name="SecMgr" maxlength="256" placeholder="Enter name" size="100"></td>
+    </tr>
+    
+    <tr>
+    <td><label for="SecPols">35. What <strong>policies and/or certifications</strong> does your organisation have in place to safeguard the confidentiality, integrity and availability of digitally stored information?</label></td>
+    <td><textarea name="SecPols" rows="6" cols="80" placeholder="Enter details"></textarea></td>
+    </tr>
+    
+    <tr>
+    <td><label for="DatCenLoc">36. What is the location <strong>(i.e. country/city)</strong> of the data centre or servers which will be used to store any NSHD data supplied to you?<br><em>Place Name: maximum chars 256</em></label></td>
+    <td><input type="text" name="DatCenLoc" maxlength="256" placeholder="Enter location" size="100"></td>
+    </tr>
+    
+    <tr>
+    <td><label for="AccCtrl">37. How will access to NSHD data be controlled?<br><em>e.g. access restricted to everyone in institution,<br>or access restricted to all members of department,<br>or access restricted to named applicants only</em></label></td>
+    <td><textarea name="AccCtrl" rows="6" cols="80" placeholder="Enter details"></textarea></td>
+    </tr>
+    
+    <tr>
+    <td><label for="DataMgr">38. Who will be responsible for the day-to-day management of any NSHD data shared with you?<br><em>i.e. Name of data manager: maximum chars 256</em></label></td>
+    <td><input type="text" name="DataMgr" maxlength="256" placeholder="Enter name" size="100"></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2" style="width:100%"><h2>Section 9 - Confidential Information</h2>
+    </tr>
+          
+    <tr>
+      <td><label for="ContSrc">39. How did you find out about the NSHD?</label></td>
+      <td> <select name="ContSrc">
+	  		<option value="1">Collaborator</option>
+	  		<option value="2">Conference Contact</option>
+	  		<option value="3">Academic Paper</option>
+	  		<option value="4">Consortia (e.g. CLOSER/DPUK) </option>
+	  		<option value="5">NSHD Website</option>
+	  		<option value="9">Other source</option>
+		</select></td> 
+    </tr>
+    
+    <tr>
+    <td><label for="SignName">40. Please enter your name.<br><em>Name: maximum chars 256</em></label></td>
+    <td><input type="text" name="SignName" maxlength="256" placeholder="Enter name" size="100"></td>
+    </tr>   
+    
+    <tr>
+    <td><label for="DateSub">41. Date of submission of this form<br> <em>(please enter dd/mm/yyyy)</em></label></td>
+    <td><input name="DateSub" type="date"></td>
+    </tr>
+    
+  </table>
+  <br>
+    <div class="topofform">
+    <button class="testbutton" name="submit" type="button" onclick="xmlUp(this.form);" value="DARForm-version-1">Save this form to file</button>
+    </div>
+</form>
+</div>
+</body>
+</html>

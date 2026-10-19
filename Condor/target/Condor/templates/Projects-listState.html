@@ -1,0 +1,30 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %} 
+{% include "oneverypage" %}
+{% block results %} 
+<div class="results">
+<h2>{{ title }}</h2>
+<p>The current set of attributes of the selected project are listed below.</p>
+<hr>
+<table>
+	<tr>
+		<th class="skip-filter">Label</th>
+		<th class="skip-filter">Information</th>
+	</tr>
+	{% for val in results %} 
+		  {% if (loop.index+1 ) % numCols equals  1 %} <!-- Project ID -->
+		    <tr>
+		    	<td>{{ val }}</td>
+	      {% elseif (loop.index+1 ) % numCols equals 0 %} <!-- last (2nd) field to print -->
+		    <td>{{ val }}</td>
+		    </tr>
+		  {% endif %}
+	{% else %} {# results is empty #}
+		<tr>
+			<td>There is no information on the current state of the selected project.</td>
+		</tr>
+	{% endfor %} 
+</table>
+</div>
+{% endblock results%}
+

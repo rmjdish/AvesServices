@@ -1,0 +1,131 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results">
+<div class="help-page">
+
+  <div class="help-main">
+    <div class="help-header">
+      <h2>Registration &amp; login help</h2>
+      <p>Getting an account, signing in, and what to do if something
+      goes wrong &mdash; covered here in one place since these
+      questions come up before you're logged in to anything else.</p>
+    </div>
+
+    <div class="help-cards">
+
+      <div class="help-card" id="register">
+        <div class="help-card-label">Registering for an account</div>
+        <p>New accounts are not activated automatically. After you
+        submit the registration form, your account is reviewed and
+        approved by an administrator, who also sets your account type
+        (Internal or External). You won't be able to log in until this
+        review is complete.</p>
+        <a href="register">Register &rarr;</a>
+      </div>
+
+      <div class="help-card" id="login">
+        <div class="help-card-label">Logging in</div>
+        <p>Enter your username and password, and complete the "I'm not
+        a robot" check &mdash; login is rejected without it. If your
+        username or password is wrong, you'll see a generic "incorrect"
+        message that doesn't say which one &mdash; this is intentional
+        and not a bug. You'll also be logged out automatically after
+        one hour of inactivity.</p>
+        <a href="login">Login &rarr;</a>
+      </div>
+
+      <div class="help-card" id="status">
+        <div class="help-card-label">What your account status means</div>
+        <p>If you try to log in before you've been approved, you'll
+        see a message telling you why, based on one of three
+        statuses:</p>
+        <ul>
+          <li><strong>Pending</strong> &mdash; still awaiting review</li>
+          <li><strong>Approved</strong> &mdash; you can log in normally</li>
+          <li><strong>Rejected</strong> &mdash; your application was
+          declined</li>
+        </ul>
+      </div>
+
+      <div class="help-card" id="forgot">
+        <div class="help-card-label">Forgotten password</div>
+        <p>If you have forgotten your username and password you can
+        request help by sending an email to
+        MRCLHA.SwiftInfo@ucl.ac.uk including the email address you
+        gave when you registered, or by clicking <a
+        href="mailto:MRCLHA.SwiftInfo@ucl.ac.uk?subject=Swift%20Password%20Forgotten">here</a>.</p>
+      </div>
+
+    </div>
+
+    <div class="help-tips" id="tips">
+      <div class="help-section-label">Tips</div>
+      <ul>
+        <li>When emailing about a forgotten password, include the
+        exact email address you registered with &mdash; it helps LHA
+        find your account faster.</li>
+        <li>If the robot check keeps failing, it's the "I'm not a
+        robot" step itself, not your username or password.</li>
+      </ul>
+    </div>
+
+    <div class="help-faq" id="faq">
+      <div class="help-section-label">Common questions</div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          I registered but still can't log in.
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">Your account most likely hasn't
+        been approved yet. Accounts require manual review before they
+        can be used &mdash; there's no way to speed this up yourself.
+        If it's been a while, contact LHA using the details in the
+        footer.</div>
+      </div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          I've forgotten my username or password.
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">Email MRCLHA.SwiftInfo@ucl.ac.uk
+        with the email address you registered with, and the team will
+        help you regain access &mdash; see the Forgotten Password card
+        above for a ready-made link.</div>
+      </div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          Why was I logged out while I was still using the site?
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">Sessions end automatically after
+        one hour without activity. Save any basket you're working on
+        before stepping away for a while.</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="help-sidebar">
+    <div class="help-sidebar-title">On this page</div>
+    <nav>
+      <a href="#register">Registering</a>
+      <a href="#login">Logging in</a>
+      <a href="#status">Account status</a>
+      <a href="#forgot">Forgotten password</a>
+      <a href="#tips">Tips</a>
+      <a href="#faq">Common questions</a>
+    </nav>
+  </div>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %}
+
+<script type='text/javascript'>
+function masterCheck( btn, ca, ua )
+{
+var elems = btn.form.elements, state = (btn.value == ca);
+for( var i = 0, len = elems.length; i < len; i++ )
+  if( elems[ i ].type && elems[ i ].type=='checkbox' )
+    elems[ i ].checked = state; 
+  btn.value = state ? ua : ca;
+}
+</script>
+
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	<form target="_self" method="post" onsubmit="return validateScramUserForm(this)" action="scramble" name="newscramuserform">
+		<p>Please choose a project and select an existing user/code from the Scrambling DB.</p>
+		<p>You will be able to use this scrambling user in all future scrambling runs for this project.</p>
+		<p style="text-align: left">
+			<input class="testbutton" type="button"	name="checkall" value="Check ALL" onClick="masterCheck(this, 'Check ALL', 'Uncheck ALL')">
+			&nbsp;&nbsp;&nbsp;
+			<input class="testbutton" type="submit"	value="Multiple Change">
+			<input type="hidden" name="command" value="multschange"> 
+		</p>
+		<table>
+			<tr>
+				<th>Project ID</th>
+				<th class="skip-filter">Date Approved</th>
+				<th>Principal Applicant</th>
+				<th class="skip-filter">Current Scramble User</th>
+				<th class="skip-filter">Choose Existing User</th>
+				<th class="skip-filter">Change This Project?</th>
+			</tr>
+			{% for val in existingprojects %}
+			{% if (loop.index + 1) % numCols equals 0 %}     <!-- Last Column on the row -->
+				<td>{{ val }}</td>
+				<td><select name="codes[]" size="3">
+					{% for opt in scramusers %}
+						<option value="{{opt}}">{{opt}}</option>
+					{% endfor %}
+				    </select>
+				</td>
+				<td><input name="pids[]" type="checkbox" value="{{ pid }}"></td>
+				</tr>
+			{% elseif (loop.index + 1) % numCols equals 1 %} <!-- First Column on the row -->
+				{% set pid = val %}
+				<tr>
+				<td>{{ val }}</td>
+			{% else %} <!-- Other Columns on the row -->
+				<td>{{ val }}</td>
+			{% endif %}
+			{% endfor %}
+		</table>
+	</form>
+</div>
+{% endblock results %} 

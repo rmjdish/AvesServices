@@ -1,0 +1,31 @@
+{% extends "JAY" %}
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	{% if results is not empty %}
+	<p>{{ numResults }} new scrambling codes have been created.</p>
+	<table>
+		<tr>
+			<th style="width: 10%;">Project ID</th>
+			<th style="width: 10%;">Scrambling Username</th>
+		</tr>
+
+		{# There are 2 columns of data supplied #}
+		{% for val in results %}
+			{% if loop.index % numCols equals 0 %} 
+		    	<tr><td>{{ val }}</td>
+		    {% else %}
+		        <td>{{ val }}</td></tr>
+		    {% endif %}
+		{% endfor %} {# end of for val in results #}
+	</table>
+	{% else %} {# results is empty #}
+		<p>No new scrambling codes were created.</p>
+	{% endif %} {# end of if results is not empty #}
+</div>
+{% endblock results %}
+
+
+
+

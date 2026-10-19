@@ -1,0 +1,76 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %} 
+{% block results %} 
+{% include "oneverypage" %}
+<div class="results">
+    {% set numTags = 11 %}
+	<h2>{{ title }}</h2>
+	
+<script type='text/javascript'>
+function masterCheck( btn, ca, ua )
+{
+var elems = btn.form.elements, state = (btn.value == ca);
+for( var i = 0, len = elems.length; i < len; i++ )
+  if( elems[ i ].type && elems[ i ].type=='checkbox' )
+    elems[ i ].checked = state; 
+  btn.value = state ? ua : ca;
+}
+</script>
+	
+<form name="publishprojects"
+      onsubmit="return validatePublishProjectsForm(this)"
+      action="projects"
+      method="post" 
+      target="_self"
+      >
+      &nbsp;&nbsp;&nbsp;
+      <input class="testbutton" type="button" name="checkall" value="Check ALL"	onClick="masterCheck(this, 'Check ALL', 'Uncheck ALL')">
+		&nbsp;&nbsp;&nbsp;
+	  <input class="testbutton" type="submit" value="Publish">
+      
+   <input name="command" type="hidden" value="multpublish">
+     <p>There are {{results | length / numCols }} projects(s) available to publish to the Wiki.</p>
+     <hr>
+   	<table>
+		<tr>
+			<th class="skip-filter">Form ID</th>
+			<th>Project ID</th>
+			<th class="skip-filter">Applicant</th>
+			<th class="skip-filter">Coapplicant</th>
+			<th style="width: 30%" class="skip-filter">Title</th>
+			<th class="skip-filter">Start</th>
+			<th class="skip-filter">End</th>
+			<th class="skip-filter">Submitted</th>
+			<th class="skip-filter">Publish?</th>
+		</tr>
+		{% for val in results %} 
+		  {% if (loop.index+1 ) % numCols equals  1 %}
+		    <tr><td>{{val}}</td>
+		  {% elseif (loop.index+1) % numCols equals 2 %}
+		    {% set thisproj = val %}
+		    <td>{{val}}</td>
+		  {% elseif (loop.index+1) % numCols equals 5 %} <!-- Further Applicants -->
+		  {% elseif (loop.index+1) % numCols equals 6 %}
+		    <input type="hidden" name="titles[]" value="{{val}}">
+		    <td>{{val}}</td>
+		  {% elseif (loop.index+1) % numCols equals 9 %} <!-- Description-->
+		  
+		  {% elseif (loop.index+1) % numCols equals 10 %} <!-- Summary -->
+		  
+	      {% elseif (loop.index+1 ) % numCols equals 0 %}
+		    <td>{{ val }}</td>
+		    <td><input type="checkbox" name="projects[]" value="{{thisproj}}"></td>
+		    </tr>
+		  {% else %}
+		    {% if val|trim|length > 1000%} <td style="width: 50%">{{val | trim | slice(0,1000)}}{% else %}<td>{{val|trim}}{%endif%}</td>
+		  {% endif %}
+	        {% else %} {# results is empty #}
+	          <tr>
+	          <td>There are no projects to publish.</td>
+	          </tr>
+	        {% endfor %} 
+</table>
+</form>
+</div>
+{% endblock results%}
+

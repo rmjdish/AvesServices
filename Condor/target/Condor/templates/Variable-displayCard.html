@@ -1,0 +1,204 @@
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+
+{# This one gets called from the variable.java class and has a bit more info to display than most templates #}
+{# There are extra context items thrown at this: documents, freqdesc, catlabs, and valuelabs #}
+{# documents, freqdesc and catlabs are all simple 1-lists whereas valuelabs is a 2-list #}
+
+{% block results %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+	{% include "oneverypage" %} 
+	{% set colheads = ["Variable","Field ID","Label","Card	Number","Form","Question","Year",
+			"Derived Status", "Later Version", "Units", "Sensitive", "Reason Public", 
+			"Reason Sensitive", "Notes"] %}
+	<div class="help-header">
+	  <h2>{{ title }}</h2>
+	  <p>Full metadata for this variable, including linked variables, documentation, and value labels.</p>
+	</div>
+	{% if results|length >= 1 and restrictedMessages[results[0]] is not empty %}
+	<div class="owl-restricted-banner">
+	  <span class="owl-restricted-banner-icon">&#x1F512;</span>
+	  <div>
+	    <strong>This variable is restricted.</strong> {{ restrictedMessages[results[0]] }}
+	  </div>
+	</div>
+	{% endif %}
+	{% if results|length >= 1 %}
+	<div class="help-page">
+	  <div class="help-main">
+
+	    <div class="owl-var-section" id="details" style="background:hsl(180 45% 96%);border-left:4px solid hsl(180 45% 55%);">
+	      <div class="owl-var-section-title" style="color:hsl(180 45% 22%);">Variable Details</div>
+	      {% if owlAvailable contains results[0] or restrictedMessages[results[0]] is not empty %}
+	      <div style="font-size:12px;color:hsl(180 45% 30%);margin-bottom:10px;">
+	        {% if owlAvailable contains results[0] %}&#x1F989; = Available on OWL &mdash; click the icon to view this variable's metadata page on OWL.{% endif %}
+	        {% if owlAvailable contains results[0] and restrictedMessages[results[0]] is not empty %}<br>{% endif %}
+	        {% if restrictedMessages[results[0]] is not empty %}&#x1F512; = Restricted &mdash; hover the icon for details.{% endif %}
+	      </div>
+	      {% endif %}
+	      <table class="owl-table">
+		{% for i in range(0,(results|length)-1) %}
+		<tr>
+			<td style="width: 25%;"><strong>{{ colheads|slice(i,i+1)|first }}</strong></td>
+			<td>{{ results|slice(i,i+1)|first }}{% if i == 0 and owlAvailable contains results[0] %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ results[0]|lower }}.html" target="_blank" rel="noopener" title="View {{ results[0] }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if i == 0 and restrictedMessages[results[0]] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[results[0]] }}">&#x1F512;</span>{% endif %}</td>
+		</tr>
+		{% endfor %}
+	      </table>
+	    </div>
+
+	    <div class="owl-var-section" id="linked" style="background:hsl(35 60% 96%);border-left:4px solid hsl(35 60% 55%);">
+	      <div class="owl-var-section-title" style="color:hsl(35 60% 25%);">Linked and Longitudinal Variables</div>
+	      {% if grpmems is empty %}
+		<p style="margin:0;">There are no associated variables.</p>
+	      {% else %} 
+	      {% if owlAvailable is not empty or restrictedMessages is not empty %}
+	      <div style="font-size:12px;color:hsl(35 60% 32%);margin-bottom:10px;">
+	        {% if owlAvailable is not empty %}&#x1F989; = Available on OWL &mdash; click the icon to view that variable's metadata page on OWL.{% endif %}
+	        {% if owlAvailable is not empty and restrictedMessages is not empty %}<br>{% endif %}
+	        {% if restrictedMessages is not empty %}&#x1F512; = Restricted &mdash; hover the icon for details.{% endif %}
+	      </div>
+	      {% endif %}
+	      <table class="owl-table">
+		  <tr>
+		    <th style="width: 5%; " class="skip-filter">Variable</th>
+		    <th style="width: 30%;" class="skip-filter">Description</b></th>
+		    <th style="width: 10%;" class="skip-filter">Year</th>
+		    <th style="width: 15%;" class="skip-filter">Form</th>
+		    <th style="width: 10%;" class="skip-filter">Question</th>
+		    <th style="width: 10%;" class="skip-filter">Library File</th>
+		  </tr>
+		  {# There are 7 columns of data supplied but 6 shown #}
+		  {% set grpcols = 7 %}
+		  {% for val in grpmems %} 
+		  {% if (loop.index + 1) % grpcols equals 0 %}
+		    {# The last column of data #}
+		    <td>{{ val }}</td>
+		    </tr>
+		  {% elseif (loop.index + 1) % grpcols equals 1 %} 
+		    {# First column on the page is the Public flag #}
+		    {% set publicFlag = val %}
+		  {% elseif (loop.index +1) % grpcols equals 2 %} 
+		    {# The variable name #}
+		    <tr>
+		    {% if publicFlag == "1" %}
+		   		<td><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}</td>
+		    {% else %}
+			    <td style="color:red"><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}</td>	
+		    {% endif %}				 
+		  {% elseif (loop.index + 1) % grpcols equals 7 %} 
+		  {# Column 7 is the	library file #}
+		    <td>{{val | trim}}</td> 
+		  {% else %} 
+		    {# this is used for the rest of the columns #}
+		    <td style="width: 10%;word-wrap: break-word">{{ val | trim }}</td> 
+		  {% endif %} {# end of if (loop.index...) #} 
+		  {% endfor %} 
+		  {# end of for val in grpmems #}
+		</table>
+	      {% endif %}
+	    </div>
+
+	    <div class="owl-var-section" id="documents" style="background:hsl(340 45% 96%);border-left:4px solid hsl(340 45% 60%);">
+	      <div class="owl-var-section-title" style="color:hsl(340 45% 28%);">Associated Documents</div>
+	      {# Now print the Documents #}
+	      <table class="owl-table skip-filter">
+		<tr>
+			<td style="width: 25%;">Questionnaires</td>
+			<td><a href="https://skylark.ucl.ac.uk/NSHD/exploring/nshd-questionnaires/" target="_blank">View</a></td>
+		</tr>
+		{% for i in range(0,documents|length-1) %}
+		<tr>
+			<td style="width: 25%;">Document</td>
+			<td><a href="{{ documents|slice(i,i+1)|first }}" target="_blank">View {{ documents|slice(i,i+1)|first }}</a></td>
+		</tr>
+		{% endfor %}
+	      </table>
+	    </div>
+
+	    <div class="owl-var-section" id="categories" style="background:hsl(125 35% 95%);border-left:4px solid hsl(125 35% 55%);">
+	      <div class="owl-var-section-title" style="color:hsl(125 35% 22%);">Category Memberships</div>
+	      <table class="owl-table skip-filter">
+		{% for tag in catlabs %} {# catlabs is  HashMap<String, String> #}
+			<tr>
+			<td style="width: 25%;">
+			<!-- Insert Form Here!! -->
+			<form name="input"
+	      			onsubmit="return validateSearchForm(this)"
+	      			action="search"
+	      			method="post"
+	      			target="_self"
+		      	>
+		      	<input type="hidden" name="type" value="c">
+			<input type="hidden" name="category" value="{{tag.key}}">
+			<a href="#" onclick="this.parentNode.submit()">{{ tag.key }}</a>
+			</form>
+			</td>
+			<td>
+			{{ tag.value }}
+			</td> 
+			</tr>
+		{% endfor %}
+	      </table>
+	    </div>
+
+	    <div class="owl-var-section" id="values" style="background:hsl(210 45% 96%);border-left:4px solid hsl(210 45% 55%);">
+	      <div class="owl-var-section-title" style="color:hsl(210 45% 22%);">Value Labels</div>
+	      {# Little more complicated here it is a 2-list #}
+	      <table class="owl-table skip-filter">
+		<tr>
+			<th class="skip-filter" style="width: 20%;">Value</th>
+			<th class="skip-filter">Label</th>
+		</tr>
+		{% for thislist in valuelabs %}
+			<tr>
+			{% for entry in thislist %}
+				<td>{{ entry }}</td> 
+			{% endfor %}
+			</tr>
+		{% endfor %}
+	      </table>
+	    </div>
+
+	    {%if freqdesc is not empty %}
+	    <div class="owl-var-section" id="frequency" style="background:hsl(270 35% 96%);border-left:4px solid hsl(270 35% 55%);">
+	      <div class="owl-var-section-title" style="color:hsl(270 35% 25%);">Frequency Distribution For {{ results[0] }}</div>
+	      {% if freqdesc|upper|slice(0,1) equals "D" %}
+	      <div class="skip-filter">
+	      <pre style="margin:0;background:transparent;border:none;">
+      			{{ freqdesc }}
+    		</pre>
+	      </div>
+	      {% else %} 
+		  <div class="skip-filter">
+		    {{ freqdesc|raw }}
+		 </div>
+	      {% endif %} 
+	    </div>
+	    {% endif %} 
+	    {# if freqdesc is not empty #} 
+
+	  </div>
+
+	  <div class="help-sidebar">
+	    <div class="help-sidebar-title">On this page</div>
+	    <nav>
+	      <a href="#details">Variable Details</a>
+	      <a href="#linked">Linked Variables</a>
+	      <a href="#documents">Documents</a>
+	      <a href="#categories">Categories</a>
+	      <a href="#values">Value Labels</a>
+	      {% if freqdesc is not empty %}
+	      <a href="#frequency">Frequency Distribution</a>
+	      {% endif %}
+	    </nav>
+	  </div>
+
+	</div>
+	{% else %}
+		<p>There is nothing to show.</p>
+	{% endif %} 
+	{# if results|length >= 1 #}
+</div>
+{% endblock results %}

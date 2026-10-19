@@ -1,0 +1,70 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %} 
+{% block results %} 
+{% include "oneverypage" %}
+<div class="results">
+    {% set numTags = 11 %}
+	<h2>{{ title }}</h2>
+	
+<script type='text/javascript'>
+function masterCheck( btn, ca, ua )
+{
+var elems = btn.form.elements, state = (btn.value == ca);
+for( var i = 0, len = elems.length; i < len; i++ )
+  if( elems[ i ].type && elems[ i ].type=='checkbox' )
+    elems[ i ].checked = state; 
+  btn.value = state ? ua : ca;
+}
+</script>
+	
+<form name="updateprojectstatus"
+      onsubmit="return validateUpdateProjectsForm(this)"
+      action="projects"
+      method="post" 
+      target="_self"
+      >
+      &nbsp;&nbsp;&nbsp;
+      <input class="testbutton" type="button" name="checkall" value="Check ALL"	onClick="masterCheck(this, 'Check ALL', 'Uncheck ALL')">
+		&nbsp;&nbsp;&nbsp;
+	  <input class="testbutton" type="submit" value="Change">
+      
+   <input name="command" type="hidden" value="updatenow">
+     <p>You can update the status of this/these {{results | length / (numCols*6) }} projects(s).</p>
+     <p>The current status is indicated by the On/Off status shown below.  Please note you can turn
+     	the status to off as well as on and that clicking on the <em>Change</em> button will change the 
+     	status of every project attribute shown below.</p>
+     <hr>
+   	<table>
+		<tr>
+			<th style="width: 5%;">Project ID</th>
+			<th style="width: 5%;">Attribute Code</th>
+			<th style="width: 25%;">Status</th>
+			<th style="width: 5%;">Current State</th>
+		</tr>
+		{% for val in results %} 
+		  {% if (loop.index+1 ) % numCols equals  1 %}
+		    <tr><td>{{val}}</td>
+		    {% set thisproj = val %}
+		  {% elseif (loop.index+1 ) % numCols equals 2 %}
+		     <td>{{val}}</td>
+		     {% set thiscode = val %}
+	      {% elseif (loop.index+1 ) % numCols equals 0 %}
+	        <td>
+	            <select name="codes[]">
+	              <option value="{{thiscode}}" {%if val equals "1"%} selected {%endif%}>On</option>
+	              <option value="-{{thiscode}}" {%if val equals "0"%} selected {%endif%}>Off</option>
+	            </select>
+		    <input type="hidden" name="projects[]" value="{{thisproj}}">
+		    </td></tr>
+		  {% else %}
+		    <td>{{val | trim}}</td>
+		  {% endif %}
+	        {% else %} {# results is empty #}
+	          <tr>
+	          <td>There are no projects to publish.</td>
+	          </tr>
+	        {% endfor %} 
+</table>
+</div>
+{% endblock results%}
+

@@ -1,0 +1,60 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %}
+
+<script type='text/javascript'>
+function masterCheck( btn, ca, ua )
+{
+var elems = btn.form.elements, state = (btn.value == ca);
+for( var i = 0, len = elems.length; i < len; i++ )
+  if( elems[ i ].type && elems[ i ].type=='checkbox' )
+    elems[ i ].checked = state; 
+  btn.value = state ? ua : ca;
+}
+</script>
+
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	<form target="_self" method="post" onsubmit="return validateScramBasketForm(this)" action="scramble" name="scrambasketform">
+		<p>Please choose a basket to scramble where the availability column lists it as <em>Dataset available</em>.</p>
+		<p style="text-align: left">
+			<input class="testbutton" type="button"	name="checkall" value="Check ALL" onClick="masterCheck(this, 'Check ALL', 'Uncheck ALL')">
+			&nbsp;&nbsp;&nbsp;
+			<input class="testbutton" type="submit"	 value="Scramble">
+			<input type="hidden"      name="command" value="scramblethese"> 
+		</p>
+		<table>
+			<tr>
+				<th>Project ID</th>
+				<th class="skip-filter">Basket ID</th>
+				<th class="skip-filter">Date Approved</th>
+				<th class="skip-filter">Principal Applicant</th>
+				<th class="skip-filter">Form ID</th>
+				<th class="skip-filter">Scramble User</th>
+				<th class="skip-filter">Scramble?</th>
+			</tr>
+			{% set recordnum = 0 %}
+			{% for val in existingprojects %}
+			{% set recordnum = recordnum + 1 %}
+			{% if (loop.index + 1) % numCols equals 0 %}     <!-- Last Column on the row doesn't output its value -->
+				<td><input name="bsks[]" type="checkbox" value="{ basket : {{ bsk }} , user : {{ scramuser }} }"></td>
+				</tr>
+			{% elseif (loop.index + 1) % numCols equals 1 %} <!-- First Column on the row -->
+				{% set pid = val %}
+				<tr>
+				<td>{{ val }}</td>
+			{% elseif (loop.index + 1) % numCols equals 2 %} <!-- Second Column on the row -->
+				{% set bsk = val %}
+				<td>{{ val }}</td>
+			{% elseif (loop.index + 1) % numCols equals 6 %} <!-- Sixth Column on the row -->
+				{% set scramuser = val %}
+				<td>{{ val }}</td>
+			{% else %} <!-- Other Columns on the row -->
+				<td>{{ val }}</td>
+			{% endif %}
+			{% endfor %}
+		</table>
+	</form>
+</div>
+{% endblock results %} 

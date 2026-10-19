@@ -1,0 +1,57 @@
+{% extends "JAY" %}
+
+{% block results %}
+
+{% include "oneverypage" %}
+
+
+<h2>{{ title }}</h2>
+{% if results is not empty %}
+<p>Here are the {{numResults}} results for the basket you selected.</p>
+  <table>
+    <tr>
+	<th  class="skip-filter">Basket ID</th> {# Column 1#}
+	<th  class="skip-filter">Project ID</th> {# Column 2 #}
+	<th class="skip-filter">Prin. App.</th> {# Column 3 #}
+	<th class="skip-filter">Email</th> {# Column 4 #}
+	<th class="skip-filter">Title</th> {# Column 5 #}
+	<th class="skip-filter">Has I46</th> {# Column 6 #}
+	<th class="skip-filter">I46 Tick</th> {# Column 7 #}
+	<th class="skip-filter">Img Tick</th> {# Column 8 #}
+	<th class="skip-filter">DNA Tick</th> {# Column 9 #}
+	<th class="skip-filter">Smpl Tick</th> {# Column 10 #}
+	<th class="skip-filter">RNA Tick</th> {# Column 11 #}
+    </tr>
+    <tr>
+
+    {% for val in results %} {# Looping over all elements of results #}
+    {# loop.index remainder numCols equal 0 then start new row #}
+    {% if loop.index % numCols equals 0 %}
+    </tr>
+    <tr>
+      {% if val equals "0" %}
+    	<td>No</td>
+      {% elseif val equals "1" %}
+    	<td>Yes</td>
+      {% else %}  
+        <td>{{ val }}</td>
+      {% endif %}
+      {# End of New row case #}
+    {% else %}
+      {% if val equals "0" %}
+    	<td>No</td>
+      {% elseif val equals "1" %}
+    	<td>Yes</td>
+      {% else %}  
+      <td>{{ val }}</td>
+      {% endif %}
+    {% endif %}
+    {% endfor %}
+    </tr>	
+  </table>
+
+{% else %}
+  <p>There are no results for the selected basket.</p>
+{% endif %}
+
+{% endblock %}

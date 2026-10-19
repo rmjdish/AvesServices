@@ -1,0 +1,46 @@
+{% extends "JAY" %}
+
+{% block results %}
+{# This is an example of a template which produces a table with 5 columns #}
+{# but only 4 of them come from the results vector supplied for the template #}
+{% include "oneverypage" %}
+<script>
+$(document).ready(function(){$('table').ddTableFilter();});
+</script>
+
+<div class="results">
+
+<h2>{{ title }}</h2>
+{% if results is not empty %}
+<p>{{ numResults }} baskets have been linked to a project.</p>
+<form name="displayJayBasketsForLink"
+      action="jaybaskets"
+      method="post" 
+      target="_self"
+      onsubmit="return validateLinkBasketForm(this)"
+      >
+		&nbsp;&nbsp;&nbsp;
+  <table>
+    <tr>
+      <th style="width:10%" class="skip-filter">Basket ID</th> {# Column 1 #}
+      <th style="width:50%" class="skip-filter">Project</th> {# Column 2#}
+    </tr>
+
+    {% for val in results %} {# Looping over all elements of results #}
+      {% if loop.index % numCols equals 0 %}
+	    {# loop.index+1 is 0 or an exact multiple of numCols so this should be the Basket Id field #}
+	    <tr>
+	    	<td>{{ val }}</td>
+      {% else %}
+         {# this is the last real data item on the row #}
+            <td>{{ val }}</td>
+       </tr>
+      {% endif %}
+    {% endfor %}
+  </table>
+</form>
+{% else %}
+  <p>There are no baskets to list.</p>
+{% endif %}
+</div>
+{% endblock %}

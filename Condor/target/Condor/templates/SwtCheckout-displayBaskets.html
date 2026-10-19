@@ -1,0 +1,41 @@
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<div class="results">
+	<h2>{{ title }}</h2>
+	{% if results is not empty %}
+		<p>You have {{ numResults }} baskets.</p>
+
+		<table>
+		<tr>
+			<th style="width: 10%;">Basket ID</th>
+			<th style="width: 35%;">Description</th>
+			<th style="width: 10%;">Build?</th>
+		</tr>
+
+		{# There are 2 columns of data supplied but 3 columns on the page #}
+		{% for val in results %} 
+			{% if (loop.index + 1) % numCols equals 0 %}
+			{# The last column of data but 3 to go on the page #}
+				<td>{{ val }}</td>
+				<td><a href="SwtCheckout?command=build&basketID={{ bskt }}">&Pi;</a></td>
+				</tr>
+			{% elseif (loop.index + 1) % numCols equals 1 %} 
+			{# First column on the page is the Basket ID #}
+				<tr>
+				{% set bskt = val %} {# remember the basketid #}
+				<td style="width: 10%"><a href="PreviousBasket?basket={{ val }}">{{	val }}</a></td> 
+			{% else %} 
+				{# this is used for the rest of the columns #}
+				<td>{{ val }}</td> 
+			{% endif %} {# end of if (loop.index...) #} 
+		{% endfor %} {# end of for val in results #}
+		</table>
+	{% else %} {# results is empty #}
+		<p>You do not have any baskets.</p>
+	{% endif %} {# end of if results is not empty #}
+</div>
+{% endblock results %}
+
+
+

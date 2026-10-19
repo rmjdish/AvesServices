@@ -1,0 +1,32 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{# This is an example of a template which produces a table with 2 columns #}
+{# but only one of them come from the results vector #}
+
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	{% if results is not empty %}
+	<table class="results">
+		<tr>
+			<th style="width: 20%">Basket</th>
+			<th style="width: 60%">Description</th>
+			<th style="width: 20%"><b>Overwrite?</th>
+		</tr>
+		<tr>
+			{% for val in results %} {% if loop.index + 1 is odd %}
+			<td><a href="previousBasket?basketID={{ val }}">{{ val }}</a></td> {%
+			set thisbasket = val %} {# Need to remember the basket id for the
+			link below #} {% else %}
+			<td>{{ val }}</td>
+			<td><a href="basket?command=overwrite&basketID={{ thisbasket }}">Yes</a></td>
+		</tr>
+		<tr>{% endif %} {% endfor %}
+		</tr>
+	</table>
+	{% else %}
+	<p>There are no baskets to overwrite.</p>
+	{% endif %}
+</div>
+{% endblock results %}

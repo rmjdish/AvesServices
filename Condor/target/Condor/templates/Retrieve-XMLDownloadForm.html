@@ -1,0 +1,36 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+<div class="results">
+<h2>{{ title }}</h2>
+  {% include "oneverypage" %}
+<form target="_self"
+      method="post"
+      action="retrieve"
+      name="xmldownloadform"
+      novalidate
+      >
+      	<p>
+	    <strong>Please note that it is no longer necessary to send XML basket lists
+	    to the LHA.  Now, all you need to send us is the name of the required basket. </strong>
+	</p>
+      
+      <p>You may have already been given a project code corresponding to a successful data request to the NSHD Data Sharing Committee.
+       If you have please enter it below, it will link this basket to your project.</p>
+      <p>
+        <input class="testbutton" type="submit" value="Next">
+        <input type="hidden" name="basketID" value="{{ basketID }}">
+        <input type="hidden" name="description" value="{{ description }}">
+      </p>
+  <table>
+    <tr>
+      <td>Enter a project code for this basket: </td>
+      <td><input name="projectid" type="text" size="12"></td>
+    </tr>
+  </table>
+
+{% endblock results %}
+{% block footer %} 
+</form>
+</div>
+{% endblock %}

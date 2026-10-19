@@ -1,0 +1,47 @@
+{% extends "JAY" %}
+
+{% block results %}
+{# This is an example of a template which produces a table with 5 columns #}
+{# but only 4 of them come from the results vector supplied for the template #}
+{% include "oneverypage" %}
+
+
+<h2>{{ title }}</h2>
+{% if results is not empty %}
+<p>There are {{ results | length / numCols }} baskets to choose from.</p>
+<input name="command" type="hidden" value="build">
+  <table>
+    <tr>
+      <th style="width:10%">Project ID</th> {# Column 1 #}
+      <th style="width:50%" class="skip-filter">Basket ID</th> {# Column 2#}
+      <th style="width:20%">Date Approved</th> {# Column 3 #}
+      <th style="width:10%" class="skip-filter">Form ID</th>{# Column 4 #}
+      <th style="width:10%" class="skip-filter">Check?</th> {# Column 5 #}
+    </tr>
+
+    {% for val in results %} {# Looping over all elements of results #}
+      {% if loop.index % numCols equals 0 %}
+	    <tr>
+	      <td>{{ val }}</td>
+      {% elseif loop.index %numCols equals 1 %}
+	    {# loop.index+1 is 1 (2nd item) should be the Basket Id field #}
+	    {% set thisbasket = val %}
+ 	    <td>{{val}}</td>
+      {% elseif loop.index %numCols equals 3 %}
+         {# this is the last real data item on the row #}
+         <td>{{ val }}</td>
+         <td><a  href="jaybaskets?command=checkconsistency&basketID={{ thisbasket }}">&#9878;</a></td>
+       </tr>
+      {% else %}
+        {# Every other field just put the value in a column #}
+        <td>{{ val }}</td>
+      {% endif %}
+    {% endfor %}
+
+  </table>
+
+{% else %}
+  <p>There are no baskets to list.</p>
+{% endif %}
+
+{% endblock %}

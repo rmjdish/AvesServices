@@ -1,0 +1,49 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "Login-loginForm" %}
+{% block results %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<script src="help-pages.js"></script>
+<link rel="stylesheet" href="owl.css" type="text/css">
+<div class="results owl-basket-page">
+<div class="help-header">
+  <h2>{{ swiftVersion }} Login</h2>
+  <p>Sign in to search, save, and submit baskets of NSHD variables.</p>
+</div>
+
+<div class="help-callout-danger">
+  <div class="help-callout-danger-label">Login failed</div>
+  <p>{{ title }}. Check your username and password and try again - remember that passwords are case-sensitive.</p>
+</div>
+
+<form target="_self"
+      enctype="application/x-www-form-urlencoded"
+      method="post"
+      action="login"
+      name="input"
+      id="loginForm"
+      onsubmit="return validateLoginForm(this)"
+      >
+  <div class="owl-form-card">
+    <label for="owlUsername">Username</label>
+    <input id="owlUsername" name="username" type="text" maxlength="20">
+    <label for="owlPassword" style="margin-top:10px;">Password</label>
+    <input id="owlPassword" type="password" name="password" maxlength="20">
+    <div class="owl-required-note">Passwords are case-sensitive.</div>
+{% if hostname | lower equals "finch" %}
+	<div class="g-recaptcha" data-sitekey="6LcTunkUAAAAABdHlNMojJ6IUhtTHN-HWezlnh70" style="margin:10px 0;"></div>
+{% elseif hostname | lower equals "kiwidev" %}
+	<div class="g-recaptcha" data-sitekey="6LeBf3kUAAAAADU7T5AROQx9hj8LLJYke6i58Fqd" style="margin:10px 0;"></div>
+{% endif %}
+	<button class="owl-submit-button" type="submit">Login</button>
+  </div>
+</form>
+
+<div class="help-tips" style="margin-top:16px;">
+  <div class="help-section-label">Forgotten your details?</div>
+  <p style="font-size:14px;color:#333;margin:0;line-height:1.6;">If you have forgotten your username or password, request help by emailing
+  <a href="mailto:MRCLHA.SwiftInfo@ucl.ac.uk?subject=Swift Password Forgotten">MRCLHA.SwiftInfo@ucl.ac.uk</a>,
+  including the email address you gave when you registered.</p>
+</div>
+
+</div>
+{% endblock %}

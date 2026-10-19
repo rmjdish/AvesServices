@@ -1,0 +1,27 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+<div class="results">
+	{% include "oneverypage" %}
+	<h2>{{ title }}</h2>
+	<form target="_self" enctype="application/x-www-form-urlencoded"
+		method="get" action="trolley" name="savetrolley" id="saveTrolleyForm"
+		onsubmit="return validateCheckoutForm(this)">
+		<p>Your new trolley will be called {{ basketId }}. You must enter a
+			description for this trolley.</p>
+		<input class="testbutton" type="submit" form="saveTrolleyForm"
+			value="Submit">
+		<p>
+			<input type="hidden" name="trolleyID" value="{{ basketId }}">
+			<input type="hidden" name="command" value="build">
+		</p>
+		<table>
+			<tr>
+				<td>Enter a description for this new trolley:</td>
+				<td><input name="description" type="text" size="80"
+					maxlength="120">*</td>
+			</tr>
+		</table>
+	</form>
+</div>
+{% endblock results %} 

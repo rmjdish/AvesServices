@@ -1,0 +1,78 @@
+{% extends "JAY" %}
+
+{% block results %}
+<div class="results">
+{% include "oneverypage" %}
+<h2>{{ title }}</h2>
+
+<script type='text/javascript'>
+function masterCheck( btn, ca, ua )
+{
+var elems = btn.form.elements, state = (btn.value == ca);
+for( var i = 0, len = elems.length; i < len; i++ )
+  if( elems[ i ].type && elems[ i ].type=='checkbox' )
+    elems[ i ].checked = state; 
+  btn.value = state ? ua : ca;
+}
+</script>
+
+	<p>There are {{ numResults }} forms waiting to be approved.</p>
+	<form name="multipleApprove" onsubmit="return validateApproveForms(this)"
+		action="forms" method="post" target="_self">
+		&nbsp;&nbsp;&nbsp;<input class="testbutton" type="button"
+			name="checkall" value="Check ALL"
+			onClick="masterCheck(this, 'Check ALL', 'Uncheck ALL')">
+		&nbsp;&nbsp;&nbsp;<input class="testbutton" type="submit"
+			value="Multiple Approve">
+
+		<input name="command" type="hidden" value="multapprove">
+		<input name="forms[]" type="hidden">
+		<input name="projs[]" type="hidden">
+		{% if results is not empty %}
+
+		<table>
+			<tr>
+				<th style="width: 5%; " class="skip-filter">Form ID</th>
+				<th style="width: 10%;">Applicant</b></th>
+				<th style="width: 10%;" class="skip-filter">Coapplicant</th>
+				<th style="width: 20%;" class="skip-filter">Project Title</th>
+				<th style="width: 5%;" class="skip-filter">Start Date</th>
+				<th style="width: 5%;" class="skip-filter">End Date</th>
+				<th style="width: 10%;" class="skip-filter">Signee</th>
+				<th style="width: 10%;" class="skip-filter">Date Submitted</th>
+				<th style="width: 10%;">New Project ID?</th>
+				<th style="width: 5%;">Approve?</th>
+			</tr>
+
+			{# There are 8 columns of data supplied but 10 columns on the page #}
+			{% for val in results %} 
+				{% if (loop.index + 1) % numCols equals 0 %}
+				{# The last column of data but 3 to go on the page #}
+					<td>{{ val }}</td>
+					<td><input name="pids[]" type="text" width="10"/></td>
+					<td><input name="fids[]" type="checkbox" value="{{ formid }}"></td>
+					</tr>
+				{% elseif (loop.index + 1) % numCols equals 1 %} 
+				{# First column on the page is the Form ID #}
+					{% set formid = val %}
+					<tr>
+					<td style="width: 5%;">{{ val }}</td>
+				{% elseif (loop.index +1) % numCols equals 2 %} 
+					<td style="width: 15%;">{{ val }}</td>
+				{% else	%} 
+				{# this is used for the rest of the columns #}
+					<td style="width: 10%;word-wrap: break-word">{{ val | trim }}</td> 
+				{% endif %} {# end of if (loop.index...) #} 
+			{% endfor %} 
+			{# end of for val in results #}
+		</table>
+		{% else %} {# results is empty #}
+		   <p>There are no forms waiting to be approved.</p>
+		{% endif %} {# end of if results is not empty #}
+</div>
+{% endblock results %}
+
+
+</table>
+</form>
+

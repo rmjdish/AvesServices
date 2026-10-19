@@ -1,0 +1,36 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results owl-basket-page">
+
+  <div class="help-header">
+    <h2>Requesting your Condor basket</h2>
+    <p>Condor builds the basket. Skylark is where you turn it into a request.</p>
+  </div>
+
+  <p class="owl-request-intro">Condor gives you the metadata and the tools
+  to build a basket &mdash; it doesn't hold the data itself, or submit a
+  request on your behalf. Which form you need next depends on where your
+  project is:</p>
+
+  <div class="owl-request-box owl-request-blue">
+    <div class="owl-request-box-label">Haven't submitted a proposal yet?</div>
+    <p>If you're still exploring &mdash; checking what's available in
+    Condor before committing to a project &mdash; this is the form that
+    starts a new request.</p>
+    <a href="https://skylark.ucl.ac.uk/NSHD/forms/data-access-request-form/" target="_blank" rel="noopener" class="owl-btn-primary owl-btn-blue">Data Access Request Form &rarr;</a>
+  </div>
+
+  <div class="owl-request-box owl-request-green">
+    <div class="owl-request-box-label">Already have an approved project?</div>
+    <p>Use this to add the variables in your saved basket &mdash; or
+    additional users &mdash; to a project that's already been approved.</p>
+    <a href="https://skylark.ucl.ac.uk/NSHD/forms/additional-users-data-request/" target="_blank" rel="noopener" class="owl-btn-primary owl-btn-green">Additional Users / Data Request Form &rarr;</a>
+  </div>
+
+</div>
+{% endblock %}

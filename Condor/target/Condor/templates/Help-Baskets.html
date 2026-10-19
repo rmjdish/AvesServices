@@ -1,0 +1,211 @@
+<!-- This is a Pebble Template which inherits from the top-level layout -->
+{% extends swiftVersion|slice(0,3) == "Con" ? "SKYLARK" : "JAY" %}
+{% block results %}
+{% include "oneverypage" %}
+<link rel="stylesheet" href="help-pages.css" type="text/css">
+<link rel="stylesheet" href="owl.css" type="text/css">
+<script src="help-pages.js"></script>
+<div class="results">
+<div class="help-page">
+
+  <div class="help-main">
+    <div class="help-header">
+      <h2>Baskets help</h2>
+      <p>Your basket is where variables you find get collected.
+      Here's how saving, loading, and sharing work.</p>
+    </div>
+
+    <div class="help-cards">
+
+      <div class="help-card" id="save">
+        <div class="help-card-label">Save basket</div>
+        <p>Saves your current working basket permanently. You'll be
+        given an automatically generated basket name and asked to add
+        a description before it's stored &mdash; the description is
+        the main way you'll recognise this basket later, so make it
+        clear.</p>
+        <a href="basket?command=saveNew">Save basket &rarr;</a>
+      </div>
+
+      <div class="help-card" id="view">
+        <div class="help-card-label">View current basket</div>
+        <p>Shows what's in your working basket right now, before it's
+        been saved. This is a temporary, in-progress selection tied to
+        your session &mdash; closing the browser without saving loses
+        it.</p>
+        <a href="basket">View basket &rarr;</a>
+      </div>
+
+      <div class="help-card" id="mine">
+        <div class="help-card-label">Load / share my basket</div>
+        <p>Lists every basket you've saved previously, ordered by when
+        it was created, with the description you gave each one.
+        Select one to load it back into your working basket.</p>
+        <a href="previousBasket">My baskets &rarr;</a>
+      </div>
+
+      <div class="help-card" id="shared">
+        <div class="help-card-label">Load shared basket</div>
+        <p>Browse baskets that have been made public by other users
+        and load one into your own working basket &mdash; a quick way
+        to reuse a colleague's selection.</p>
+        <a href="sharedBasket">Shared baskets &rarr;</a>
+      </div>
+
+    </div>
+
+    <div class="help-tips" id="tips">
+      <div class="help-section-label">Tips</div>
+      <ul>
+        <li>Your working basket stays in your session only until
+        saved &mdash; save it before you navigate away if you want to
+        keep it.</li>
+        <li>Give every saved basket a clear, specific description; the
+        automatically generated basket name alone isn't easy to
+        recognise later in a long list.</li>
+      </ul>
+    </div>
+
+    <div class="help-afternote" id="after">
+      <div class="help-section-label">Managing your baskets</div>
+      <p>You can hold multiple saved baskets at once &mdash; there's
+      no need to reuse or overwrite an existing one. Use clear,
+      distinct descriptions so each is easy to tell apart later. Once
+      a basket has what you need, use Download Basket from the
+      Baskets menu to export it.</p>
+    </div>
+
+    <div class="help-splitting" id="splitting">
+      <div class="help-section-label">Saving a large basket: automatic splitting</div>
+      <p>If your basket has more than 500 variables (not counting
+      SERNO, SEX, INF and NTAG1, which are added to every basket
+      automatically), saving it doesn't create one oversized basket
+      &mdash; it's split into several saved baskets instead, each with
+      no more than 500 of your own variables.</p>
+      <p>Before you confirm the save, the save form shows you exactly
+      what will happen: how many baskets will be created and the ID
+      each one will be saved under, e.g. <code>i.shahZZmtbefg_1</code>
+      and <code>i.shahZZmtbefg_2</code> for a basket split in two.
+      SERNO, SEX, INF and NTAG1 are included in every one of these
+      baskets, not just the first.</p>
+      <p>The description you type is used for all of them, with
+      "(Basket 1 of 2)", "(Basket 2 of 2)" and so on appended
+      automatically so you can tell them apart later in your saved
+      baskets list. Once saved, you're shown a simple, read-only
+      summary listing exactly which variables ended up in each saved
+      basket, for reference.</p>
+      <p>An ordinary basket under the 500 limit is entirely
+      unaffected by any of this &mdash; it's saved as one basket, with
+      just the description you typed, exactly as before.</p>
+
+      <div class="help-callout-danger">
+        <div class="help-callout-danger-label">Important: how split baskets are reviewed</div>
+        <p>If your request has been split into multiple saved baskets,
+        they are reviewed <strong>collectively</strong>, as one overall
+        request &mdash; not as separate, independent submissions.</p>
+        <p>Requests for a large number of variables may take longer to
+        process, since they go through a more thorough risk assessment
+        before data can be released.</p>
+        <p>You may be asked to justify your request if your total
+        comes to more than 500 variables across a single submission,
+        even when that submission has been split into several saved
+        baskets to get around the per-basket limit.</p>
+      </div>
+    </div>
+
+    <div class="help-linked-vars" id="linked">
+      <div class="help-section-label">Linked variables: what they are, and removing them</div>
+      <p>Some variables are part of a longitudinal measure &mdash;
+      the same underlying thing measured at several different ages or
+      sweeps. When you add one variable from a measure like this,
+      every other variable sharing that same measure is added to your
+      basket automatically alongside it. These are called
+      <strong>linked</strong> variables, to distinguish them from the
+      one you searched for and added directly.</p>
+      <p>Right after adding variables, the Basket Management page
+      shows you a breakdown: how many were added because you searched
+      for and selected them directly, how many were pulled in
+      automatically as linked variables, and how many couldn't be
+      added at all because access to them is restricted. Each
+      variable's name, label, and the reason it does or doesn't appear
+      in your basket are all listed in the results table below, and a
+      dropdown lets you filter the table down to just one of these
+      three groups if it's long.</p>
+      <p>If you only wanted the variable you searched for and not the
+      extra linked ones, a <strong>Keep linked variables</strong>
+      toggle appears on the same page whenever an add produced any.
+      Switching it off removes just the linked variables from your
+      basket, keeping the ones you added directly. This is fully
+      reversible &mdash; switching it back on restores exactly the
+      same linked variables, so an accidental click isn't permanent.
+      The toggle only ever affects the variables from your most recent
+      add action; it doesn't reach back into variables already sitting
+      in your basket from earlier in your session.</p>
+      <p>Restricted variables are never added to your basket in the
+      first place, so there's nothing for the toggle to remove for
+      those &mdash; they're listed for your information, with the
+      reason for the restriction, but the toggle only ever affects the
+      linked group.</p>
+    </div>
+
+    <div class="help-faq" id="faq">
+      <div class="help-section-label">Common questions</div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          I saved a basket but can't find it again.
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">Check under Load / Share My
+        Basket, not View Current Basket &mdash; the current-basket
+        view only ever shows your unsaved, in-progress selection.
+        Saved baskets are listed by creation date rather than by name,
+        so if you have many saved baskets you may need to look through
+        the list using the description you gave each one.</div>
+      </div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          What's the difference between "my basket" and "shared basket"?
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">Load / Share My Basket only ever
+        shows baskets you personally saved. Load Shared Basket shows
+        baskets that other users have made public, regardless of who
+        saved them.</div>
+      </div>
+
+      <div class="help-faq-item">
+        <div class="help-faq-question">
+          Can I un-share a basket later?
+          <span class="help-faq-icon">+</span>
+        </div>
+        <div class="help-faq-answer">There is currently no option on
+        the save-basket form to mark or unmark a basket as shared
+        yourself &mdash; sharing is tracked separately from the normal
+        save flow. If you need a basket shared or unshared, contact
+        LHA using the details in the footer.</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="help-sidebar">
+    <div class="help-sidebar-title">On this page</div>
+    <nav>
+      <a href="#save">Save basket</a>
+      <a href="#view">View current</a>
+      <a href="#mine">Load/share mine</a>
+      <a href="#shared">Load shared</a>
+      <a href="#tips">Tips</a>
+      <a href="#after">Managing baskets</a>
+      <a href="#splitting">Basket splitting</a>
+      <a href="#linked">Linked variables</a>
+      <a href="#faq">Common questions</a>
+    </nav>
+  </div>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!-- This is a Pebble Template which inherits from ... -->
+{% extends "JAY" %}
+{% block results %}
+{# This is an example of a template which produces a table with 2 columns #}
+{% include "oneverypage" %}
+<div class="results">
+<h2>{{ title }}</h2>
+{% if results is not empty %}
+<p> There are {{ results | length /2 }} variables in this basket.</p>
+  <table>
+    <tr>
+      <th class="skip-filter" style="width:30%">Variable Name</th> {# Column 1 #}
+      <th class="skip-filter" style="width:70%">Label</th> {# Column 2#}
+    </tr>
+
+    {% for val in results %} {# Looping over all elements of results #}
+      {% if loop.index % numCols equals 1 %}
+        {# loop.index+1 is 1 then this is the Label field #}
+        <td>{{ val }}</td>
+	    </tr> {# Throw end of row at this point #}
+      {% elseif loop.index % numCols equals 0 %}
+	    {# loop.index+1 is 0 so this should be the Variable Name field #}
+	    <tr>
+	    <td><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a></td>
+    {% endif %}
+    {% endfor %}
+    </tr>
+  </table>
+{% else %}
+  <p>There are no variables to list.</p>
+{% endif %}
+</div>
+{% endblock %}
