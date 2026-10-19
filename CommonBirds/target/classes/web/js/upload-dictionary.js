@@ -41,6 +41,7 @@ window.addEventListener("load", function () {
 
   let exceljsLoadPromise = null;
   let uploadParsedItems = []; // { name, label }
+  let alreadyCheckId = 0; // identifies the latest basket check, so a stale reply is ignored
 
   function normCell(v) {
     return (v === null || v === undefined) ? "" : String(v).trim();
@@ -110,6 +111,9 @@ window.addEventListener("load", function () {
     document.getElementById("owlMissingNameBox").style.display = "none";
     document.getElementById("owlInvalidValueBox").style.display = "none";
     document.getElementById("owlDuplicateBox").style.display = "none";
+    document.getElementById("owlAlreadyBox").style.display = "none";
+    document.getElementById("owlUploadAlreadyInline").textContent = "";
+    alreadyCheckId++; // discard any basket check still in flight
     document.getElementById("owlUploadPreview").style.display = "none";
     document.getElementById("owlUploadNote").style.display = "none";
     uploadParsedItems = [];
@@ -308,11 +312,54 @@ window.addEventListener("load", function () {
     }
 
     document.getElementById("owlUploadVarCount").textContent = uploadParsedItems.length;
-    document.getElementById("owlUploadPreviewBody").innerHTML = uploadParsedItems.map(function (item, idx) {
-      return "<tr><td>" + (idx + 1) + "</td><td>" + item.name + "</td><td>" + item.label + "</td></tr>";
-    }).join("");
+    renderPreviewRows(null);
     document.getElementById("owlUploadPreview").style.display = "block";
     document.getElementById("owlUploadNote").style.display = "block";
+    checkAlreadyInBasket();
+  }
+
+  // Draws the preview table. alreadySet (a Set of lower-cased names, or
+  // null before the basket check has answered) marks rows whose variable
+  // is already in the basket.
+  function renderPreviewRows(alreadySet) {
+    document.getElementById("owlUploadPreviewBody").innerHTML = uploadParsedItems.map(function (item, idx) {
+      const isAlready = alreadySet && alreadySet.has(item.name.toLowerCase());
+      return "<tr" + (isAlready ? ' class="owl-upload-row-already"' : "") + "><td>" + (idx + 1) + "</td><td>" +
+        item.name + (isAlready ? ' <span class="owl-upload-already-tag">already in basket</span>' : "") +
+        "</td><td>" + item.label + "</td></tr>";
+    }).join("");
+  }
+
+  // Before the user confirms, asks the server which of these variables
+  // are already in their basket (variable?command=basketNames) and says
+  // so, so the result page is no surprise: those variables are not added
+  // a second time. Purely informational and best-effort - if the request
+  // fails, the upload carries on exactly as before and the Basket
+  // Management page still reports them afterwards.
+  function checkAlreadyInBasket() {
+    if (!window.fetch || uploadParsedItems.length === 0) return;
+    const myId = ++alreadyCheckId;
+    fetch("variable?command=basketNames", { credentials: "same-origin", cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (names) {
+        if (myId !== alreadyCheckId || !Array.isArray(names)) return; // cancelled or replaced meanwhile
+        const inBasket = new Set(names.map(function (n) { return String(n).toLowerCase(); }));
+        const already = uploadParsedItems.filter(function (item) {
+          return inBasket.has(item.name.toLowerCase());
+        });
+        if (already.length === 0) return;
+        const fresh = uploadParsedItems.length - already.length;
+        document.getElementById("owlAlreadySummary").textContent =
+          already.length + " of these " + uploadParsedItems.length + " variable(s) are already in your basket and will not be added again:";
+        document.getElementById("owlAlreadyDetail").textContent =
+          already.slice(0, 50).map(function (i) { return i.name; }).join(", ") +
+          (already.length > 50 ? ", ...and " + (already.length - 50) + " more" : "");
+        document.getElementById("owlAlreadyBox").style.display = "block";
+        document.getElementById("owlUploadAlreadyInline").textContent =
+          "(" + fresh + " new, " + already.length + " already in your basket)";
+        renderPreviewRows(new Set(already.map(function (i) { return i.name.toLowerCase(); })));
+      })
+      .catch(function () { /* informational only - ignore */ });
   }
 
   function closeUploadPanel() {

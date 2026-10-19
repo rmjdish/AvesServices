@@ -46,9 +46,17 @@
     <div id="owlDuplicateDetail" class="owl-upload-var-list"></div>
   </details>
 
+  <!-- Filled in by upload-dictionary.js once the file has been read: asks
+       the server which of these variables are already in the basket. -->
+  <details id="owlAlreadyBox" class="owl-upload-warn-box owl-warn-amber" style="display:none;">
+    <summary><span id="owlAlreadySummary"></span> <span class="owl-details-hint">(click for details)</span></summary>
+    <div id="owlAlreadyDetail" class="owl-upload-var-list"></div>
+  </details>
+
   <div id="owlUploadPreview" style="display:none;">
     <p id="owlUploadPreviewSummary" class="owl-upload-preview-highlight">
       <b id="owlUploadVarCount"></b> variable(s) found in this file, ready to add.
+      <span id="owlUploadAlreadyInline"></span>
     </p>
     <div class="owl-upload-confirm-row">
       <button type="button" id="owlConfirmUploadBtn" class="owl-btn-primary">Confirm &amp; Add to Basket</button>

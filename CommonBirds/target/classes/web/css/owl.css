@@ -2257,3 +2257,85 @@
 @media (prefers-reduced-motion: reduce) {
     .results details.owl-saved-basket > summary::before { transition: none; }
 }
+
+/* ---- Variables that were already in the basket ----
+   Category "already", set in Variable.java's addVar2Basket(): a count chip
+   in the Basket Management summary panel and amber rows in the results
+   table (filterable like the other categories), matching the amber
+   warnings on the Upload Data Dictionary page. */
+.owl-msg-count-already {
+    background: #fdf3e0;
+    color: #8a5a00;
+}
+
+.results table.owl-table tr.owl-msg-row-already td {
+    background: #fdf3e0;
+    color: #8a5a00;
+}
+
+/* Upload Data Dictionary preview: a variable that is already in the
+   basket (see checkAlreadyInBasket() in upload-dictionary.js). */
+.results .owl-upload-already-tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: #fdf3e0;
+    border: 1px solid #e8cf9a;
+    color: #8a5a00;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ---- Search results: variables already in the basket ----
+   Search-searchResults.html shows these with a green basket icon beside
+   the variable name, a locked green tick in place of the checkbox (so
+   they are never submitted by Multiple Add), a faint green row tint and a
+   greyed-out sigma, with a line in the key explaining the icon and tick.
+   Green matches the "added" colours on Basket Management. */
+.owl-in-basket-tick {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 3px;
+    background: #2e7d32;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: default;
+    vertical-align: middle;
+}
+
+.owl-key-line {
+    display: block;
+}
+
+.owl-key-line .owl-in-basket-tick {
+    vertical-align: -4px;
+}
+
+.owl-basket-icon {
+    width: 19px;
+    height: 19px;
+    margin-left: 4px;
+    color: #2e7d32;
+    vertical-align: middle;
+    cursor: default;
+}
+
+.owl-key-line .owl-basket-icon {
+    margin-left: 0;
+    vertical-align: -5px;
+}
+
+.results table.owl-table tr.owl-row-in-basket td {
+    background: #eef8ee;
+}
+
+.owl-sigma-locked {
+    color: #a8b3a8;
+    cursor: not-allowed;
+}

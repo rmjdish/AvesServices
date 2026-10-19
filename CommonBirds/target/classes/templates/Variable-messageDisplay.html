@@ -37,6 +37,9 @@
 	  {% endif %}
 	  <p><span class="owl-msg-count owl-msg-count-added">{{ (categoryCounts["added"] is not empty ? categoryCounts["added"] : 0) + (categoryCounts["added-note"] is not empty ? categoryCounts["added-note"] : 0) }} added</span> <span class="owl-msg-def">(Successfully added to your basket.)</span></p>
 	  <p><span class="owl-msg-count owl-msg-count-linked">{{ categoryCounts["linked-added"] is not empty ? categoryCounts["linked-added"] : 0 }} added as linked</span> <span class="owl-msg-def">(Added automatically alongside a variable you searched for, because it belongs to the same longitudinal measure.)</span></p>
+	  {% if categoryCounts["already"] is not empty and categoryCounts["already"] > 0 %}
+	  <p><span class="owl-msg-count owl-msg-count-already">{{ categoryCounts["already"] }} skipped</span> <span class="owl-msg-def">(Already in your basket, so not added again.)</span></p>
+	  {% endif %}
 	  <p><span class="owl-msg-count owl-msg-count-restricted">{{ (categoryCounts["restricted"] is not empty ? categoryCounts["restricted"] : 0) + (categoryCounts["linked-restricted"] is not empty ? categoryCounts["linked-restricted"] : 0) }} restricted</span> <span class="owl-msg-def">(Not added &mdash; access to this variable is restricted. See the message for details.)</span></p>
 	  <div class="owl-msg-filter">
 	    <label for="owlMsgFilter">Show:</label>
@@ -45,6 +48,7 @@
 	      <option value="restricted">Restricted only</option>
 	      <option value="added">Added only</option>
 	      <option value="linked-added">Linked only</option>
+	      {% if categoryCounts["already"] is not empty and categoryCounts["already"] > 0 %}<option value="already">Skipped only (already in basket)</option>{% endif %}
 	    </select>
 	  </div>
 	</div>
@@ -77,6 +81,7 @@
 						{% elseif vcat == "linked-restricted" %}Linked (restricted)
 						{% elseif vcat == "added-note" %}Added
 						{% elseif vcat == "linked-added" %}Linked
+						{% elseif vcat == "already" %}Already in basket
 						{% else %}Added
 						{% endif %}
 					</td>
@@ -85,6 +90,7 @@
 			{% endif %}
 		{% endfor %}
 	</table>
+
 	{% endif %}
 </div>
 <script>
@@ -95,7 +101,8 @@ function owlFilterMsgTable(value) {
     var show = (value === 'all')
       || (value === 'restricted' && (cat === 'restricted' || cat === 'linked-restricted'))
       || (value === 'added' && (cat === 'added' || cat === 'added-note'))
-      || (value === 'linked-added' && cat === 'linked-added');
+      || (value === 'linked-added' && cat === 'linked-added')
+      || (value === 'already' && cat === 'already');
     rows[i].style.display = show ? '' : 'none';
   }
 }

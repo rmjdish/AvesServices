@@ -44,7 +44,8 @@ public class BasketMessageTriples {
 	/*
 	 Method: countByCategory
 	 	Counts how many variables fall into each category ("restricted",
-	 	"linked-restricted", "added", "added-note", "linked-added") in
+	 	"linked-restricted", "added", "added-note", "already",
+	 	"linked-added") in
 	 	a flat <name, message, category> triples list.
 	*/
 	public static Map<String, Integer> countByCategory(List<String> flat) {
@@ -62,7 +63,7 @@ public class BasketMessageTriples {
 	 	msg2u.msgFlush() (in HashMap iteration order, effectively
 	 	random) and reorders them into the groups requested: restricted
 	 	(including linked-but-restricted) first, then normally-added,
-	 	then added-as-linked last - so a results page can display them
+	 	then already-in-basket, then added-as-linked last - so a results page can display them
 	 	grouped without needing to sort in the template itself. A
 	 	caller with no "linked" concept at all (e.g. LoadBasket.java,
 	 	which loads an already-saved basket rather than adding new
@@ -81,7 +82,8 @@ public class BasketMessageTriples {
 			private int categoryRank(String category) {
 				if ("restricted".equals(category) || "linked-restricted".equals(category)) return 0;
 				if ("added".equals(category) || "added-note".equals(category)) return 1;
-				return 2; // linked-added
+				if ("already".equals(category)) return 2;
+				return 3; // linked-added
 			}
 		});
 		ArrayList<String> sorted = new ArrayList<String>();

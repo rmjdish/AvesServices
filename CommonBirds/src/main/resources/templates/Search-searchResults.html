@@ -85,43 +85,49 @@ function validateMultipleAdd(form) {
 	$('table').ddTableFilter();
     });
   </script>
-  {% if owlAvailable is not empty or restrictedMessages is not empty %}
+  {% if owlAvailable is not empty or restrictedMessages is not empty or inBasket is not empty %}
   <div class="help-tips" style="font-size:12px;">
-    {% if owlAvailable is not empty %}&#x1F989; = Available on OWL &mdash; click the icon to view this variable's metadata page on OWL.{% endif %}
-    {% if owlAvailable is not empty and restrictedMessages is not empty %}<br>{% endif %}
-    {% if restrictedMessages is not empty %}&#x1F512; = Restricted &mdash; hover the icon for details.{% endif %}
+    {% if owlAvailable is not empty %}<span class="owl-key-line">&#x1F989; = Available on OWL &mdash; click the icon to view this variable's metadata page on OWL.</span>{% endif %}
+    {% if restrictedMessages is not empty %}<span class="owl-key-line">&#x1F512; = Restricted &mdash; hover the icon for details.</span>{% endif %}
+    {% if inBasket is not empty %}<span class="owl-key-line"><svg class="owl-basket-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Already in your basket"><title>Already in your basket</title><path d="M3 10h18l-1.8 9.2a2 2 0 0 1-2 1.6H6.8a2 2 0 0 1-2-1.6L3 10z"/><path d="M8 10l3-6M16 10l-3-6"/><path d="M9 14v3M12 14v3M15 14v3"/></svg> = Already in your basket, shown beside the variable name. <span class="owl-in-basket-tick" aria-hidden="true">&#10003;</span> = locked, so it is not added again.</span>{% endif %}
   </div>
   {% endif %}
   <table class="owl-table">
     <tr>
-      <th style="width: 8%;" class="skip-filter">Variable Name</th>
-      <th style="width: 32%;" class="skip-filter">Description</th>
-      <th style="width: 5%;">Year</th>
-      <th style="width: 15%;">Form</th>
-      <th style="width: 9%;" class="skip-filter">Question</th>
+      <th style="width: 12%;" class="skip-filter">Variable Name</th>
+      <th style="width: 28%;" class="skip-filter">Description</th>
+      <th style="width: 6%;">Year</th>
+      <th style="width: 14%;">Form</th>
+      <th style="width: 8%;" class="skip-filter">Question</th>
       <th style="width: 10%;">Library File</th>
       <th style="width: 10%;">Add to Basket?</th>
-      <th style="width: 11%;">Multiple Add?</th>
+      <th style="width: 12%;">Multiple Add?</th>
     </tr>
     {# There are 7 columns of data supplied but 9 columns on the page #}
     {% for val in results %} 
     {% if (loop.index + 1) % numCols equals 0 %}
       {# The last column of data but 3 to go on the page #}
       <td><a href="search?type=lib&library={{ val }}">{{ val }}</a></td>
+      {% if inBasket is not empty and inBasket contains (vname|lower) %}
+      {# Already in the basket: no add link and no checkbox (so it is never submitted), just a locked green tick. #}
+      <td><span class="owl-sigma-locked" title="Already in your basket">&Sigma;</span></td>
+      <td><span class="owl-in-basket-tick" title="Already in your basket" role="img" aria-label="Already in your basket">&#10003;</span></td>
+      {% else %}
       <td><a href="variable?command=addCard&name={{ vname }}">&Sigma;</a></td>
       <td><input name="{{ vname }}" type="checkbox" value="{{ vname }}"></td>
+      {% endif %}
     </tr>
   {% elseif (loop.index + 1) % numCols equals 1 %} 
     {# First column on the page is the Public flag #}
     {% set publicFlag = val %}
   {% elseif (loop.index +1) % numCols equals 2 %} 
     {% set vname = val %} {# remember the variable name #}
-    <tr>
+    <tr{% if inBasket is not empty and inBasket contains (val|lower) %} class="owl-row-in-basket"{% endif %}>
     {% if publicFlag == "1" %}
-      <td style="width: 15%;"><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}</td>
+      <td style="width: 15%;"><a href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if inBasket is not empty and inBasket contains (val|lower) %} <svg class="owl-basket-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Already in your basket"><title>Already in your basket</title><path d="M3 10h18l-1.8 9.2a2 2 0 0 1-2 1.6H6.8a2 2 0 0 1-2-1.6L3 10z"/><path d="M8 10l3-6M16 10l-3-6"/><path d="M9 14v3M12 14v3M15 14v3"/></svg>{% endif %}{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}</td>
     {% else %}
       <td style="width: 15%;">
-        <a style="color:red" href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}
+        <a style="color:red" href="variable?command=displayCard&name={{ val }}">{{ val }}</a>{% if inBasket is not empty and inBasket contains (val|lower) %} <svg class="owl-basket-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Already in your basket"><title>Already in your basket</title><path d="M3 10h18l-1.8 9.2a2 2 0 0 1-2 1.6H6.8a2 2 0 0 1-2-1.6L3 10z"/><path d="M8 10l3-6M16 10l-3-6"/><path d="M9 14v3M12 14v3M15 14v3"/></svg>{% endif %}{% if owlAvailable contains val %} <a href="https://rmjdish.github.io/OWL/assets/variable_metadata/{{ val|lower }}.html" target="_blank" rel="noopener" title="View {{ val }} on OWL"><span style="cursor:pointer;">&#x1F989;</span></a>{% endif %}{% if restrictedMessages[val] is not empty %} <span class="owl-restricted-icon" title="{{ restrictedMessages[val] }}">&#x1F512;</span>{% endif %}
       </td>	
     {% endif %}				 
   {% elseif (loop.index + 1) % numCols equals 7 %} 

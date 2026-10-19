@@ -86,6 +86,8 @@ public class Variable extends HttpServlet implements Serializable {
 		String name = request.getParameter("name");
 		if (command.equalsIgnoreCase("addProgress")) {
 			writeAddProgress(request, response, out, s);
+		} else if (command.equalsIgnoreCase("basketNames")) {
+			writeBasketNames(response, out, s);
 		} else if (command.equalsIgnoreCase("addCard")) {
 			addSingleVar(name, out, s);
 		} else if (command.equalsIgnoreCase("displayCard")) {
@@ -107,6 +109,80 @@ public class Variable extends HttpServlet implements Serializable {
 	private static final String PROGRESS_TOKEN = "addProgressToken";
 	private static final String PROGRESS_DONE = "addProgressDone";
 	private static final String PROGRESS_TOTAL = "addProgressTotal";
+
+	/* "Already in your basket" reporting.
+	 *
+	 * PRE_EXISTING is a session attribute holding the lower-cased names
+	 * that were ALREADY in the basket when the current add request
+	 * started (see snapshotBasket()). addVar2Basket() compares against
+	 * that snapshot rather than the live basket, so a variable that
+	 * only got into the basket part-way through this same request
+	 * (e.g. pulled in as a linked variable of an earlier one) is not
+	 * mistaken for one the user already had.
+	 *
+	 * CORE_VARS are put into every basket automatically, so they are
+	 * never reported as "already in your basket" - that would flag
+	 * them on nearly every upload without telling the user anything.
+	 */
+	private static final String PRE_EXISTING = "addPreExistingNames";
+	private static final java.util.Set<String> CORE_VARS =
+		new java.util.HashSet<String>(java.util.Arrays.asList("serno", "sex", "inf", "ntag1"));
+
+	// Case-insensitive membership test: the basket holds names in
+	// whatever case they were first added (e.g. "SERNO" from the
+	// automatic core variables, lower-case from a search), and
+	// list.contains() would treat those as different variables.
+	private static boolean containsIgnoreCase(java.util.List<String> list, String name) {
+		if (list == null || name == null) {
+			return false;
+		}
+		for (String item : list) {
+			if (name.equalsIgnoreCase(item)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// Lower-cased names currently in the basket, without the core
+	// variables - the set the browser and addVar2Basket() both work from.
+	@SuppressWarnings("unchecked")
+	private static java.util.Set<String> snapshotBasket(HttpSession s) {
+		java.util.Set<String> names = new java.util.HashSet<String>();
+		ArrayList<String> items = (ArrayList<String>) s.getAttribute("items");
+		if (items != null) {
+			for (String item : items) {
+				String lower = item.toLowerCase();
+				if (!CORE_VARS.contains(lower)) {
+					names.add(lower);
+				}
+			}
+		}
+		return names;
+	}
+
+	/* Function: writeBasketNames
+	 * 	Answers the Upload Data Dictionary page's check, before the user
+	 * 	confirms, with a JSON array of the lower-cased variable names
+	 * 	already in the basket (core variables left out):
+	 * 	["age","bmi15x",...]. Read-only.
+	 */
+	private void writeBasketNames(HttpServletResponse response, PrintWriter out, HttpSession s) {
+		response.setContentType("application/json;charset=UTF-8");
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		response.setHeader("Pragma", "no-cache");
+		StringBuilder json = new StringBuilder("[");
+		boolean first = true;
+		for (String n : snapshotBasket(s)) {
+			if (!first) {
+				json.append(',');
+			}
+			first = false;
+			json.append('"').append(n.replace("\\", "\\\\").replace("\"", "\\\"")).append('"');
+		}
+		json.append(']');
+		out.print(json.toString());
+	}
 
 	/* Function: writeAddProgress
 	 * 	Answers the browser's progress poll during a Multiple Add with a
@@ -210,6 +286,8 @@ public class Variable extends HttpServlet implements Serializable {
 		// for the full explanation.
 		ConnectDB multiAddConn = new ConnectDB();
 		multiAddConn.capture();
+		// What the basket held before this request - see PRE_EXISTING.
+		s.setAttribute(PRE_EXISTING, snapshotBasket(s));
 		try {
 			int processed = 0;
 			for (String name : checkedNames) {
@@ -221,6 +299,7 @@ public class Variable extends HttpServlet implements Serializable {
 			}
 		} finally {
 			multiAddConn.release();
+			s.removeAttribute(PRE_EXISTING);
 		}
 		s.setAttribute("items", v);
 		renderBasketResults(out, s);
@@ -448,10 +527,12 @@ public class Variable extends HttpServlet implements Serializable {
 		// one at a time.
 		ConnectDB c = new ConnectDB();
 		c.capture();
+		s.setAttribute(PRE_EXISTING, snapshotBasket(s));
 		try {
 			expandVars(name, out, s, c, java.util.Collections.singleton(name));
 		} finally {
 			c.release();
+			s.removeAttribute(PRE_EXISTING);
 		}
 	}
 
@@ -526,6 +607,11 @@ public class Variable extends HttpServlet implements Serializable {
 							java.util.Map<String, String> restrictionText = mrc.util.RestrictedVariables.checkRestricted(single);
 							String reason = restrictionText.getOrDefault(thisvar.toLowerCase(), "No message");
 							msg2u.displayText(thisvar.toLowerCase(), "This is a linked variable but restricted. " + reason, "linked-restricted");
+						} else if ("already".equals(status)) {
+							// Already in the basket before this request
+							// - leave the "already in your basket"
+							// message addVar2Basket() set; it was not
+							// added now, so "linked-added" would be wrong.
 						} else {
 							msg2u.display(thisvar.toLowerCase(), 10, "linked-added");
 						}
@@ -556,7 +642,7 @@ public class Variable extends HttpServlet implements Serializable {
 
 	private String addVar2Basket(String name, PrintWriter out, HttpSession s) throws IOException {
 		// Now returns a status string ("added", "added-note",
-		// "restricted") instead of void, so callers - specifically
+		// "already", "restricted") instead of void, so callers - specifically
 		// expandVars()'s loop over linked variables - can tell whether
 		// this specific variable actually got added or was blocked,
 		// rather than assuming success unconditionally.
@@ -569,13 +655,13 @@ public class Variable extends HttpServlet implements Serializable {
 		String logtext = username + " sec level [" + seclevel + "] has items " + v.toString();
 		log.fine(logtext);
 		// Add SERNO, SEX and INF if not already in ArrayList
-		if (!v.contains("SERNO"))
+		if (!containsIgnoreCase(v, "SERNO"))
 			v.add("SERNO");
-		if (!v.contains("SEX"))
+		if (!containsIgnoreCase(v, "SEX"))
 			v.add("SEX");
-		if (!v.contains("INF"))
+		if (!containsIgnoreCase(v, "INF"))
 			v.add("INF");
-		if (!v.contains("NTAG1"))
+		if (!containsIgnoreCase(v, "NTAG1"))
 			v.add("NTAG1");
 		if (smod == null) {
 			log.severe(HostInfo.tell()+" Error with security model : checking will be faulty!");
@@ -589,7 +675,21 @@ public class Variable extends HttpServlet implements Serializable {
 		if (smod.checkAuth(seclevel, name)) {
 			// Have authority to add this Variable, add and test what kind of
 			// print to do
-			if (!v.contains(name)) // Don't add it if already there
+			@SuppressWarnings("unchecked")
+			java.util.Set<String> before = (java.util.Set<String>) s.getAttribute(PRE_EXISTING);
+			if (before == null) {
+				// Not called from a request that took a snapshot
+				// first: fall back to the live basket as it stands now.
+				before = snapshotBasket(s);
+			}
+			if (before.contains(name.toLowerCase()) && !CORE_VARS.contains(name.toLowerCase())) {
+				// Was already in the basket before this request: do not
+				// add it again, and say so rather than reporting "added".
+				msg2u.displayText(name, "Already in your basket - not added again.", "already");
+				s.setAttribute("items", v);
+				return "already";
+			}
+			if (!containsIgnoreCase(v, name)) // Don't add it if already there (any case)
 				v.add(name);
 			if (smod.isOpen(name) && smod.hasMsg(name)) {
 				// It's open but has special message

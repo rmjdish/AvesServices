@@ -459,7 +459,29 @@ public class Search extends HttpServlet {
 			java.util.Set<String> owlAvailable = mrc.util.OwlAvailability.checkAvailable(namesToCheck);
 			java.util.Map<String, String> restrictedMessages = mrc.util.RestrictedVariables.checkRestricted(namesToCheck);
 
-			p.UserPage(out, "Search Results", s, owlAvailable, restrictedMessages); // Populate template and print to output
+			// Which of this page's variables are already in the user's
+			// basket (lower-cased names), so the results table can show
+			// them as ticked and locked instead of offering to add them
+			// again. Compared ignoring case: the basket holds names in
+			// whatever case they were first added.
+			java.util.Set<String> inBasket = new java.util.HashSet<String>();
+			@SuppressWarnings("unchecked")
+			ArrayList<String> basketItems = (ArrayList<String>) s.getAttribute("items");
+			if (basketItems != null) {
+				java.util.Set<String> basketLower = new java.util.HashSet<String>();
+				for (String item : basketItems) {
+					basketLower.add(item.toLowerCase());
+				}
+				for (String n : namesToCheck) {
+					if (n != null && basketLower.contains(n.toLowerCase())) {
+						inBasket.add(n.toLowerCase());
+					}
+				}
+			}
+			java.util.Map<String, Object> extraFlags = new java.util.HashMap<String, Object>();
+			extraFlags.put("inBasket", inBasket);
+
+			p.UserPage(out, "Search Results", s, owlAvailable, restrictedMessages, null, extraFlags); // Populate template and print to output
 			rs.close();
 			c.release();
 		} catch (Exception e) {
