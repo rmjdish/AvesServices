@@ -84,13 +84,54 @@ public class Variable extends HttpServlet implements Serializable {
 		String username = s.getAttribute("username").toString();
 		String command = request.getParameter("command");
 		String name = request.getParameter("name");
-		if (command.equalsIgnoreCase("addCard")) {
+		if (command.equalsIgnoreCase("addProgress")) {
+			writeAddProgress(request, response, out, s);
+		} else if (command.equalsIgnoreCase("addCard")) {
 			addSingleVar(name, out, s);
 		} else if (command.equalsIgnoreCase("displayCard")) {
 			displayCard(name, out, s, username);
 		} else if (command.equalsIgnoreCase("toggleLinked")) {
 			toggleLinkedVariables(out, s);
 		}
+	}
+
+	/* Names of the session attributes that carry Multiple Add progress,
+	 * and the name of the one extra form field the browser sends so the
+	 * progress poll can tell THIS add apart from an earlier one.
+	 *
+	 * ADD_TOKEN_PARAM is not a variable: doPost() treats every request
+	 * parameter as a variable name, so it must be skipped explicitly
+	 * (see the parameter loop in doPost()).
+	 */
+	private static final String ADD_TOKEN_PARAM = "addtoken";
+	private static final String PROGRESS_TOKEN = "addProgressToken";
+	private static final String PROGRESS_DONE = "addProgressDone";
+	private static final String PROGRESS_TOTAL = "addProgressTotal";
+
+	/* Function: writeAddProgress
+	 * 	Answers the browser's progress poll during a Multiple Add with a
+	 * 	small JSON object: {"token":"..","done":N,"total":M,"started":bool}.
+	 *
+	 * 	Read-only: it never touches the basket, only the three counters
+	 * 	that doPost() updates. "started" is false until doPost() has begun
+	 * 	the add with the caller's token, so a poll that arrives before the
+	 * 	POST does (or a stale value left by an earlier add) is never
+	 * 	mistaken for progress on this one.
+	 */
+	private void writeAddProgress(HttpServletRequest request, HttpServletResponse response,
+			PrintWriter out, HttpSession s) {
+		response.setContentType("application/json;charset=UTF-8");
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		response.setHeader("Pragma", "no-cache");
+		String wanted = request.getParameter("token");
+		Object tok = s.getAttribute(PROGRESS_TOKEN);
+		Object done = s.getAttribute(PROGRESS_DONE);
+		Object total = s.getAttribute(PROGRESS_TOTAL);
+		boolean started = wanted != null && tok != null && wanted.equals(tok.toString())
+				&& done != null && total != null;
+		int d = started ? ((Integer) done).intValue() : 0;
+		int t = started ? ((Integer) total).intValue() : 0;
+		out.print("{\"started\":" + started + ",\"done\":" + d + ",\"total\":" + t + "}");
 	}
 
 	/* Function: doPost
@@ -145,9 +186,22 @@ public class Variable extends HttpServlet implements Serializable {
 		java.util.Set<String> checkedNames = new java.util.HashSet<String>();
 		while (e.hasMoreElements()) {
 			String name = e.nextElement().toString();
+			// The progress token is form plumbing, not a variable.
+			if (ADD_TOKEN_PARAM.equalsIgnoreCase(name)) {
+				continue;
+			}
 			if (!StringUtils.isBlank(name)) {
 				checkedNames.add(name.toLowerCase());
 			}
+		}
+		// Publish progress for the browser's poll (see writeAddProgress()).
+		// Only when the form sent a token; older/other callers are unaffected.
+		String addToken = request.getParameter(ADD_TOKEN_PARAM);
+		boolean reportProgress = !StringUtils.isBlank(addToken);
+		if (reportProgress) {
+			s.setAttribute(PROGRESS_DONE, Integer.valueOf(0));
+			s.setAttribute(PROGRESS_TOTAL, Integer.valueOf(checkedNames.size()));
+			s.setAttribute(PROGRESS_TOKEN, addToken);
 		}
 		// One connection, captured once and reused for every checked
 		// variable in this Multiple Add request, rather than
@@ -157,8 +211,13 @@ public class Variable extends HttpServlet implements Serializable {
 		ConnectDB multiAddConn = new ConnectDB();
 		multiAddConn.capture();
 		try {
+			int processed = 0;
 			for (String name : checkedNames) {
 				expandVars(name, out, s, multiAddConn, checkedNames);
+				processed++;
+				if (reportProgress) {
+					s.setAttribute(PROGRESS_DONE, Integer.valueOf(processed));
+				}
 			}
 		} finally {
 			multiAddConn.release();

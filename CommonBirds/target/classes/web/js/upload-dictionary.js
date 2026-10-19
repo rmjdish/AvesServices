@@ -343,8 +343,14 @@ window.addEventListener("load", function () {
     // take a while for a large file, same as Multiple Add elsewhere on
     // the site, and there's nothing to show progress on client-side
     // once the form has actually submitted.
-    const overlay = document.getElementById("owlWaitOverlay");
-    if (overlay) overlay.style.display = "flex";
+    // Live "Adding N of M" bar via add-progress.js; plain spinner if that
+    // script didn't load.
+    if (window.OwlAddProgress) {
+      window.OwlAddProgress.start(form, uploadParsedItems.length);
+    } else {
+      const overlay = document.getElementById("owlWaitOverlay");
+      if (overlay) overlay.style.display = "flex";
+    }
     form.submit();
   }
 

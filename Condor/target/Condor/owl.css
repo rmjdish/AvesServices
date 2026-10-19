@@ -1963,15 +1963,14 @@
 
 /* ---- "Please wait" overlay for Multiple Add ----
    Multiple Add is a single, blocking form submission - the browser
-   gets nothing back from the server until the entire loop of
-   variables has been processed, so there's no way to show a real,
-   incrementing progress bar without a much larger change (a separate
-   polling endpoint and async submission). This is a simple, honest
-   "this may take a moment" indicator instead: shown the instant the
-   form is submitted (validateMultipleAdd(), in the template's own
-   script), and it disappears on its own when the browser navigates
-   to the resulting confirmation page, since the overlay is part of
-   this page, not the one being loaded. */
+   gets nothing back until the whole loop of variables has been
+   processed. The overlay is shown the instant the form is submitted,
+   and it disappears on its own when the browser navigates to the
+   resulting confirmation page, since the overlay is part of this
+   page, not the one being loaded.
+   The "Adding N of M" bar inside it is driven by add-progress.js,
+   which polls a small progress endpoint on Variable while the form
+   is still waiting for its response. */
 
 .owl-wait-overlay {
     display: none;
@@ -2021,6 +2020,38 @@
 
 @keyframes owl-spin {
     to { transform: rotate(360deg); }
+}
+
+/* Progress bar + "Adding N of M" line, added to the box by add-progress.js */
+.owl-wait-box { min-width: 280px; }
+
+.owl-wait-box .owl-progress {
+    height: 10px;
+    margin: 14px 0 0;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.owl-wait-box .owl-progress-fill {
+    height: 100%;
+    width: 0;
+    background: #2c3e6b;
+    border-radius: 5px;
+    transition: width 0.35s ease;
+}
+
+.owl-wait-box .owl-progress-count {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e6b;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .owl-wait-spinner { animation-duration: 2.4s; }
+    .owl-wait-box .owl-progress-fill { transition: none; }
 }
 
 /* ---- Save Basket: split-into-several-baskets preview ----

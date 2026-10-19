@@ -1,0 +1,390 @@
+--- a/CommonBirds/src/main/java/mrc/user/Variable.java
++++ b/CommonBirds/src/main/java/mrc/user/Variable.java
+@@ -84,7 +84,9 @@
+ 		String username = s.getAttribute("username").toString();
+ 		String command = request.getParameter("command");
+ 		String name = request.getParameter("name");
+-		if (command.equalsIgnoreCase("addCard")) {
++		if (command.equalsIgnoreCase("addProgress")) {
++			writeAddProgress(request, response, out, s);
++		} else if (command.equalsIgnoreCase("addCard")) {
+ 			addSingleVar(name, out, s);
+ 		} else if (command.equalsIgnoreCase("displayCard")) {
+ 			displayCard(name, out, s, username);
+@@ -93,6 +95,45 @@
+ 		}
+ 	}
+ 
++	/* Names of the session attributes that carry Multiple Add progress,
++	 * and the name of the one extra form field the browser sends so the
++	 * progress poll can tell THIS add apart from an earlier one.
++	 *
++	 * ADD_TOKEN_PARAM is not a variable: doPost() treats every request
++	 * parameter as a variable name, so it must be skipped explicitly
++	 * (see the parameter loop in doPost()).
++	 */
++	private static final String ADD_TOKEN_PARAM = "addtoken";
++	private static final String PROGRESS_TOKEN = "addProgressToken";
++	private static final String PROGRESS_DONE = "addProgressDone";
++	private static final String PROGRESS_TOTAL = "addProgressTotal";
++
++	/* Function: writeAddProgress
++	 * 	Answers the browser's progress poll during a Multiple Add with a
++	 * 	small JSON object: {"token":"..","done":N,"total":M,"started":bool}.
++	 *
++	 * 	Read-only: it never touches the basket, only the three counters
++	 * 	that doPost() updates. "started" is false until doPost() has begun
++	 * 	the add with the caller's token, so a poll that arrives before the
++	 * 	POST does (or a stale value left by an earlier add) is never
++	 * 	mistaken for progress on this one.
++	 */
++	private void writeAddProgress(HttpServletRequest request, HttpServletResponse response,
++			PrintWriter out, HttpSession s) {
++		response.setContentType("application/json;charset=UTF-8");
++		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
++		response.setHeader("Pragma", "no-cache");
++		String wanted = request.getParameter("token");
++		Object tok = s.getAttribute(PROGRESS_TOKEN);
++		Object done = s.getAttribute(PROGRESS_DONE);
++		Object total = s.getAttribute(PROGRESS_TOTAL);
++		boolean started = wanted != null && tok != null && wanted.equals(tok.toString())
++				&& done != null && total != null;
++		int d = started ? ((Integer) done).intValue() : 0;
++		int t = started ? ((Integer) total).intValue() : 0;
++		out.print("{\"started\":" + started + ",\"done\":" + d + ",\"total\":" + t + "}");
++	}
++
+ 	/* Function: doPost
+ 	 * 	Porcesses the form data produced by a "Multiple Add" option from Search Results.
+ 	 * 
+@@ -145,10 +186,23 @@
+ 		java.util.Set<String> checkedNames = new java.util.HashSet<String>();
+ 		while (e.hasMoreElements()) {
+ 			String name = e.nextElement().toString();
++			// The progress token is form plumbing, not a variable.
++			if (ADD_TOKEN_PARAM.equalsIgnoreCase(name)) {
++				continue;
++			}
+ 			if (!StringUtils.isBlank(name)) {
+ 				checkedNames.add(name.toLowerCase());
+ 			}
+ 		}
++		// Publish progress for the browser's poll (see writeAddProgress()).
++		// Only when the form sent a token; older/other callers are unaffected.
++		String addToken = request.getParameter(ADD_TOKEN_PARAM);
++		boolean reportProgress = !StringUtils.isBlank(addToken);
++		if (reportProgress) {
++			s.setAttribute(PROGRESS_DONE, Integer.valueOf(0));
++			s.setAttribute(PROGRESS_TOTAL, Integer.valueOf(checkedNames.size()));
++			s.setAttribute(PROGRESS_TOKEN, addToken);
++		}
+ 		// One connection, captured once and reused for every checked
+ 		// variable in this Multiple Add request, rather than
+ 		// expandVars() opening and releasing a new one per variable -
+@@ -157,8 +211,13 @@
+ 		ConnectDB multiAddConn = new ConnectDB();
+ 		multiAddConn.capture();
+ 		try {
++			int processed = 0;
+ 			for (String name : checkedNames) {
+ 				expandVars(name, out, s, multiAddConn, checkedNames);
++				processed++;
++				if (reportProgress) {
++					s.setAttribute(PROGRESS_DONE, Integer.valueOf(processed));
++				}
+ 			}
+ 		} finally {
+ 			multiAddConn.release();
+--- a/CommonBirds/src/main/resources/templates/Search-searchResults.html
++++ b/CommonBirds/src/main/resources/templates/Search-searchResults.html
+@@ -3,6 +3,7 @@
+ {% block results %}
+ <link rel="stylesheet" href="help-pages.css" type="text/css">
+ <script src="help-pages.js"></script>
++<script src="add-progress.js"></script>
+ <link rel="stylesheet" href="owl.css" type="text/css">
+ <div class="results owl-basket-page">
+ {% include "oneverypage" %}
+@@ -27,12 +28,11 @@
+ // inline handler threw a ReferenceError), just silently, with a
+ // console error nobody would ever see. Defined properly now: basic
+ // "at least one variable checked" validation, plus a full-page
+-// "please wait" overlay for large selections, since Multiple Add is
+-// a single, blocking form submission with no way to show real
+-// progress mid-request (see the Basket Management page's dropdown
+-// filter documentation for why a genuine progress bar would need a
+-// separate polling endpoint and async submission - not attempted
+-// here, this is a simple wait indicator only).
++// "please wait" overlay for large selections. Multiple Add is a
++// single, blocking form submission, so live progress comes from
++// add-progress.js, which polls variable?command=addProgress while the
++// form waits for its response (the overlay falls back to a plain
++// spinner if that script isn't loaded).
+ function validateMultipleAdd(form) {
+ 	var elems = form.elements, checkedCount = 0;
+ 	for (var i = 0, len = elems.length; i < len; i++) {
+@@ -44,9 +44,15 @@
+ 		alert('Please check at least one variable to add.');
+ 		return false;
+ 	}
+-	var overlay = document.getElementById('owlWaitOverlay');
+-	if (overlay) {
+-		overlay.style.display = 'flex';
++	// Shows the overlay with a live "Adding N of M" bar (add-progress.js).
++	// If that script isn't available, fall back to the plain spinner.
++	if (window.OwlAddProgress) {
++		OwlAddProgress.start(form, checkedCount);
++	} else {
++		var overlay = document.getElementById('owlWaitOverlay');
++		if (overlay) {
++			overlay.style.display = 'flex';
++		}
+ 	}
+ 	return true;
+ }
+--- a/CommonBirds/src/main/resources/templates/Help-UploadDictionary.html
++++ b/CommonBirds/src/main/resources/templates/Help-UploadDictionary.html
+@@ -89,5 +89,6 @@
+   </div>
+ 
+ </div>
++<script src="add-progress.js"></script>
+ <script src="upload-dictionary.js"></script>
+ {% endblock %}
+--- a/CommonBirds/src/main/resources/web/js/upload-dictionary.js
++++ b/CommonBirds/src/main/resources/web/js/upload-dictionary.js
+@@ -343,8 +343,14 @@
+     // take a while for a large file, same as Multiple Add elsewhere on
+     // the site, and there's nothing to show progress on client-side
+     // once the form has actually submitted.
+-    const overlay = document.getElementById("owlWaitOverlay");
+-    if (overlay) overlay.style.display = "flex";
++    // Live "Adding N of M" bar via add-progress.js; plain spinner if that
++    // script didn't load.
++    if (window.OwlAddProgress) {
++      window.OwlAddProgress.start(form, uploadParsedItems.length);
++    } else {
++      const overlay = document.getElementById("owlWaitOverlay");
++      if (overlay) overlay.style.display = "flex";
++    }
+     form.submit();
+   }
+ 
+--- a/CommonBirds/src/main/resources/web/css/owl.css
++++ b/CommonBirds/src/main/resources/web/css/owl.css
+@@ -1963,15 +1963,14 @@
+ 
+ /* ---- "Please wait" overlay for Multiple Add ----
+    Multiple Add is a single, blocking form submission - the browser
+-   gets nothing back from the server until the entire loop of
+-   variables has been processed, so there's no way to show a real,
+-   incrementing progress bar without a much larger change (a separate
+-   polling endpoint and async submission). This is a simple, honest
+-   "this may take a moment" indicator instead: shown the instant the
+-   form is submitted (validateMultipleAdd(), in the template's own
+-   script), and it disappears on its own when the browser navigates
+-   to the resulting confirmation page, since the overlay is part of
+-   this page, not the one being loaded. */
++   gets nothing back until the whole loop of variables has been
++   processed. The overlay is shown the instant the form is submitted,
++   and it disappears on its own when the browser navigates to the
++   resulting confirmation page, since the overlay is part of this
++   page, not the one being loaded.
++   The "Adding N of M" bar inside it is driven by add-progress.js,
++   which polls a small progress endpoint on Variable while the form
++   is still waiting for its response. */
+ 
+ .owl-wait-overlay {
+     display: none;
+@@ -2023,6 +2022,38 @@
+     to { transform: rotate(360deg); }
+ }
+ 
++/* Progress bar + "Adding N of M" line, added to the box by add-progress.js */
++.owl-wait-box { min-width: 280px; }
++
++.owl-wait-box .owl-progress {
++    height: 10px;
++    margin: 14px 0 0;
++    background: #e0e0e0;
++    border-radius: 5px;
++    overflow: hidden;
++}
++
++.owl-wait-box .owl-progress-fill {
++    height: 100%;
++    width: 0;
++    background: #2c3e6b;
++    border-radius: 5px;
++    transition: width 0.35s ease;
++}
++
++.owl-wait-box .owl-progress-count {
++    margin-top: 8px;
++    font-size: 14px;
++    font-weight: 600;
++    color: #2c3e6b;
++    font-variant-numeric: tabular-nums;
++}
++
++@media (prefers-reduced-motion: reduce) {
++    .owl-wait-spinner { animation-duration: 2.4s; }
++    .owl-wait-box .owl-progress-fill { transition: none; }
++}
++
+ /* ---- Save Basket: split-into-several-baskets preview ----
+    Shown on the save form when the basket exceeds the per-basket
+    variable limit (Basket.java's MAX_VARS_PER_BASKET), listing the
+--- /dev/null
++++ b/CommonBirds/src/main/resources/web/js/add-progress.js
+@@ -0,0 +1,150 @@
++/* add-progress.js
++ *
++ * Shows "Adding N of M" with a progress bar on the full-page "please wait"
++ * overlay while a Multiple Add is running.
++ *
++ * How it works: the browser still submits the form normally and waits for
++ * the result page, exactly as before. Alongside that, this script asks the
++ * server every half second how far the add has got (GET
++ * variable?command=addProgress&token=...), and Variable.doPost() answers
++ * from a counter it updates after each variable. The old page stays alive
++ * until the result page starts arriving, so the polling keeps running right
++ * up to the moment the browser navigates away; nothing needs stopping.
++ *
++ * Used by Search results (Multiple Add) and Upload Data Dictionary.
++ *
++ * Usage:   OwlAddProgress.start(form, expectedCount)
++ *   form           the <form> that is about to be submitted
++ *   expectedCount  how many variables were selected (shown until the
++ *                  server reports its own total)
++ * Call it immediately before the form submits. If this script fails to
++ * load, callers fall back to the plain spinner, so the add still works.
++ */
++(function () {
++  "use strict";
++
++  var POLL_MS = 500;
++  var TOKEN_FIELD = "addtoken"; // must match Variable.ADD_TOKEN_PARAM
++
++  function newToken() {
++    var rnd = "";
++    if (window.crypto && window.crypto.getRandomValues) {
++      var a = new Uint32Array(2);
++      window.crypto.getRandomValues(a);
++      rnd = a[0].toString(36) + a[1].toString(36);
++    } else {
++      rnd = Math.random().toString(36).slice(2);
++    }
++    return Date.now().toString(36) + "-" + rnd;
++  }
++
++  function el(tag, cls, text) {
++    var e = document.createElement(tag);
++    if (cls) e.className = cls;
++    if (text !== undefined) e.textContent = text;
++    return e;
++  }
++
++  function fmt(n) {
++    try { return Number(n).toLocaleString("en-GB"); } catch (e) { return String(n); }
++  }
++
++  // Adds the bar and counter to the existing overlay box, once.
++  function buildBar(box) {
++    var existing = box.querySelector(".owl-progress");
++    if (existing) {
++      return {
++        fill: existing.querySelector(".owl-progress-fill"),
++        track: existing,
++        count: box.querySelector(".owl-progress-count")
++      };
++    }
++    var track = el("div", "owl-progress");
++    track.setAttribute("role", "progressbar");
++    track.setAttribute("aria-valuemin", "0");
++    track.setAttribute("aria-valuemax", "100");
++    track.setAttribute("aria-valuenow", "0");
++    var fill = el("div", "owl-progress-fill");
++    track.appendChild(fill);
++    var count = el("p", "owl-progress-count");
++    count.setAttribute("aria-live", "polite");
++
++    // Sits under the "Adding your variables…" line, above the subtext.
++    var sub = box.querySelector(".owl-wait-subtext");
++    if (sub) {
++      box.insertBefore(track, sub);
++      box.insertBefore(count, sub);
++    } else {
++      box.appendChild(track);
++      box.appendChild(count);
++    }
++    return { fill: fill, track: track, count: count };
++  }
++
++  function render(ui, done, total) {
++    var pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
++    ui.fill.style.width = pct + "%";
++    ui.track.setAttribute("aria-valuenow", String(pct));
++    ui.count.textContent = "Adding " + fmt(done) + " of " + fmt(total) +
++      " (" + pct + "%)";
++  }
++
++  function start(form, expectedCount) {
++    var overlay = document.getElementById("owlWaitOverlay");
++    if (!overlay || !form) return;
++
++    var token = newToken();
++
++    // One extra field on the form. Variable.doPost() skips it when it
++    // collects variable names, and uses it to match progress to this add.
++    var old = form.querySelector('input[name="' + TOKEN_FIELD + '"]');
++    if (old) old.parentNode.removeChild(old);
++    var field = document.createElement("input");
++    field.type = "hidden";
++    field.name = TOKEN_FIELD;
++    field.value = token;
++    form.appendChild(field);
++
++    var box = overlay.querySelector(".owl-wait-box") || overlay;
++    var ui = buildBar(box);
++    var total = expectedCount > 0 ? expectedCount : 0;
++    render(ui, 0, total);
++    overlay.style.display = "flex";
++
++    if (!window.fetch) return; // plain spinner only on very old browsers
++
++    var url = "variable?command=addProgress&token=" + encodeURIComponent(token);
++    var stopped = false;
++    var failures = 0;
++
++    function poll() {
++      if (stopped) return;
++      fetch(url, { credentials: "same-origin", cache: "no-store" })
++        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
++        .then(function (p) {
++          failures = 0;
++          // "started" is false until the server has begun THIS add, so we
++          // never show a stale count from an earlier one.
++          if (p && p.started && p.total > 0) {
++            total = p.total;
++            render(ui, p.done, total);
++          }
++        })
++        .catch(function () {
++          // A failed poll just means no update this time. The add itself
++          // is unaffected; give up polling after a run of failures.
++          failures++;
++          if (failures >= 10) stopped = true;
++        })
++        .then(function () {
++          if (!stopped) setTimeout(poll, POLL_MS);
++        });
++    }
++    setTimeout(poll, POLL_MS);
++
++    // Navigating to the results page tears this page down; stop politely.
++    window.addEventListener("pagehide", function () { stopped = true; });
++  }
++
++  window.OwlAddProgress = { start: start };
++})();
