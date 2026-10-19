@@ -2028,6 +2028,8 @@
 .owl-wait-box .owl-progress {
     height: 10px;
     margin: 14px 0 0;
+    padding: 0; /* beat the site-wide ".results div" padding */
+    box-sizing: border-box;
     background: #e0e0e0;
     border-radius: 5px;
     overflow: hidden;
@@ -2036,6 +2038,9 @@
 .owl-wait-box .owl-progress-fill {
     height: 100%;
     width: 0;
+    margin: 0; /* ".results div" gives every div a 2em margin, which pushed the fill out of the track */
+    padding: 0;
+    box-sizing: border-box;
     background: #2c3e6b;
     border-radius: 5px;
     transition: width 0.35s ease;
@@ -2155,4 +2160,100 @@
 
 .owl-linked-toggle-switch.owl-toggle-on .owl-linked-toggle-thumb {
     left: 20px;
+}
+
+
+/* ---- Save confirmation: collapsible saved baskets ----
+   Each saved basket is a <details> section (built by Basket.java's
+   buildBasketTableHtml()): the ID and variable count stay visible as
+   a one-line summary, the variable table opens on request.
+   Colours come from the basket tables' own navy theme (.owl-table,
+   #2c3e6b) and its pale blue tints (#dde3f5 / #eef0f7, as used for
+   linked variables elsewhere), so the rows read as part of the same
+   family rather than as plain white boxes. */
+.results details.owl-saved-basket {
+    max-width: 900px;
+    margin: 0 0 10px;
+    border: 1px solid #b4c0e0;
+    border-left: 4px solid #2c3e6b;
+    border-radius: 0 8px 8px 0;
+    background: #eef0f7;
+}
+
+.results details.owl-saved-basket > summary {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 11px 14px;
+    cursor: pointer;
+    list-style: none;
+    background: #dde3f5;
+    border-radius: 0 7px 7px 0;
+}
+
+.results details.owl-saved-basket > summary::-webkit-details-marker {
+    display: none;
+}
+
+.results details.owl-saved-basket > summary::before {
+    content: "\25B8";
+    color: #2c3e6b;
+    font-size: 14px;
+    transition: transform 0.15s;
+}
+
+.results details.owl-saved-basket[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.results details.owl-saved-basket > summary:hover {
+    background: #cdd6ef;
+}
+
+.results details.owl-saved-basket > summary:focus-visible {
+    outline: 3px solid #7f93c9;
+    outline-offset: 2px;
+}
+
+.results details.owl-saved-basket[open] > summary {
+    border-bottom: 1px solid #b4c0e0;
+    border-radius: 0 7px 0 0;
+}
+
+.owl-saved-basket-id {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2d4d;
+}
+
+.owl-saved-basket-count {
+    font-size: 13px;
+    color: #44527a;
+}
+
+.results details.owl-saved-basket table.owl-table {
+    margin: 12px auto 12px 14px;
+}
+
+.owl-saved-basket-toolbar {
+    margin: 0 0 12px;
+}
+
+.owl-saved-basket-btn {
+    font: inherit;
+    font-size: 13px;
+    padding: 5px 12px;
+    cursor: pointer;
+    color: #1f2d4d;
+    background: #dde3f5;
+    border: 1px solid #b4c0e0;
+    border-radius: 6px;
+}
+
+.owl-saved-basket-btn:hover {
+    background: #cdd6ef;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .results details.owl-saved-basket > summary::before { transition: none; }
 }

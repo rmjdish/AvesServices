@@ -2,12 +2,40 @@
 
 <!-- This is SKYLARK.html a Pebble Template which is extensively used by other subtemplates -->
 {% set wikihome = "https://skylark.ucl.ac.uk/NSHD/" %}
+{# Google Analytics 4 measurement ID for Condor. Replace with the real ID (G-XXXXXXXXXX). #}
+{% set gaMeasurementId = "G-XXXXXXXXXX" %}
 <html template="true" lang="en">
   {% block header %}
   <head>
     <!-- UCL Consent JS - loaded first so blocking takes effect before anything else -->
     <script src="https://cookie-consent.ucl.ac.uk/dist/ucl-consent.blocker.min.js"></script>
     <script src="https://cookie-consent.ucl.ac.uk/dist/ucl-consent.ui-full.min.js" defer></script>
+
+    <!-- Google Analytics 4. The UCL consent blocker above classifies gtag/js as
+         "analytics", so this stays blocked until the visitor accepts analytics cookies.
+         Condor URLs can contain usernames and search terms (e.g. resetPassword?id=..&user=..),
+         so only the path plus the "command" parameter is sent as the page location. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ gaMeasurementId }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+
+      function condorSafeUrl(href) {
+        try {
+          var u = new URL(href, window.location.href);
+          var safe = u.origin + u.pathname;
+          var cmd = u.searchParams.get('command');
+          if (cmd) { safe += '?command=' + encodeURIComponent(cmd); }
+          return safe;
+        } catch (e) { return ''; }
+      }
+
+      gtag('config', '{{ gaMeasurementId }}', {
+        page_location: condorSafeUrl(window.location.href),
+        page_referrer: document.referrer ? condorSafeUrl(document.referrer) : ''
+      });
+    </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
@@ -124,7 +152,9 @@
 		      <div>
 			<!-- <input name="search_submit" type="submit" value=""/>  -->
 		      </div>
-		    </li> {% elseif menu | upper equals "INTERNAL" %}
+		    </li>
+		    <li class="menu-upload-cta"><a href="uploadDictionary" title="Upload a saved data dictionary to your Condor basket">&#11014;&nbsp; Upload Data Dictionary <span class="menu-upload-new">NEW</span></a></li>
+		    {% elseif menu | upper equals "INTERNAL" %}
 		    <li><a href="logout?go=home">Home</a></li>
 		    <li><a href="#">OWL</a>
 		      <ul>
@@ -175,7 +205,9 @@
 		      <div>
 			<!-- <input name="search_submit" type="submit" value=""/>  -->
 		      </div>
-		    </li> {% elseif menu | upper equals "ADMIN" %}
+		    </li>
+		    <li class="menu-upload-cta"><a href="uploadDictionary" title="Upload a saved data dictionary to your Condor basket">&#11014;&nbsp; Upload Data Dictionary <span class="menu-upload-new">NEW</span></a></li>
+		    {% elseif menu | upper equals "ADMIN" %}
 		    <li><a href="#">Manage Users</a>
 		      <ul>
 			<li><a href="approveUser?id={{ sessionID }}">Approve

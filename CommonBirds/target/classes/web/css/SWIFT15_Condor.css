@@ -1049,3 +1049,72 @@ nav ul ul ul {
 }
 
 */
+
+/* The commented-out nav rules just above end with a stray "*/", which makes
+   browsers discard whichever rule comes straight after it. This empty rule
+   exists only to take that hit, so the real rules below are not lost. */
+.menu-upload-cta-parse-guard { }
+
+/* ---- Upload Data Dictionary call-to-action (right-hand end of the menu bar) ----
+   A gold pill at the far right of the bar, after the search box, so it
+   stands out against the dusty-rose bar. Markup: <li class="menu-upload-cta">
+   in SKYLARK.html (external and internal menus).
+   It is positioned against the bar itself (#menu-bar is position:relative)
+   rather than floated, so it is vertically centred and sized to its own
+   text whatever the other menu items' padding or the window width. */
+#menu-bar li.menu-upload-cta {
+    position: absolute;
+    left: auto; /* "#menu-bar li" sets left:0, which would pin it to the left edge */
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    float: none;
+    width: max-content !important;
+    margin: 0;
+    padding: 0;
+}
+
+#menu-bar li.menu-upload-cta > a {
+    display: inline-block;
+    white-space: nowrap;
+    width: auto;
+    margin: 0;
+    padding: 0.6em 1.3em;
+    border-radius: 999px;
+    text-shadow: none;
+    line-height: 1.2;
+    color: #5a1f2e;
+    background: linear-gradient(#ffe39a, #f4b942);
+    border: 1px solid #fff3c9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+}
+
+#menu-bar li.menu-upload-cta:hover > a {
+    color: #3d1220 !important;
+    background: linear-gradient(#fff0c2, #ffc94d);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+}
+
+#menu-bar li.menu-upload-cta .menu-upload-new {
+    display: inline-block;
+    background: #A2455C;
+    color: #fff;
+    font-size: 0.8em;
+    line-height: 1.2;
+    padding: 0.1em 0.5em;
+    border-radius: 999px;
+    margin-left: 0.4em;
+    letter-spacing: 0.05em;
+}
+
+/* On narrow windows there is no room to the right of the search box:
+   let the button take its normal place in the row instead of overlapping. */
+@media (max-width: 1000px) {
+    #menu-bar li.menu-upload-cta {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        float: right;
+    }
+}

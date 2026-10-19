@@ -298,6 +298,17 @@ public class Basket extends HttpServlet
 		// machinery, since that's built around one flat table, not
 		// several independently-grouped ones (one per saved basket).
 		StringBuilder combinedHtml = new StringBuilder();
+		// Expand all / Collapse all, only worth showing when a save was
+		// split into more than one basket.
+		if (chunks.size() > 1) {
+			combinedHtml.append("<div class=\"owl-saved-basket-toolbar\">")
+					.append("<button type=\"button\" class=\"owl-saved-basket-btn\" onclick=\"owlToggleSavedBaskets(true)\">Expand all</button> ")
+					.append("<button type=\"button\" class=\"owl-saved-basket-btn\" onclick=\"owlToggleSavedBaskets(false)\">Collapse all</button>")
+					.append("</div>\n")
+					.append("<script>function owlToggleSavedBaskets(open){")
+					.append("var d=document.querySelectorAll('details.owl-saved-basket');")
+					.append("for(var i=0;i<d.length;i++){d[i].open=open;}}</script>\n");
+		}
 		for (int i = 0; i < chunks.size(); i++) {
 			ArrayList<String> varsInThisBasket = new ArrayList<String>(chunks.get(i));
 			if (!varsInThisBasket.contains("SERNO")) varsInThisBasket.add("SERNO");
@@ -305,7 +316,7 @@ public class Basket extends HttpServlet
 			if (!varsInThisBasket.contains("INF")) varsInThisBasket.add("INF");
 			if (!varsInThisBasket.contains("NTAG1")) varsInThisBasket.add("NTAG1");
 			java.util.Map<String, String[]> meta = fetchVariableMetadata(varsInThisBasket);
-			combinedHtml.append(buildBasketTableHtml(savedBasketIds.get(i), varsInThisBasket, meta));
+			combinedHtml.append(buildBasketTableHtml(savedBasketIds.get(i), varsInThisBasket, meta, chunks.size() == 1));
 		}
 
 		Page p = new Page("Basket-savedConfirmation");
@@ -607,10 +618,23 @@ public class Basket extends HttpServlet
      	basketId - this specific saved basket's ID (heading for its table)
      	varsInThisBasket - the variables saved into this specific basket
      	metaByName - the batch-fetched Label/Form/YEAR data (see fetchVariableMetadata())
+     	openByDefault - whether this basket's table starts expanded (true when the
+     	                save produced only one basket; false when it was split)
     */
-    private String buildBasketTableHtml(String basketId, ArrayList<String> varsInThisBasket, java.util.Map<String, String[]> metaByName) {
+    private String buildBasketTableHtml(String basketId, ArrayList<String> varsInThisBasket, java.util.Map<String, String[]> metaByName, boolean openByDefault) {
         StringBuilder html = new StringBuilder();
-        html.append("<div class=\"help-header\"><h3>Basket: ").append(escapeHtml(basketId)).append("</h3></div>\n");
+        // Each saved basket is a collapsible <details> section: its ID and
+        // variable count are always visible as a one-line summary, and
+        // the variable table only opens on request. A save that was split
+        // into several baskets would otherwise mean scrolling past every
+        // table to see the next basket. A single basket opens by default,
+        // since there is nothing else to scroll past.
+        int count = varsInThisBasket.size();
+        html.append("<details class=\"owl-saved-basket\"").append(openByDefault ? " open" : "").append(">\n");
+        html.append("<summary><span class=\"owl-saved-basket-id\">Basket: ").append(escapeHtml(basketId))
+                .append("</span> <span class=\"owl-saved-basket-count\">")
+                .append(count).append(count == 1 ? " variable" : " variables")
+                .append("</span></summary>\n");
         html.append("<table class=\"owl-table\" style=\"width: 90%; margin-bottom: 24px;\">\n");
         html.append("<tr><th style=\"width:20%\">Variable</th><th style=\"width:50%\">Label</th><th style=\"width:15%\">Form</th><th style=\"width:15%\">Year</th></tr>\n");
         for (String v : varsInThisBasket) {
@@ -624,6 +648,7 @@ public class Basket extends HttpServlet
                     .append(escapeHtml(year)).append("</td></tr>\n");
         }
         html.append("</table>\n");
+        html.append("</details>\n");
         return html.toString();
     }
 
