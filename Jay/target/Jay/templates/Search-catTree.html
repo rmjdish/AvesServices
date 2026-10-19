@@ -8,7 +8,7 @@
 <div class="results owl-basket-page">
 <div class="help-header">
   <h2>NSHD Search by Category</h2>
-  <p>Browse the full category tree to find the section you need.</p>
+  <p>Tick one or more categories. Your choices stay on the right with their full path.</p>
 </div>
 <form name="input"
       onsubmit="return validateSearchForm(this)"
@@ -16,24 +16,38 @@
       method="post"
       target="_self"
       >
-  <div class="owl-tree-actionbar" id="Search-catTree-Form">
-    <input type="hidden" name="type" value="c">
-    <button class="owl-submit-button" type="submit">Search</button>
-    <div class="help-tips" style="margin:0;">
-      Parent categories may show zero items. Expand these to see subcategory item totals.
-    </div>
-    <div class="help-afternote" style="margin:0;">
-      Selected categories are marked by a bar to the left of the label.
-    </div>
-  </div>
+  <div id="Search-catTree-Form" hidden><input type="hidden" name="type" value="c"></div>
   {% if results is empty %}
       <p>There are no category tree elements to display!</p>
   {% endif %}
   
-  {% for line in results %}
-      {{ line|raw }}
-  {% endfor %}
+  <div class="owl-cat-tools">
+    <label for="owlCatFilter">Find a category</label>
+    <input type="text" id="owlCatFilter" placeholder="Type to filter, e.g. blood pressure" autocomplete="off">
+    <button type="button" id="owlCatExpand">Expand all</button>
+    <button type="button" id="owlCatCollapse">Collapse all</button>
+  </div>
+  <div class="owl-cat-layout">
+    <div class="owl-cat-tree">
+      <div class="owl-cat-head"><span>Category</span><span>Variables</span></div>
+      {% for line in results %}
+          {{ line|raw }}
+      {% endfor %}
+      <p class="owl-cat-nomatch" hidden>No category matches that text. Try a shorter word.</p>
+    </div>
+    <aside class="owl-cat-panel" id="owlCatPanel" aria-label="Selected categories">
+      <div class="owl-cat-panel-head"><span>Selected (<span id="owlCatN">0</span>)</span><button type="button" id="owlCatClear">Clear all</button></div>
+      <div class="owl-cat-panel-body">
+        <p class="owl-cat-empty">Nothing selected yet. Tick one or more categories in the tree.</p>
+        <div class="owl-cat-list"></div>
+      </div>
+      <div class="owl-cat-notes" hidden></div>
+      <div class="owl-cat-panel-foot"><div class="owl-cat-total" hidden></div><button class="owl-submit-button" type="submit" id="owlCatPanelSearch" disabled>Select a category to search</button></div>
+    </aside>
+  </div>
 
 </form>
+<script src="owl-wait.js"></script>
+<script src="owl-cat-panel.js"></script>
 </div>
 {% endblock %}

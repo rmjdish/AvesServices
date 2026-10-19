@@ -338,6 +338,10 @@ public class Search extends HttpServlet {
 		type = request.getParameter("type");
 		String category = "";
 		category = request.getParameter("category");
+		// The category tree page can post several "category" values (one per
+		// ticked category); the other pages post at most one.
+		String[] categoryValues = request.getParameterValues("category");
+		java.util.List<String> categoryCodes = new ArrayList<String>();
 		String term = "";
 		term = request.getParameter("term");
 		String year = "";
@@ -392,9 +396,21 @@ public class Search extends HttpServlet {
 		} else if (type.equalsIgnoreCase("c")) {
 			// Taken care of below - Category is numeric so no ALL available
 			query = "Category Search SQL Procedure Call";
-			// Extract code from TreeSearch 
-			category = extractTreeCode(category);
-			term = category;
+			// Extract code from TreeSearch - one per ticked category, in the
+			// order posted, ignoring blanks and repeats
+			if (categoryValues != null) {
+				for (String cv : categoryValues) {
+					String code = extractTreeCode(cv);
+					if (!code.isEmpty() && !categoryCodes.contains(code)) {
+						categoryCodes.add(code);
+					}
+				}
+			}
+			if (categoryCodes.isEmpty()) {
+				categoryCodes.add(""); // as before: nothing selected searches for ""
+			}
+			category = categoryCodes.get(0);
+			term = String.join(",", categoryCodes);
 		}
 		 // Log whatever query
 		log.fine(HostInfo.tell() + " searchMetadata: " + username + " Query: " + query);
@@ -423,7 +439,7 @@ public class Search extends HttpServlet {
 				rs = c.doyearSearch(secLevel, term);
 				break;
 			case "c":
-				rs = c.docategorySearch(secLevel, term);
+				// Run below, once per selected category
 				break;
 			default:
 				rs = c.doQuery(query);
@@ -435,15 +451,40 @@ public class Search extends HttpServlet {
 			Page p = new Page("Search-searchResults");
 			p.setnumCols(7); // This is the number of fields in each row of the results
 			ArrayList<String> results = new ArrayList<String>();
-			while (rs.next()) {
-				rowcount = rowcount + 1;
-				results.add(rs.getString(7)); // Public flag; write it first
-				results.add(rs.getString(1)); // Variable Name
-				results.add(rs.getString(2)); // Variable Label
-				results.add(rs.getString(3)); // Year
-				results.add(rs.getString(4)); // Form
-				results.add(rs.getString(5)); // Question Number
-				results.add(rs.getString(6)); // CardNumber
+			if (type.equalsIgnoreCase("c")) {
+				// One search per selected category. Each ResultSet is read in full
+				// and closed before the next query, and a variable that sits in
+				// several of the selected categories is listed once.
+				java.util.Set<String> seenVars = new java.util.HashSet<String>();
+				for (String code : categoryCodes) {
+					ResultSet crs = c.docategorySearch(secLevel, code);
+					while (crs.next()) {
+						String varName = crs.getString(1);
+						if (varName != null && !seenVars.add(varName.toLowerCase())) {
+							continue;
+						}
+						rowcount = rowcount + 1;
+						results.add(crs.getString(7)); // Public flag; write it first
+						results.add(varName); // Variable Name
+						results.add(crs.getString(2)); // Variable Label
+						results.add(crs.getString(3)); // Year
+						results.add(crs.getString(4)); // Form
+						results.add(crs.getString(5)); // Question Number
+						results.add(crs.getString(6)); // CardNumber
+					}
+					crs.close();
+				}
+			} else {
+				while (rs.next()) {
+					rowcount = rowcount + 1;
+					results.add(rs.getString(7)); // Public flag; write it first
+					results.add(rs.getString(1)); // Variable Name
+					results.add(rs.getString(2)); // Variable Label
+					results.add(rs.getString(3)); // Year
+					results.add(rs.getString(4)); // Form
+					results.add(rs.getString(5)); // Question Number
+					results.add(rs.getString(6)); // CardNumber
+				}
 			}
 			// Format the results with a template
 			p.setResults(results);
@@ -482,7 +523,9 @@ public class Search extends HttpServlet {
 			extraFlags.put("inBasket", inBasket);
 
 			p.UserPage(out, "Search Results", s, owlAvailable, restrictedMessages, null, extraFlags); // Populate template and print to output
-			rs.close();
+			if (rs != null) {
+				rs.close();
+			}
 			c.release();
 		} catch (Exception e) {
 			log.severe(HostInfo.tell()+" searchMetadata SQL: "+e.getMessage());
@@ -491,11 +534,14 @@ public class Search extends HttpServlet {
 
 	private String extractTreeCode(String category) {
 		// The code appears between square brackets e.g. "CatLabel[<code>]"
-		String result = StringUtils.substringBetween(category,"[","]");
-		if (result == null)
+		if (category == null)
 			return "";
-		else
-			return result;
+		String result = StringUtils.substringBetween(category,"[","]");
+		if (result == null) {
+			// The drop-down category page posts the bare numeric code
+			return category.trim().matches("\\d+") ? category.trim() : "";
+		}
+		return result;
 					
 	}
 }

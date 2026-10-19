@@ -2339,3 +2339,493 @@
     color: #a8b3a8;
     cursor: not-allowed;
 }
+
+/* ---- Category tree page (design A2) ----
+   Tick boxes for several categories, tree on the left, sticky "Selected"
+   panel on the right. Scoped to .owl-cat-* so no other page is touched.
+   NB: .results div { margin: 2em ... } hits every div, so containers reset
+   their own margin. */
+
+.results .owl-cat-tools {
+    margin: 0 0 14px 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.owl-cat-tools label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #3a0066;
+}
+
+.owl-cat-tools input {
+    flex: 1 1 260px;
+    max-width: 380px;
+    margin: 0;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #d3c3f0;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.owl-cat-tools button {
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    color: #6a0dad;
+    background: #fff;
+    border: 1px solid #6a0dad;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.results .owl-cat-layout {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+/* narrower tree card, more room for the panel */
+.results .owl-cat-tree {
+    margin: 0;
+    padding: 0;
+    flex: 0 1 830px;
+    min-width: 0;
+    background: #fff;
+    border: 1px solid #d5d9e2;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.results .owl-cat-tree div,
+.results .owl-cat-tree .tree {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+.results .owl-cat-tree .owl-cat-head {
+    display: flex;
+    padding: 10px 16px;
+    background: #6a0dad;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.owl-cat-head span:first-child {
+    flex: 1;
+}
+
+/* the old single "Category Selected" pill is replaced by the panel */
+.results .owl-cat-tree .owl-category-selected {
+    display: none;
+}
+
+.results .owl-cat-tree .tree {
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+/* every level the full width of the card, so the count pills line up */
+.results .owl-cat-tree ul[role="tree"],
+.results .owl-cat-tree ul[role="group"],
+.results .owl-cat-tree li[role="treeitem"] {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box;
+    float: none;
+}
+
+.results .owl-cat-tree ul[role="tree"] {
+    font-size: 100%;
+}
+
+.results .owl-cat-tree ul[role="group"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-left: 0 !important;
+}
+
+.results .owl-cat-tree li[role="treeitem"],
+.results .owl-cat-tree li.section[role="treeitem"] {
+    padding: 0 !important;
+    margin: 0;
+    border-left: 0 !important;
+}
+
+/* the old +/- badge on the li is replaced by a real button in the row */
+.results .owl-cat-tree li.section[role="treeitem"]::after {
+    display: none !important;
+}
+
+.results .owl-cat-tree li[role="treeitem"] > span {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    width: 100% !important;
+    box-sizing: border-box;
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+    padding-right: 14px !important;
+    border-bottom: 1px solid #e3e6ee;
+    border-left: 0 !important;
+    color: #2e2e2e !important;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.results .owl-cat-tree li[role="treeitem"] > span::before,
+.results .owl-cat-tree li[role="treeitem"].doc::before {
+    display: none !important;
+}
+
+.results .owl-cat-tree li[role="treeitem"] > span:hover {
+    filter: brightness(.97);
+}
+
+.results .owl-cat-tree li.owl-cat-sel > span {
+    filter: brightness(.94);
+    box-shadow: inset 6px 0 0 #6a0dad !important;
+    font-weight: 700;
+}
+
+.results .owl-cat-tree .owl-tree-count {
+    flex: none;
+    margin-left: auto;
+    min-width: 120px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-align: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(106, 13, 173, .12);
+    color: #4a1a7a;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.owl-tree-count b {
+    font-weight: 700;
+}
+
+.owl-tree-count i {
+    font-style: normal;
+    font-weight: 400;
+    opacity: .85;
+}
+
+/* +/- button and tick box */
+.owl-cat-ctl {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+    width: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+}
+
+.owl-cat-tog,
+.owl-cat-sp {
+    flex: none;
+    box-sizing: border-box;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.owl-cat-tog {
+    border: none;
+    border-radius: 4px;
+    background: #6a0dad;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.owl-cat-tog::before {
+    content: "+";
+}
+
+.owl-cat-tree li[aria-expanded="true"] > span > .owl-cat-ctl > .owl-cat-tog::before {
+    content: "\2212";
+}
+
+input.owl-cat-cb {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: none;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border: 2px solid #6a0dad;
+    border-radius: 4px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+input.owl-cat-cb:indeterminate {
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8h8' stroke='%236a0dad' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 14px 14px no-repeat;
+}
+
+input.owl-cat-cb:checked {
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3.2L13 4.8' fill='none' stroke='%236a0dad' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px 14px no-repeat;
+}
+
+.results .owl-cat-tree ul[role="tree"] > li > span {
+    padding-left: 14px !important;
+    background: #e6f0fb;
+    box-shadow: inset 4px 0 0 #7fb0e6;
+    font-weight: 700;
+}
+
+.results .owl-cat-tree ul[role="tree"] > li ul[role="group"] > li > span {
+    padding-left: 38px !important;
+    background: #e4f6ea;
+    box-shadow: inset 4px 0 0 #7fcf9b;
+    
+}
+
+.results .owl-cat-tree ul[role="tree"] > li ul[role="group"] > li ul[role="group"] > li > span {
+    padding-left: 62px !important;
+    background: #fff3d9;
+    box-shadow: inset 4px 0 0 #f0c05a;
+    
+}
+
+.results .owl-cat-tree ul[role="tree"] > li ul[role="group"] > li ul[role="group"] > li ul[role="group"] > li > span {
+    padding-left: 86px !important;
+    background: #fce6ef;
+    box-shadow: inset 4px 0 0 #ee93b4;
+    
+}
+
+.results .owl-cat-tree ul[role="tree"] > li ul[role="group"] > li ul[role="group"] > li ul[role="group"] > li ul[role="group"] > li > span {
+    padding-left: 110px !important;
+    background: #eee8fb;
+    box-shadow: inset 4px 0 0 #b49be6;
+    
+}
+
+.results .owl-cat-tree ul[role="tree"] > li ul[role="group"] > li ul[role="group"] > li ul[role="group"] > li ul[role="group"] > li ul[role="group"] > li > span {
+    padding-left: 134px !important;
+    background: #e2f5f5;
+    box-shadow: inset 4px 0 0 #6fc7c7;
+    
+}
+
+.results .owl-cat-tree .owl-cat-nomatch {
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: #666;
+}
+
+.results .owl-cat-tree li[aria-expanded="false"] > ul {
+    display: none !important;
+}
+
+.results .owl-cat-tree li[aria-expanded="true"] > ul {
+    display: block;
+}
+
+.owl-cat-tree [role="treeitem"].owl-cat-hide {
+    display: none !important;
+}
+
+/* ---- selected panel: wider than before ---- */
+.results .owl-cat-panel {
+    flex: 1 1 440px;
+    max-width: 640px;
+    min-width: 300px;
+    margin: 0;
+    padding: 0;
+    position: sticky;
+    top: 220px;
+    background: #fff;
+    border: 2px solid #6a0dad;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(106, 13, 173, .15);
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.results .owl-cat-panel div,
+.results .owl-cat-panel p {
+    margin: 0;
+}
+
+.results .owl-cat-panel-head {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: #6a0dad;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.owl-cat-panel-head span:first-child {
+    flex: 1;
+}
+
+.owl-cat-panel-head button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #fff;
+    text-decoration: underline;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.results .owl-cat-panel-body {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.results .owl-cat-empty {
+    padding: 20px 16px;
+    color: #666;
+}
+
+.owl-cat-empty[hidden],
+.owl-cat-notes[hidden] {
+    display: none !important;
+}
+
+.results .owl-cat-panel .owl-cat-item {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    margin: 0 !important;
+    padding: 6px 12px !important;
+    border-bottom: 1px solid #e3e6ee;
+}
+
+.results .owl-cat-panel .owl-cat-main {
+    flex: 1;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.results .owl-cat-panel .owl-cat-anc {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 12px;
+    line-height: 1.3;
+    color: #777;
+}
+
+.results .owl-cat-panel .owl-cat-name {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #3a0066;
+}
+
+.owl-cat-cnt {
+    font-weight: 400;
+    font-size: 12px;
+    color: #555;
+}
+
+.results .owl-cat-panel .owl-cat-actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.owl-cat-show {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #6a0dad;
+    text-decoration: underline;
+    font-size: 12px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.owl-cat-remove {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #c9b8e6;
+    border-radius: 5px;
+    background: #fff;
+    color: #8a1c3a;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.results .owl-cat-panel .owl-cat-total {
+    margin: 0 0 8px 0 !important;
+    font-size: 13px;
+    color: #555;
+}
+
+.owl-cat-total[hidden] {
+    display: none !important;
+}
+
+.results .owl-cat-notes {
+    padding: 10px 16px;
+    background: #fdf3e0;
+    color: #6b4500;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.results .owl-cat-panel-foot {
+    padding: 10px 12px;
+    background: #f5f2ff;
+}
+
+.owl-cat-panel-foot .owl-submit-button {
+    margin: 0;
+}
+
+.owl-cat-panel-foot .owl-submit-button[disabled] {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+    .results .owl-cat-layout { flex-direction: column-reverse; }
+    .results .owl-cat-tree { flex-basis: auto; width: 100%; }
+    .results .owl-cat-panel { position: static; flex-basis: auto; max-width: none; width: 100%; box-sizing: border-box; }
+}
